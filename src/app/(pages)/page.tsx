@@ -1,6 +1,11 @@
+'use client'
+
+import { Flex, Text } from '@chakra-ui/react'
 
 export default function Home() {
   return (
-    <div>Olá mundo</div>
+    <Flex>
+      <Text>Olá mundo</Text>
+    </Flex>
   )
 }
