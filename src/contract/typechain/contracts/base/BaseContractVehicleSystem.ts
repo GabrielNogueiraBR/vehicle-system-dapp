@@ -24,7 +24,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../../common";
+} from "../../common";
 
 export interface BaseContractVehicleSystemInterface extends utils.Interface {
   functions: {

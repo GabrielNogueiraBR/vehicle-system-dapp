@@ -53,10 +53,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAgentContract__factory>;
     getContractFactory(
-      name: "BaseContract",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BaseContract__factory>;
-    getContractFactory(
       name: "BaseContractVehicleSystem",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BaseContractVehicleSystem__factory>;
@@ -167,11 +163,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IAgentContract>;
-    getContractAt(
-      name: "BaseContract",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BaseContract>;
     getContractAt(
       name: "BaseContractVehicleSystem",
       address: string,
