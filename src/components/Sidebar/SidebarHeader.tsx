@@ -8,7 +8,7 @@ const SidebarHeader = () => {
   const { account } = useEthers()
 
   const regex = /^(.{7}).*(.{5})$/
-  const fomartedAccount = account!.replace(regex, '$1...$2')
+  const fomartedAccount = (account || '').replace(regex, '$1...$2')
 
   return (
     <VStack spacing={6} align="flex-start">
