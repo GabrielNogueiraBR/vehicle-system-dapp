@@ -1,20 +1,13 @@
-import type { Metadata } from 'next'
-import { Providers } from './providers'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Vehicle Dapp',
-  description: 'Dapp for vehicle system',
-  icons: {
-    icon: '/favicon.png',
-  },
-}
+import Sidebar from '@/components/Sidebar'
+import { Flex } from '@chakra-ui/react'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function PagesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <Flex w="100%" minH="100%" maxH="100%" direction={{ base: 'column', md: 'row' }}>
+      <Sidebar />
+      {children}
+    </Flex>
   )
 }

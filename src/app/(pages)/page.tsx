@@ -34,7 +34,7 @@ export default function Home() {
       justify="flex-start"
       align="center"
       gap="4"
-      marginTop="4"
+      paddingTop="4"
     >
       <ConnectButton />
       <Divider />
