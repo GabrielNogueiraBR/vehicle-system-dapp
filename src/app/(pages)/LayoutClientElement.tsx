@@ -6,8 +6,8 @@ import { useEthers } from '@usedapp/core'
 import { redirect } from 'next/navigation'
 
 const LayoutClientElement = ({ children }: { children: React.ReactNode }) => {
-  const { account } = useEthers()
-  if (!account) redirect('/auth')
+  const { account, isLoading } = useEthers()
+  if (!account && !isLoading) redirect('/auth')
 
   return (
     <>

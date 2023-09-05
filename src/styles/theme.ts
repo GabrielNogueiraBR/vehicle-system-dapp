@@ -8,4 +8,12 @@ export const theme = extendTheme({
     heading: inter.style.fontFamily,
     body: inter.style.fontFamily,
   },
+  styles: {
+    global: {
+      body: {
+        bg: 'gray.100',
+        color: 'gray.800',
+      },
+    },
+  },
 })

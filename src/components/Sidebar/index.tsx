@@ -21,6 +21,8 @@ import SidebarFooter from './SidebarFooter'
 
 const Sidebar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const { isOpen: isExpanded, onOpen: onExpand, onClose: onMinimize } = useDisclosure()
+
   const isSmallScreen = useBreakpointValue({ sm: true, md: false })
 
   if (isSmallScreen)
