@@ -7,16 +7,26 @@ import React, { useCallback } from 'react'
 interface Props extends ButtonProps {}
 
 const ConnectButton = ({ ...rest }: Props) => {
-  const { account, deactivate, activateBrowserWallet, chainId } = useEthers()
+  const { account, deactivate, isLoading, activateBrowserWallet, chainId } = useEthers()
 
   const handleConnectClick = useCallback(() => {
     activateBrowserWallet()
   }, [activateBrowserWallet])
 
-  if (account) return <Button {...rest}>{account}</Button>
+  if (account)
+    return (
+      <Button isLoading={isLoading} loadingText="Fazendo login..." onClick={deactivate} {...rest}>
+        {account}
+      </Button>
+    )
 
   return (
-    <Button onClick={handleConnectClick} {...rest}>
+    <Button
+      isLoading={isLoading}
+      loadingText="Carregando..."
+      onClick={handleConnectClick}
+      {...rest}
+    >
       Connect- {chainId}
     </Button>
   )
