@@ -1,9 +1,9 @@
+'use client'
+
 import React from 'react'
 
 const SidebarHeader = () => {
-  return (
-    <div>SidebarHeader</div>
-  )
+  return <div>SidebarHeader</div>
 }
 
 export default SidebarHeader

@@ -1,3 +1,5 @@
+'use client'
+
 import { Icon, Text } from '@chakra-ui/react'
 import { Link as ChakraLink, LinkProps as ChakraLinkProps } from '@chakra-ui/next-js'
 

@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation'
 const AuthPage = () => {
   const { account, isLoading } = useEthers()
 
-  if (account && !isLoading) redirect('/')
+  if (account && !isLoading) redirect('/home')
 
   return (
     <Center w="100%">
