@@ -7,6 +7,7 @@ import { theme } from '@/styles/theme'
 import { Config, DAppProvider, Mumbai } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { Web3Provider } from '@/contexts/Web3Context'
+import { SidebarProvider } from '@/contexts/SidebarContext'
 
 const dappConfig: Config = {
   readOnlyChainId: Mumbai.chainId,
@@ -20,7 +21,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <CacheProvider>
       <ChakraProvider theme={theme}>
         <DAppProvider config={dappConfig}>
-          <Web3Provider>{children}</Web3Provider>
+          <Web3Provider>
+            <SidebarProvider>{children}</SidebarProvider>
+          </Web3Provider>
         </DAppProvider>
       </ChakraProvider>
     </CacheProvider>
