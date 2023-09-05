@@ -46,7 +46,7 @@ const Sidebar = () => {
             <DrawerBody>
               <SidebarContent />
             </DrawerBody>
-            <DrawerFooter>
+            <DrawerFooter justifyContent='flex-start'>
               <SidebarFooter />
             </DrawerFooter>
           </DrawerContent>
@@ -55,16 +55,7 @@ const Sidebar = () => {
     )
 
   return (
-    <Flex
-      minW="fit-content"
-      maxW="20%"
-      minH="100%"
-      direction="column"
-      gap="6"
-      p="6"
-      shadow="sm"
-      bg="white"
-    >
+    <Flex minW="18rem" minH="100%" direction="column" gap="6" p="6" shadow="sm" bg="white">
       <SidebarHeader />
       <SidebarContent />
       <Spacer />
