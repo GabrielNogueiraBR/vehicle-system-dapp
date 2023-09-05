@@ -5,7 +5,7 @@ import { Center, Spinner, SpinnerProps } from '@chakra-ui/react'
 
 interface Props extends SpinnerProps {}
 
-const Loading = ({ ...rest }: Props) => {
+const LoadingPage = ({ ...rest }: Props) => {
   return (
     <Center w="100%">
       <Spinner
@@ -20,4 +20,4 @@ const Loading = ({ ...rest }: Props) => {
   )
 }
 
-export default Loading
+export default LoadingPage
