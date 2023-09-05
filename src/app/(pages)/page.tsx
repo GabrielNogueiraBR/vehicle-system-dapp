@@ -1,19 +1,8 @@
 'use client'
 
-import {
-  Button,
-  Center,
-  Divider,
-  Flex,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Input,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Button, Divider, Flex, FormControl, FormLabel, Input, Text } from '@chakra-ui/react'
 import ConnectButton from '@/components/ConnectButton'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { useState } from 'react'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { TransactionState } from '@usedapp/core'
 
@@ -29,7 +18,6 @@ export default function Home() {
     <Flex
       w="100%"
       h="100%"
-      minH="100vh"
       direction="column"
       justify="flex-start"
       align="center"
