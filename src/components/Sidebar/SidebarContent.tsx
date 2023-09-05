@@ -4,13 +4,7 @@ import React from 'react'
 import { VStack } from '@chakra-ui/react'
 import { NavLink } from './NavLink'
 
-import {
-  RiNftFill,
-  RiShakeHandsLine,
-  RiHome2Line,
-  RiUser3Line,
-  RiUserSettingsLine,
-} from 'react-icons/ri'
+import { RiNftFill, RiShakeHandsLine, RiHome2Line, RiUser3Line } from 'react-icons/ri'
 
 interface SidebarContentProps {
   isExpanded?: boolean
