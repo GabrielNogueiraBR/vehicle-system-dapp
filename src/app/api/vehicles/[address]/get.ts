@@ -3,7 +3,7 @@ import alchemy from '@/services/alchemy'
 import { OwnedNft } from 'alchemy-sdk'
 import { NextRequest, NextResponse } from 'next/server'
 
-type GetNftsForAddressResponse = { nfts: OwnedNft[] }
+export type GetNftsForAddressResponse = { nfts: OwnedNft[] }
 type Params = { params: { address: string } }
 
 export async function GET(request: NextRequest, { params }: Params) {
