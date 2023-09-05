@@ -4,7 +4,13 @@ import React from 'react'
 import { VStack } from '@chakra-ui/react'
 import { NavLink } from './NavLink'
 
-import { RiNftFill, RiShakeHandsLine, RiHome2Line } from 'react-icons/ri'
+import {
+  RiNftFill,
+  RiShakeHandsLine,
+  RiHome2Line,
+  RiUser3Line,
+  RiUserSettingsLine,
+} from 'react-icons/ri'
 
 interface SidebarContentProps {
   isExpanded?: boolean
@@ -20,6 +26,9 @@ const SidebarContent = ({ isExpanded = true }: SidebarContentProps) => (
     </NavLink>
     <NavLink href="/contracts" icon={RiShakeHandsLine}>
       Meus Contratos
+    </NavLink>
+    <NavLink href="/profile" icon={RiUser3Line}>
+      Perfil
     </NavLink>
   </VStack>
 )
