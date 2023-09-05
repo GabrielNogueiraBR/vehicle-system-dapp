@@ -53,7 +53,16 @@ const Sidebar = () => {
     )
 
   return (
-    <Flex minW="fit-content" maxW="20%" minH="100%" direction="column" gap="6" p="6" shadow="xl">
+    <Flex
+      minW="fit-content"
+      maxW="20%"
+      minH="100%"
+      direction="column"
+      gap="6"
+      p="6"
+      shadow="sm"
+      bg="white"
+    >
       <SidebarHeader />
       <SidebarContent />
       <Spacer />
