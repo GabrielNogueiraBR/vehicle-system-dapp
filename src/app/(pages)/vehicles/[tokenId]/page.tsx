@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
+import VehicleTabs from './components/VehicleTabs'
 
 interface Params {
   params: {
@@ -29,11 +30,12 @@ const Page = ({ params: { tokenId } }: Params) => {
           rounded="xl"
           aspectRatio={1}
           alignSelf="center"
-        ></Box>
+        />
         <Flex flex="4" direction="row" gap="2">
           teste
         </Flex>
       </Flex>
+      <VehicleTabs />
     </Flex>
   )
 }
