@@ -18,6 +18,7 @@
     "@types/react-dom": "18.2.7",
     "@usedapp/core": "^1.2.11",
     "alchemy-sdk": "^2.10.0",
+    "axios": "^1.5.0",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "ethers": "5.6.9",
