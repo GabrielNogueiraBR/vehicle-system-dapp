@@ -11,10 +11,10 @@ const SidebarHeader = () => {
   const fomartedAccount = (account || '').replace(regex, '$1...$2')
 
   return (
-    <VStack spacing={6} align="flex-start">
-      <Heading>Logo</Heading>
-      <Avatar alignSelf="center" size="2xl" name="Logo" />
-      <Text alignSelf="center">{fomartedAccount}</Text>
+    <VStack spacing={6} align="center">
+      <Heading>Site</Heading>
+      <Avatar size="2xl" name="Logo" />
+      <Text>{fomartedAccount}</Text>
     </VStack>
   )
 }
