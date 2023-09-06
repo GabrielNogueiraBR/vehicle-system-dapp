@@ -11,6 +11,7 @@ function CustomDataTable<T>({...rest}: Props<T>) {
   return (
     <DataTable
       pagination
+      responsive
       sortIcon={<Icon as={RiArrowDownSFill} ml="2" alignSelf="center" />}
       {...rest}
     />
