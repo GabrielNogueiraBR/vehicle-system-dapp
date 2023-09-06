@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex } from '@chakra-ui/react'
-import useVehicleServices from '@/hooks/useVehicleServices'
 import { useSigner } from '@usedapp/core'
 import contract from '@/lib/contract'
 
