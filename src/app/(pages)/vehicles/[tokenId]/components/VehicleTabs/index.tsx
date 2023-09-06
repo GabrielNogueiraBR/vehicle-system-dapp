@@ -3,17 +3,23 @@
 import React, { useEffect } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
+import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 
 interface Props {
   tokenId: string
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const { services, isLoading, loadServices } = useVehicleServices(tokenId)
+  const { services, isLoading: isLoadigServices } = useVehicleServices(tokenId)
+  const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
 
   useEffect(() => {
-    console.log({ services, isLoading })
-  }, [isLoading, services])
+    console.log({ services, isLoadigServices })
+  }, [isLoadigServices, services])
+
+  useEffect(() => {
+    console.log({ accidents, isLoadingAccidents })
+  }, [isLoadingAccidents, accidents])
 
   return (
     <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">

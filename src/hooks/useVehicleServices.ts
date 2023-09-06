@@ -9,7 +9,7 @@ const useVehicleServices = (tokenId: string) => {
 
   const signer = useSigner()
 
-  const loadServices = async () => {
+  const load = async () => {
     if (!signer || !contract) return
 
     try {
@@ -49,10 +49,10 @@ const useVehicleServices = (tokenId: string) => {
   }
 
   useEffect(() => {
-    loadServices()
+    load()
   }, [signer, contract])
 
-  return { services, isLoading, loadServices }
+  return { services, isLoading, load }
 }
 
 export default useVehicleServices
