@@ -14,7 +14,7 @@ const Page = ({ params: { tokenId } }: Params) => {
   return (
     <Flex flex="1" direction="column" justify="flex-start" align="center" gap="10" marginTop="8">
       <VehicleInfo />
-      <VehicleTabs />
+      <VehicleTabs tokenId={tokenId} />
     </Flex>
   )
 }
