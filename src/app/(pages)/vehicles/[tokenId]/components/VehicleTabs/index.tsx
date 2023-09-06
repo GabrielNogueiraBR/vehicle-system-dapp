@@ -41,7 +41,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
             <CustomDataTable
               columns={[
                 {
-                  name: 'Dono do veículo',
+                  name: 'Requisitado por',
                   selector: (row) => row.requester,
                   sortable: true,
                 },
@@ -97,7 +97,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
             <CustomDataTable
               columns={[
                 {
-                  name: 'Dono do veículo',
+                  name: 'Requisitado por',
                   selector: (row) => row.requester,
                   sortable: true,
                 },
