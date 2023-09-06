@@ -9,7 +9,7 @@ interface Props {
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const { services, isLoading } = useVehicleServices(tokenId)
+  const { services, isLoading, loadServices } = useVehicleServices(tokenId)
 
   useEffect(() => {
     console.log({ services, isLoading })

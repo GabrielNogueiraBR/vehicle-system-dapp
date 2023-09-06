@@ -52,7 +52,7 @@ const useVehicleServices = (tokenId: string) => {
     loadServices()
   }, [signer, contract])
 
-  return { services, isLoading }
+  return { services, isLoading, loadServices }
 }
 
 export default useVehicleServices
