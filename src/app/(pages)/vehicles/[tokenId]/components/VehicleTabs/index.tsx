@@ -1,61 +1,19 @@
 'use client'
+
 import React, { useEffect } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex } from '@chakra-ui/react'
-import { useSigner } from '@usedapp/core'
-import contract from '@/lib/contract'
+import useVehicleServices from '@/hooks/useVehicleServices'
 
 interface Props {
   tokenId: string
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const signer = useSigner()
-  const services = []
-
-  const searchVehicleServices = async (tokenId: string) => {
-    if (!signer || !contract) return []
-
-    const tx = contract.connect(signer).getVehicleServiceRecordIdsByTokenId(tokenId)
-    const value = await tx
-    const servicesIds = value.map((n) => Number(n))
-
-    const services: {
-      requester: string
-      tokenId: Number
-      title: string
-      description: string
-      price: Number
-      date: Number
-      createdAt: Number
-    }[] = []
-
-    await Promise.all(
-      servicesIds.map(async (id) => {
-        const tx = contract.connect(signer).getVehicleServiceRecordById(id)
-        const value = await tx
-
-        const { requester, tokenId, title, description, price, date, createdAt } = value
-
-        services.push({
-          requester,
-          tokenId: Number(tokenId),
-          title,
-          description,
-          price: Number(price),
-          date: Number(date),
-          createdAt: Number(createdAt),
-        })
-      })
-    )
-
-    console.log({ services })
-
-    return services
-  }
+  const { services, isLoading } = useVehicleServices(tokenId)
 
   useEffect(() => {
-    searchVehicleServices(tokenId)
-  }, [signer])
+    console.log({ services, isLoading })
+  }, [isLoading, services])
 
   return (
     <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
