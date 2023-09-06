@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
+import useVehicleContracts from '@/hooks/useVehicleContracts'
 
 interface Props {
   tokenId: string
@@ -12,6 +13,7 @@ interface Props {
 const VehicleTabs = ({ tokenId }: Props) => {
   const { services, isLoading: isLoadigServices } = useVehicleServices(tokenId)
   const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
+  const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   useEffect(() => {
     console.log({ services, isLoadigServices })
@@ -20,6 +22,10 @@ const VehicleTabs = ({ tokenId }: Props) => {
   useEffect(() => {
     console.log({ accidents, isLoadingAccidents })
   }, [isLoadingAccidents, accidents])
+
+  useEffect(() => {
+    console.log({ contracts, isLoadingContracts })
+  }, [isLoadingContracts, contracts])
 
   return (
     <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">

@@ -19,3 +19,15 @@ export type VehicleAccident = {
   createdAt: number
   updatedAt: number
 }
+
+export type VehicleContract = {
+  requester: string
+  insurer: string
+  tokenId: number
+  contractUrl: string
+  insuranceStartDate: number
+  insuranceEndDate: number
+  vehicleServicesIds: number[]
+  createdAt: number
+  updatedAt: number
+}
