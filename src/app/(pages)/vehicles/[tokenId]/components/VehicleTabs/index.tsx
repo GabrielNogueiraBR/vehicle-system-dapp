@@ -5,19 +5,20 @@ import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
+import CustomDataTable from '@/components/CustomDataTable'
 
 interface Props {
   tokenId: string
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const { services, isLoading: isLoadigServices } = useVehicleServices(tokenId)
+  const { services, isLoading: isLoadingServices } = useVehicleServices(tokenId)
   const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   useEffect(() => {
-    console.log({ services, isLoadigServices })
-  }, [isLoadigServices, services])
+    console.log({ services, isLoadigServices: isLoadingServices })
+  }, [isLoadingServices, services])
 
   useEffect(() => {
     console.log({ accidents, isLoadingAccidents })
@@ -37,13 +38,93 @@ const VehicleTabs = ({ tokenId }: Props) => {
         </TabList>
         <TabPanels bg="gray.50">
           <TabPanel>
-            <p>um!</p>
+            <CustomDataTable
+              columns={[
+                {
+                  name: 'Dono do veículo',
+                  selector: (row) => row.requester,
+                  sortable: true,
+                },
+                {
+                  name: 'Título',
+                  selector: (row) => row.title,
+                  sortable: true,
+                },
+                {
+                  name: 'Preço',
+                  selector: (row) => row.price,
+                  sortable: true,
+                },
+                {
+                  name: 'Data',
+                  selector: (row) => row.date,
+                  sortable: true,
+                },
+              ]}
+              data={services}
+              progressPending={isLoadingServices}
+            />
           </TabPanel>
           <TabPanel>
-            <p>dois!</p>
+            <CustomDataTable
+              columns={[
+                {
+                  name: 'Dono do veículo',
+                  selector: (row) => row.vehicleOwner,
+                  sortable: true,
+                },
+                {
+                  name: 'Seguradora',
+                  selector: (row) => row.insurer,
+                  sortable: true,
+                },
+                {
+                  name: 'Descrição',
+                  selector: (row) => row.description,
+                  sortable: true,
+                },
+                {
+                  name: 'Data do sinistro',
+                  selector: (row) => row.accidentDate,
+                  sortable: true,
+                },
+              ]}
+              data={accidents}
+              progressPending={isLoadingAccidents}
+            />
           </TabPanel>
           <TabPanel>
-            <p>três!</p>
+            <CustomDataTable
+              columns={[
+                {
+                  name: 'Dono do veículo',
+                  selector: (row) => row.requester,
+                  sortable: true,
+                },
+                {
+                  name: 'Seguradora',
+                  selector: (row) => row.insurer,
+                  sortable: true,
+                },
+                {
+                  name: 'Início em',
+                  selector: (row) => row.insuranceStartDate,
+                  sortable: true,
+                },
+                {
+                  name: 'Final em',
+                  selector: (row) => row.insuranceEndDate,
+                  sortable: true,
+                },
+                {
+                  name: 'Contrato (link)',
+                  selector: (row) => row.contractUrl,
+                  sortable: true,
+                },
+              ]}
+              data={contracts}
+              progressPending={isLoadingContracts}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
