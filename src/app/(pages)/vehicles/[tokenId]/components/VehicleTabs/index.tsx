@@ -31,7 +31,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
           <CreateButton display={tabIndex === 2 ? 'flex' : 'none'}>Solicitar contrato</CreateButton>
         </TabList>
         <TabPanels bg="gray.50">
-          <TabPanel display="flex" flexDirection="column" p="0">
+          <TabPanel p="0">
             <CustomDataTable
               columns={[
                 {
@@ -59,7 +59,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
               progressPending={isLoadingServices}
             />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0">
             <CustomDataTable
               columns={[
                 {
@@ -87,7 +87,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
               progressPending={isLoadingAccidents}
             />
           </TabPanel>
-          <TabPanel>
+          <TabPanel p="0">
             <CustomDataTable
               columns={[
                 {
