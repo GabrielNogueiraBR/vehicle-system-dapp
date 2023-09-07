@@ -30,7 +30,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
 
   return (
     <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
-      <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="unstyled">
+      <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
         <TabList display="flex" flexDirection="row" w="100%" bg="white" py="2">
           <Tab _selected={{ color: 'gray.800', fontWeight: 700 }}>Serviços</Tab>
           <Tab _selected={{ color: 'gray.800', fontWeight: 700 }}>Sinistros</Tab>
