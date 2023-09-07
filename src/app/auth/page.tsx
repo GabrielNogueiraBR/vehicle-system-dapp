@@ -24,7 +24,7 @@ const AuthPage = () => {
         gap="4"
       >
         <Heading>Login</Heading>
-        <ConnectButton colorScheme="green" />
+        <ConnectButton colorScheme="purple" />
       </Flex>
     </Center>
   )

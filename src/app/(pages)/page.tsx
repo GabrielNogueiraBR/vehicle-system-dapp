@@ -36,7 +36,7 @@ export default function Home() {
           />
         </FormControl>
         <Button
-          colorScheme="green"
+          colorScheme="purple"
           onClick={() => userRegistration.send({ driverLicenseCode: userRegistrationInput })}
           isLoading={loadingStates.includes(userRegistration.state.status)}
         >
@@ -55,7 +55,7 @@ export default function Home() {
           />
         </FormControl>
         <Button
-          colorScheme="green"
+          colorScheme="purple"
           onClick={() => defineDriverLicenseCode.send({ driverLicenseCode: cnhDefinitionInput })}
           isLoading={loadingStates.includes(defineDriverLicenseCode.state.status)}
         >
