@@ -120,7 +120,7 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
               alignItems="center"
             >
               <FormControl isInvalid={!!errors.title}>
-                <FormLabel htmlFor="name">Título</FormLabel>
+                <FormLabel htmlFor="title">Título</FormLabel>
                 <Input
                   id="title"
                   placeholder="Insira o título..."
