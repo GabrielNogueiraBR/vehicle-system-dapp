@@ -1,9 +1,12 @@
 import { GetNftsForAddressResponse } from '@/app/api/vehicles/[address]/get'
 import api from '@/services/api'
+import { useEthers } from '@usedapp/core'
 import { OwnedNft } from 'alchemy-sdk'
 import { useEffect, useState } from 'react'
 
-const useVehicleRequests = (address: string) => {
+const useVehicleRequests = () => {
+  const { account } = useEthers()
+
   const [vehiclesNfts, setVehiclesNfts] = useState<OwnedNft[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -23,10 +26,10 @@ const useVehicleRequests = (address: string) => {
   }
 
   useEffect(() => {
-    loadVehiclesByAddress(address)
-  }, [address])
+    if (account) loadVehiclesByAddress(account)
+  }, [account])
 
-  return { vehiclesNfts, isLoading }
+  return { vehiclesNfts, isLoading, load: loadVehiclesByAddress }
 }
 
 export default useVehicleRequests

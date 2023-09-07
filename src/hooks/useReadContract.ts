@@ -13,7 +13,7 @@ interface Params<fn extends ContractFunctionName> {
 
 function useReadContract<fn extends ContractFunctionName>({ functionName, args }: Params<fn>) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [data, setData] = useState<T<fn>>(undefined as T<fn>)
+  const [data, setData] = useState<T<fn> | undefined>(undefined)
 
   const signer = useSigner()
 

@@ -1,11 +1,12 @@
 import contract from '@/lib/contract'
 import { useContractFunction } from '@usedapp/core'
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 
 interface Web3ContextData {
   userRegistration: ReturnType<typeof useContractFunction>
   defineDriverLicenseCode: ReturnType<typeof useContractFunction>
   addVehicleServiceRecord: ReturnType<typeof useContractFunction>
+  createVehicleRequest: ReturnType<typeof useContractFunction>
 }
 
 export const Web3Context = createContext({} as Web3ContextData)
@@ -27,9 +28,18 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
     transactionName: 'Add Vehicle Service Record',
   })
 
+  const createVehicleRequest = useContractFunction(contract, 'createVehicleRequest', {
+    transactionName: 'Create Vehicle Request',
+  })
+
   return (
     <Web3Context.Provider
-      value={{ userRegistration, defineDriverLicenseCode, addVehicleServiceRecord }}
+      value={{
+        userRegistration,
+        defineDriverLicenseCode,
+        addVehicleServiceRecord,
+        createVehicleRequest,
+      }}
     >
       {children}
     </Web3Context.Provider>

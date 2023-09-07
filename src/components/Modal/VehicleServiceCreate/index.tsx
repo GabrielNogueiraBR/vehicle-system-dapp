@@ -128,6 +128,7 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                     required: 'Campo obrigatório',
                     minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                   })}
+                  disabled={isSubmitting}
                 />
                 <FormErrorMessage>{errors.title && errors.title.message}</FormErrorMessage>
               </FormControl>
@@ -144,6 +145,7 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                       required: 'Campo obrigatório',
                       min: 0,
                     })}
+                    disabled={isSubmitting}
                   />
                   <InputRightAddon>ETH</InputRightAddon>
                 </InputGroup>
@@ -158,6 +160,7 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                 type="datetime-local"
                 placeholder="Insira a data..."
                 {...register('date', { required: 'Campo obrigatório' })}
+                disabled={isSubmitting}
               />
             </FormControl>
 
@@ -171,6 +174,7 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                   required: 'Campo obrigatório',
                   minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                 })}
+                disabled={isSubmitting}
               />
               <FormErrorMessage>
                 {errors.description && errors.description.message}
