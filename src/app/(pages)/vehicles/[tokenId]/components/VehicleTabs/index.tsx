@@ -10,12 +10,19 @@ import {
   Flex,
   Spacer,
   TabIndicator,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
 } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
 import CustomDataTable from '@/components/CustomDataTable'
 import CreateButton from '@/components/CreateButton'
+import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
 
 interface Props {
   tokenId: string
@@ -23,8 +30,13 @@ interface Props {
 
 const VehicleTabs = ({ tokenId }: Props) => {
   const [tabIndex, setTabIndex] = useState(0)
+  const {
+    isOpen: isVehicleServiceModalOpen,
+    onOpen: onOpenVehicleServiceModal,
+    onClose: onCloseVehicleServiceModal,
+  } = useDisclosure()
 
-  const { services, isLoading: isLoadingServices } = useVehicleServices(tokenId)
+  const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
   const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
@@ -57,7 +69,12 @@ const VehicleTabs = ({ tokenId }: Props) => {
             Contratos
           </Tab>
           <Spacer />
-          <CreateButton display={tabIndex === 0 ? 'flex' : 'none'}>Cadastrar serviço</CreateButton>
+          <CreateButton
+            display={tabIndex === 0 ? 'flex' : 'none'}
+            onClick={onOpenVehicleServiceModal}
+          >
+            Cadastrar serviço
+          </CreateButton>
           <CreateButton display={tabIndex === 2 ? 'flex' : 'none'}>Solicitar contrato</CreateButton>
         </TabList>
         <TabIndicator mt="-1.5px" height="2px" bg="purple.500" borderRadius="1px" />
@@ -153,6 +170,12 @@ const VehicleTabs = ({ tokenId }: Props) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <VehicleServiceCreateModal
+        tokenId={tokenId}
+        isOpen={isVehicleServiceModalOpen}
+        onClose={onCloseVehicleServiceModal}
+        onCreate={loadServices}
+      />
     </Flex>
   )
 }
