@@ -60,10 +60,6 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
       if (receipt?.status !== 1) throw new Error('Erro ao cadastrar serviço de manutenção')
       const href = `${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`
 
-      console.log('hash: ', receipt.transactionHash)
-      console.log('hash2: ', `${receipt.transactionHash}`)
-      console.log('href: ', href)
-
       toast({
         title: 'Sucesso ao cadastrar serviço de manutenção',
         description: (
@@ -75,19 +71,26 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
           </Text>
         ),
         duration: 7000,
+        position: 'top-right',
         status: 'success',
       })
 
-      reset()
       rest.onClose()
       if (onCreate) onCreate()
     } catch (e) {
       console.error(e)
       toast({
         title: 'Erro ao cadastrar serviço de manutenção',
+        position: 'top-right',
         status: 'error',
       })
     }
+  }
+
+  const onCloseParam = rest.onClose
+  rest.onClose = () => {
+    reset()
+    onCloseParam()
   }
 
   return (
