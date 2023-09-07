@@ -1,7 +1,16 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, Spacer } from '@chakra-ui/react'
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Flex,
+  Spacer,
+  TabIndicator,
+} from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
@@ -21,7 +30,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
 
   return (
     <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
-      <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="unstyles">
+      <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="unstyled">
         <TabList display="flex" flexDirection="row" w="100%" bg="white" py="2">
           <Tab _selected={{ color: 'gray.800', fontWeight: 700 }}>Serviços</Tab>
           <Tab _selected={{ color: 'gray.800', fontWeight: 700 }}>Sinistros</Tab>
@@ -30,6 +39,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
           <CreateButton display={tabIndex === 0 ? 'flex' : 'none'}>Cadastrar serviço</CreateButton>
           <CreateButton display={tabIndex === 2 ? 'flex' : 'none'}>Solicitar contrato</CreateButton>
         </TabList>
+        <TabIndicator mt="-1.5px" height="2px" bg="blue.500" borderRadius="1px" />
         <TabPanels bg="gray.50">
           <TabPanel p="0">
             <CustomDataTable
