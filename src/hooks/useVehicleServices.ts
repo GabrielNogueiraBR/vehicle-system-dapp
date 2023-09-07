@@ -29,6 +29,7 @@ const useVehicleServices = (tokenId: string) => {
           const { requester, tokenId, title, description, price, date, createdAt } = value
 
           servicesList.push({
+            id,
             requester,
             tokenId: Number(tokenId),
             title,

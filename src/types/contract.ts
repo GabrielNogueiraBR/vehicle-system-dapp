@@ -1,4 +1,5 @@
 export type VehicleService = {
+  id: number
   requester: string
   tokenId: number
   title: string
@@ -9,6 +10,7 @@ export type VehicleService = {
 }
 
 export type VehicleAccident = {
+  id: number
   vehicleOwner: string
   insurer: string
   tokenId: number
@@ -21,6 +23,7 @@ export type VehicleAccident = {
 }
 
 export type VehicleContract = {
+  id: number
   requester: string
   insurer: string
   tokenId: number

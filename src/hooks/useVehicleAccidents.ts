@@ -39,6 +39,7 @@ const useVehicleAccidents = (tokenId: string) => {
           } = value
 
           data.push({
+            id,
             vehicleOwner,
             insurer,
             tokenId: Number(tokenId),

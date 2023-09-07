@@ -83,6 +83,11 @@ const VehicleTabs = ({ tokenId }: Props) => {
             <CustomDataTable
               columns={[
                 {
+                  name: 'ID',
+                  selector: (row) => row.id,
+                  sortable: true,
+                },
+                {
                   name: 'Requisitado por',
                   selector: (row) => row.requester,
                   sortable: true,
@@ -111,6 +116,11 @@ const VehicleTabs = ({ tokenId }: Props) => {
             <CustomDataTable
               columns={[
                 {
+                  name: 'ID',
+                  selector: (row) => row.id,
+                  sortable: true,
+                },
+                {
                   name: 'Dono do veículo',
                   selector: (row) => row.vehicleOwner,
                   sortable: true,
@@ -138,6 +148,11 @@ const VehicleTabs = ({ tokenId }: Props) => {
           <TabPanel p="0">
             <CustomDataTable
               columns={[
+                {
+                  name: 'ID',
+                  selector: (row) => row.id,
+                  sortable: true,
+                },
                 {
                   name: 'Requisitado por',
                   selector: (row) => row.requester,
