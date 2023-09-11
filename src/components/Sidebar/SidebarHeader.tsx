@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Heading, VStack, Text, Avatar } from '@chakra-ui/react'
+import { Heading, VStack, Text, Avatar, Image } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 
 const SidebarHeader = () => {
@@ -12,9 +12,8 @@ const SidebarHeader = () => {
 
   return (
     <VStack spacing={6} align="center">
-      <Heading>Site</Heading>
-      <Avatar size="2xl" name="Logo" />
-      <Text>{fomartedAccount}</Text>
+      <Image src="/logo.svg" alt="logo" w="100%" p="10%" />
+      {/* <Text>{fomartedAccount}</Text> */}
     </VStack>
   )
 }
