@@ -46,9 +46,6 @@ const Sidebar = () => {
             <DrawerBody px={0}>
               <SidebarContent onNavClick={onClose} />
             </DrawerBody>
-            <DrawerFooter justifyContent="flex-start">
-              <SidebarFooter />
-            </DrawerFooter>
           </DrawerContent>
         </Drawer>
       </>
