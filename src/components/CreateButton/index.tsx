@@ -11,8 +11,8 @@ interface Props extends ButtonProps {
 
 const CreateButton = ({ hideTextOnSmallScreen = true, children, ...rest }: Props) => {
   return (
-    <Button colorScheme="purple" fontSize="md" justifySelf="flex-end" mx="4" gap="2" {...rest}>
-      <Icon as={BiPlus} fontSize="xl" />
+    <Button variant="primary" mx="4" gap="2" {...rest}>
+      <Icon as={BiPlus} fontSize="2xl" />
       <Text display={hideTextOnSmallScreen ? { base: 'none', md: 'flex' } : undefined}>
         {children}
       </Text>
