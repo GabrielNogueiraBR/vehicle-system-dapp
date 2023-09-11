@@ -8,21 +8,27 @@ import { RiNftFill, RiShakeHandsLine, RiHome2Line, RiUser3Line } from 'react-ico
 
 interface SidebarContentProps {
   isExpanded?: boolean
+  onExpand?: () => void
+  onMinimize?: () => void
 }
 
 const SidebarContent = ({ isExpanded = true }: SidebarContentProps) => (
-  <VStack spacing={6} align="flex-start">
+  <VStack
+    spacing={isExpanded ? 6 : 10}
+    align={isExpanded ? 'flex-start' : 'center'}
+    transition="all 500ms"
+  >
     <NavLink href="/home" icon={RiHome2Line}>
-      Início
+      {isExpanded ? 'Início' : undefined}
     </NavLink>
     <NavLink href="/vehicles" icon={RiNftFill}>
-      Meus Veículos
+      {isExpanded ? 'Meus Veículos' : undefined}
     </NavLink>
     <NavLink href="/contracts" icon={RiShakeHandsLine}>
-      Meus Contratos
+      {isExpanded ? 'Meus Contratos' : undefined}
     </NavLink>
     <NavLink href="/profile" icon={RiUser3Line}>
-      Perfil
+      {isExpanded ? 'Perfil' : undefined}
     </NavLink>
   </VStack>
 )

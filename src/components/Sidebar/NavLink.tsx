@@ -8,8 +8,8 @@ import ActiveLink from './ActiveLink'
 
 interface NavLinkProps extends ChakraLinkProps {
   icon: ElementType
-  children: string
   href: string
+  children?: string
   isDisabled?: boolean
   shouldMatchExactHref?: boolean
 }
@@ -25,10 +25,12 @@ export function NavLink({
   return (
     <ActiveLink href={href} isDisabled={isDisabled} shouldMatchExactHref={shouldMatchExactHref}>
       <ChakraLink display="flex" href={href} alignContent="center" {...rest}>
-        <Icon as={icon} fontSize="20" />
-        <Text ml="4" fontWeight="medium">
-          {children}
-        </Text>
+        <Icon as={icon} fontSize="35" />
+        {children && (
+          <Text ml="4" fontWeight="medium">
+            {children}
+          </Text>
+        )}
       </ChakraLink>
     </ActiveLink>
   )

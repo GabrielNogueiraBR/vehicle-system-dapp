@@ -4,16 +4,25 @@ import React from 'react'
 import { Heading, VStack, Text, Avatar, Image } from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 
-const SidebarHeader = () => {
+interface SidebarHeaderProps {
+  isExpanded?: boolean
+}
+
+const SidebarHeader = ({ isExpanded = true }: SidebarHeaderProps) => {
   const { account } = useEthers()
 
   const regex = /^(.{7}).*(.{5})$/
   const fomartedAccount = (account || '').replace(regex, '$1...$2')
 
   return (
-    <VStack spacing={6} align="center">
-      <Image src="/logo.svg" alt="logo" w="100%" p="10%" />
-      {/* <Text>{fomartedAccount}</Text> */}
+    <VStack display="flex" w="100%" spacing={6} align="center">
+      <Image
+        src="/logo.png"
+        alt="logo"
+        w={isExpanded ? '12rem' : '5.125rem'}
+        p="10%"
+        transition="all 500ms"
+      />
     </VStack>
   )
 }

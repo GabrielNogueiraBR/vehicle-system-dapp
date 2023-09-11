@@ -46,7 +46,7 @@ const Sidebar = () => {
             <DrawerBody>
               <SidebarContent />
             </DrawerBody>
-            <DrawerFooter justifyContent='flex-start'>
+            <DrawerFooter justifyContent="flex-start">
               <SidebarFooter />
             </DrawerFooter>
           </DrawerContent>
@@ -55,11 +55,11 @@ const Sidebar = () => {
     )
 
   return (
-    <Flex minW="18rem" minH="100%" direction="column" gap="6" p="6" shadow="sm" bg="white">
-      <SidebarHeader />
-      <SidebarContent />
+    <Flex maxW="18rem" minH="100%" direction="column" gap="10" p="6" pt="16" shadow="sm" bg="white">
+      <SidebarHeader isExpanded={isExpanded} />
+      <SidebarContent isExpanded={isExpanded} />
       <Spacer />
-      <SidebarFooter />
+      <SidebarFooter isExpanded={isExpanded} onExpand={onExpand} onMinimize={onMinimize} />
     </Flex>
   )
 }
