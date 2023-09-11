@@ -14,9 +14,10 @@ interface SidebarContentProps {
   isExpanded?: boolean
   onExpand?: () => void
   onMinimize?: () => void
+  onNavClick?: () => void
 }
 
-const SidebarContent = ({ isExpanded = true }: SidebarContentProps) => {
+const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) => {
   const pathname = usePathname()
 
   const links: { title: string; icon: React.ElementType; href: string }[] = useMemo(
@@ -50,7 +51,7 @@ const SidebarContent = ({ isExpanded = true }: SidebarContentProps) => {
         transition="all 250ms"
       />
       {links.map((lnk) => (
-        <NavLink key={lnk.href} href={lnk.href} icon={lnk.icon}>
+        <NavLink key={lnk.href} href={lnk.href} icon={lnk.icon} onClick={onNavClick}>
           {isExpanded ? lnk.title : undefined}
         </NavLink>
       ))}

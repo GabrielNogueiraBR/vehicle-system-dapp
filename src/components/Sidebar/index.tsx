@@ -43,8 +43,8 @@ const Sidebar = () => {
             <DrawerHeader>
               <SidebarHeader />
             </DrawerHeader>
-            <DrawerBody>
-              <SidebarContent />
+            <DrawerBody px={0}>
+              <SidebarContent onNavClick={onClose} />
             </DrawerBody>
             <DrawerFooter justifyContent="flex-start">
               <SidebarFooter />
