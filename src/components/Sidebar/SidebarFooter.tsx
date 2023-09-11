@@ -15,7 +15,7 @@ const SidebarFooter = ({ isExpanded = true, onExpand, onMinimize }: SidebarFoote
   const { deactivate } = useEthers()
 
   return (
-    <VStack spacing={6} align={isExpanded ? 'flex-start' : 'center'} transition="all 500ms">
+    <VStack spacing={6} px={6} align={isExpanded ? 'flex-start' : 'center'} transition="all 500ms">
       <Button
         variant="ghost"
         w="fit-content"
@@ -30,7 +30,7 @@ const SidebarFooter = ({ isExpanded = true, onExpand, onMinimize }: SidebarFoote
           fontSize="35"
           sx={{ transform: isExpanded ? 'scaleX(-1)' : undefined }}
         />
-        <Text ml="4" fontWeight="medium" display={isExpanded ? 'flex' : 'none'}>
+        <Text ml="4" fontSize="xl" fontWeight="medium" display={isExpanded ? 'flex' : 'none'}>
           Minimizar
         </Text>
       </Button>
