@@ -24,13 +24,11 @@ export function NavLink({
 }: NavLinkProps) {
   return (
     <ActiveLink href={href} isDisabled={isDisabled} shouldMatchExactHref={shouldMatchExactHref}>
-      <ChakraLink display="flex" href={href} alignContent="center" {...rest}>
+      <ChakraLink display="flex" href={href} alignItems="center" transition="all 500ms" {...rest}>
         <Icon as={icon} fontSize="35" />
-        {children && (
-          <Text ml="4" fontWeight="medium">
-            {children}
-          </Text>
-        )}
+        <Text ml="4" fontSize="xl" fontWeight="medium" display={children ? 'flex' : 'none'}>
+          {children}
+        </Text>
       </ChakraLink>
     </ActiveLink>
   )

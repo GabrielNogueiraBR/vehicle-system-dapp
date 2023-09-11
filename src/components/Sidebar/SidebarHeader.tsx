@@ -15,7 +15,7 @@ const SidebarHeader = ({ isExpanded = true }: SidebarHeaderProps) => {
   const fomartedAccount = (account || '').replace(regex, '$1...$2')
 
   return (
-    <VStack display="flex" w="100%" spacing={6} align="center">
+    <VStack display="flex" w="100%" spacing={6} align="flex-start">
       <Image
         src="/logo.png"
         alt="logo"

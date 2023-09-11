@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { Button, Icon, VStack, Text } from '@chakra-ui/react'
-import { RiLogoutBoxRLine } from 'react-icons/ri'
 import { useEthers } from '@usedapp/core'
+import LogoutRounded from '../Icons/LogoutRounded'
 
 interface SidebarFooterProps {
   isExpanded?: boolean
@@ -25,12 +25,14 @@ const SidebarFooter = ({ isExpanded = true, onExpand, onMinimize }: SidebarFoote
         _active={{ bg: 'transparent', color: 'red.700' }}
         onClick={isExpanded ? onMinimize : onExpand}
       >
-        <Icon as={RiLogoutBoxRLine} fontSize="35" />
-        {isExpanded && (
-          <Text ml="4" fontWeight="medium" display={isExpanded ? 'flex' : 'none'}>
-            Minimizar
-          </Text>
-        )}
+        <Icon
+          as={LogoutRounded}
+          fontSize="35"
+          sx={{ transform: isExpanded ? 'scaleX(-1)' : undefined }}
+        />
+        <Text ml="4" fontWeight="medium" display={isExpanded ? 'flex' : 'none'}>
+          Minimizar
+        </Text>
       </Button>
     </VStack>
   )
