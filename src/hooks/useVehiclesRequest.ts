@@ -1,6 +1,8 @@
 import { GetNftsForAddressResponse } from '@/app/api/vehicles/[address]/get'
 import api from '@/services/api'
 import { VehicleNFT } from '@/types'
+import { InsuranceStatus } from '@/types/contract'
+import getContractsByTokenId from '@/utils/getContractsByTokenId'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
@@ -28,6 +30,8 @@ const useVehicleRequests = () => {
             args: [1],
           })
 
+          const contracts = await getContractsByTokenId({ tokenId: ownedNFT.tokenId, signer })
+
           const nft: VehicleNFT = {
             ...ownedNFT,
             vehicleRegistrationCode: response?.vehicleRegistrationCode || 'no',
@@ -36,6 +40,7 @@ const useVehicleRequests = () => {
             manufacturingDate: Number(response?.manufacturingDate || (0 as number)),
             vehicleOwnershipRecordIds:
               response?.vehicleOwnershipRecordIds.map((id) => Number(id)) || ([] as number[]),
+            contracts,
           }
 
           return nft

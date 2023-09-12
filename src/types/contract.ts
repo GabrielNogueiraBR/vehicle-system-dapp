@@ -1,3 +1,8 @@
+export enum InsuranceStatus {
+  ACTIVE = 'ACTIVE',
+  EXPIRED = 'EXPIRED',
+}
+
 export type VehicleService = {
   id: number
   requester: string
@@ -31,6 +36,7 @@ export type VehicleContract = {
   insuranceStartDate: number
   insuranceEndDate: number
   vehicleServicesIds: number[]
+  status: InsuranceStatus
   createdAt: number
   updatedAt: number
 }
