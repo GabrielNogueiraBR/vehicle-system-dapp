@@ -1,7 +1,7 @@
 import { extendTheme } from '@chakra-ui/react'
-import { Inter } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const montserrat = Montserrat({ subsets: ['latin'] })
 
 export const theme = extendTheme({
   colors: {
@@ -13,14 +13,14 @@ export const theme = extendTheme({
     'light-gray': '#7D7D7D',
   },
   fonts: {
-    heading: inter.style.fontFamily,
-    body: inter.style.fontFamily,
+    heading: montserrat.style.fontFamily,
+    body: montserrat.style.fontFamily,
   },
   styles: {
     global: {
       body: {
         bg: 'gray.100',
-        color: 'gray.800',
+        color: 'dark',
       },
     },
   },
