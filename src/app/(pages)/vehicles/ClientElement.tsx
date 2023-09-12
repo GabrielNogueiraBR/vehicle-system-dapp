@@ -9,6 +9,7 @@ import { Link } from '@chakra-ui/next-js'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
+import VehicleNFTCard from '@/components/VehicleNFTCard'
 
 const ClientElement = () => {
   const { vehiclesNfts, isLoading } = useVehicleRequests()
@@ -19,7 +20,7 @@ const ClientElement = () => {
     onClose: onVehicleRequestModalClose,
   } = useDisclosure()
 
-  const hasVehicles = !!vehiclesNfts.length
+  const hasVehicles = !!vehiclesNfts.length || true
 
   if (isLoading) return <LoadingPage />
 
@@ -30,14 +31,20 @@ const ClientElement = () => {
       </CreateButton>
       <Flex flexFlow="row wrap" gap="4" display={hasVehicles ? 'flex' : 'none'}>
         {vehiclesNfts.map((nft) => (
-          <Flex direction="column" key={nft.tokenId} p="4" bg="white" rounded="md" shadow="md">
-            <Text>TokenId: {nft.tokenId}</Text>
-            <Button variant={'link'}>
-              <Link href={`/vehicles/${nft.tokenId}`}>Go to</Link>
-            </Button>
-          </Flex>
+          <VehicleNFTCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
+            <VehicleNFTCard.Icon status="nft" />
+            <VehicleNFTCard.Info.Root>
+              <VehicleNFTCard.Info.Title>Token #{nft.tokenId}</VehicleNFTCard.Info.Title>
+              <VehicleNFTCard.Info.InsuredBadge />
+              <VehicleNFTCard.Info.SubTitle>
+                <Text>Model S</Text>
+                <Text>Tesla</Text>
+              </VehicleNFTCard.Info.SubTitle>
+            </VehicleNFTCard.Info.Root>
+          </VehicleNFTCard.Root>
         ))}
       </Flex>
+
       <Center
         flexDirection="column"
         w="100%"
