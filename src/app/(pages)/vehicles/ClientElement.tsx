@@ -8,6 +8,7 @@ import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
 import VehicleNFTCard from '@/components/VehicleNFTCard'
+import { InsuranceStatus } from '@/types/contract'
 
 const ClientElement = () => {
   const { vehiclesNfts, isLoading } = useVehicleRequests()
@@ -35,7 +36,13 @@ const ClientElement = () => {
               <VehicleNFTCard.Info.Title>
                 Token #{nft.tokenId.toString().padStart(3, '0')}
               </VehicleNFTCard.Info.Title>
-              <VehicleNFTCard.Info.InsuredBadge />
+              <VehicleNFTCard.Info.InsuredBadge
+                display={
+                  nft.contracts.some((contract) => contract.status === InsuranceStatus.ACTIVE)
+                    ? 'flex'
+                    : 'none'
+                }
+              />
               <VehicleNFTCard.Info.SubTitle>
                 <Text>{nft.carModel}</Text>
                 <Text>{nft.carBrand}</Text>

@@ -1,7 +1,12 @@
-import ShieldCheck from '@/components/Icons/ShieldCheck'
-import React from 'react'
+'use client'
 
-const InsuredBadge = () => {
+import React from 'react'
+import ShieldCheck from '@/components/Icons/ShieldCheck'
+import { IconProps } from '@chakra-ui/react'
+
+interface Props extends IconProps {}
+
+const InsuredBadge = ({ ...rest }: Props) => {
   return (
     <ShieldCheck
       position="absolute"
@@ -11,6 +16,7 @@ const InsuredBadge = () => {
       fontSize="1.75rem"
       marginTop="1.5"
       marginRight="1.5"
+      {...rest}
     />
   )
 }
