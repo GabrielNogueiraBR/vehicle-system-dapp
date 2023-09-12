@@ -28,7 +28,7 @@ const ActiveLink = ({ children, isDisabled, shouldMatchExactHref = false, ...res
   }
 
   return cloneElement(children, {
-    color: isDisabled ? 'gray.500' : isActive ? 'purple.500' : 'gray.800',
+    color: isDisabled ? 'gray.500' : isActive ? 'primary' : 'gray.800',
     pointerEvents: isDisabled ? 'none' : 'unset',
     cursor: isDisabled ? 'not-allowed' : 'pointer',
   })

@@ -59,7 +59,7 @@ const ClientElement = () => {
         mt="16"
         gap="4"
       >
-        <NoVehicles color="purple.500" w="md" />
+        <NoVehicles color="primary" w="md" />
         <Heading as="h3">Sem veículos cadastrados</Heading>
       </Center>
       <VehicleRequestCreateModal

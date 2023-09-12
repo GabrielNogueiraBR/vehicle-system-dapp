@@ -45,25 +45,25 @@ const VehicleTabs = ({ tokenId }: Props) => {
       <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
         <TabList display="flex" flexDirection="row" w="100%" bg="white" py="2">
           <Tab
-            _selected={{ color: 'purple.500' }}
+            _selected={{ color: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'purple.500', transition: 'all 250ms' }}
+            _hover={{ color: 'primary', transition: 'all 250ms' }}
             fontWeight={600}
           >
             Serviços
           </Tab>
           <Tab
-            _selected={{ color: 'purple.500' }}
+            _selected={{ color: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'purple.500', transition: 'all 250ms' }}
+            _hover={{ color: 'primary', transition: 'all 250ms' }}
             fontWeight={600}
           >
             Sinistros
           </Tab>
           <Tab
-            _selected={{ color: 'purple.500' }}
+            _selected={{ color: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'purple.500', transition: 'all 250ms' }}
+            _hover={{ color: 'primary', transition: 'all 250ms' }}
             fontWeight={600}
           >
             Contratos
@@ -77,7 +77,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
           </CreateButton>
           <CreateButton display={tabIndex === 2 ? 'flex' : 'none'}>Solicitar contrato</CreateButton>
         </TabList>
-        <TabIndicator mt="-1.5px" height="2px" bg="purple.500" borderRadius="1px" />
+        <TabIndicator mt="-1.5px" height="2px" bg="primary" borderRadius="1px" />
         <TabPanels bg="gray.50">
           <TabPanel p="0">
             <CustomDataTable

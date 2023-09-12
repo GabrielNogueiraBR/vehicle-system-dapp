@@ -12,7 +12,7 @@ const LoadingPage = ({ ...rest }: Props) => {
         thickness="5px"
         speed="0.65s"
         emptyColor="gray.200"
-        color="purple.500"
+        color="primary"
         size="xl"
         {...rest}
       />

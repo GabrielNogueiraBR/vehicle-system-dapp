@@ -44,7 +44,7 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
         position="absolute"
         w="4px"
         h="35px"
-        bg="purple.500"
+        bg="primary"
         right={0}
         top={0}
         transform={`translate(0,${indexActive * 35 + indexActive * 40}px)`}
