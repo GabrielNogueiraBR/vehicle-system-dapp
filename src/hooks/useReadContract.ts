@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react'
 
 type ContractFunctionName = keyof (typeof contract)['functions']
 
-type T<fn extends ContractFunctionName> = Awaited<ReturnType<(typeof contract)['functions'][fn]>>
+type T<fn extends ContractFunctionName> = Awaited<ReturnType<(typeof contract)[fn]>>
 
 interface Params<fn extends ContractFunctionName> {
   functionName: fn
-  args: Parameters<(typeof contract)['functions'][fn]>
+  args: Parameters<(typeof contract)[fn]>
 }
 
 function useReadContract<fn extends ContractFunctionName>({ functionName, args }: Params<fn>) {

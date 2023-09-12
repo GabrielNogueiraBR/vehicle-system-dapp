@@ -1,11 +1,9 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { Button, Center, Flex, Heading, Img, Text, useDisclosure } from '@chakra-ui/react'
+import React from 'react'
+import { Center, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react'
 import useVehicleRequests from '@/hooks/useVehiclesRequest'
-import { useEthers } from '@usedapp/core'
 import LoadingPage from '@/components/LoadingPage'
-import { Link } from '@chakra-ui/next-js'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
@@ -34,11 +32,13 @@ const ClientElement = () => {
           <VehicleNFTCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
             <VehicleNFTCard.Icon status="nft" />
             <VehicleNFTCard.Info.Root>
-              <VehicleNFTCard.Info.Title>Token #{nft.tokenId}</VehicleNFTCard.Info.Title>
+              <VehicleNFTCard.Info.Title>
+                Token #{nft.tokenId.toString().padStart(3, '0')}
+              </VehicleNFTCard.Info.Title>
               <VehicleNFTCard.Info.InsuredBadge />
               <VehicleNFTCard.Info.SubTitle>
-                <Text>Model S</Text>
-                <Text>Tesla</Text>
+                <Text>{nft.carModel}</Text>
+                <Text>{nft.carBrand}</Text>
               </VehicleNFTCard.Info.SubTitle>
             </VehicleNFTCard.Info.Root>
           </VehicleNFTCard.Root>
