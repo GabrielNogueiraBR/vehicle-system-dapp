@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Flex, Image } from '@chakra-ui/react'
+import { Flex, Img } from '@chakra-ui/react'
 
 interface Props {
   status?: 'nft' | 'request' | 'request-approved'
@@ -9,8 +9,8 @@ interface Props {
 
 const Icon = ({ status = 'nft' }: Props) => {
   return (
-    <Flex w="3xs">
-      <Image src={`/vehicle-${status}.png`} alt={`vehicle ${status}`} />
+    <Flex w="3xs" h="15.0625rem" justify="center">
+      <Img w="auto" h="auto" src={`/vehicle-${status}.png`} alt={`vehicle ${status}`} loading='lazy' />
     </Flex>
   )
 }
