@@ -29,6 +29,7 @@ export const theme = extendTheme({
           color: 'primary',
           borderWidth: '3px',
           borderColor: 'primary',
+          borderRadius: '0.75rem',
           justifySelf: 'flex-end',
           shadow: 'lg',
         },

@@ -9,9 +9,9 @@ interface Props extends ButtonProps {
   children: React.ReactNode
 }
 
-const CreateButton = ({ hideTextOnSmallScreen = true, children, ...rest }: Props) => {
+const CreateButton = ({ hideTextOnSmallScreen = false, children, ...rest }: Props) => {
   return (
-    <Button variant="primary" mx="4" gap="2" {...rest}>
+    <Button variant="primary" gap="2" {...rest}>
       <Icon as={BiPlus} fontSize="2xl" />
       <Text display={hideTextOnSmallScreen ? { base: 'none', md: 'flex' } : undefined}>
         {children}
