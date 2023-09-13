@@ -1,10 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Flex, Box, Img, Heading, HStack, VStack, Button } from '@chakra-ui/react'
+import { Flex, Box, Img, Heading, HStack, VStack, Button, Icon } from '@chakra-ui/react'
 import useVehicleMetadata from '@/hooks/useVehicleMetadata'
 import Detail from './Detail'
 import useOwnerOfToken from '@/hooks/useOwnerOfToken'
+import ShareIcon from '@/components/Icons/ShareIcon'
+import HistoryIcon from '@/components/Icons/HistoryIcon'
 
 interface Props {
   tokenId: string
@@ -87,8 +89,34 @@ const VehicleInfo = ({ tokenId }: Props) => {
             align="flex-start"
             gap="3"
           >
-            <Button></Button>
-            <Button></Button>
+            <Button
+              rounded="2xl"
+              shadow="lg"
+              w="fit-content"
+              colorScheme="whiteAlpha"
+              variant="outline"
+              border="2px solid"
+              borderColor="secondary"
+              h="fit-content"
+              py="2"
+              px="3"
+            >
+              <Icon as={ShareIcon} fontSize="4xl" color="secondary" />
+            </Button>
+            <Button
+              rounded="2xl"
+              shadow="lg"
+              w="fit-content"
+              colorScheme="whiteAlpha"
+              variant="outline"
+              border="2px solid"
+              borderColor="secondary"
+              h="fit-content"
+              py="2"
+              px="3"
+            >
+              <Icon as={HistoryIcon} fontSize="4xl" color="secondary" />
+            </Button>
           </Flex>
         </Flex>
       </Flex>
