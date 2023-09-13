@@ -1,9 +1,8 @@
 import { GetNftsForAddressResponse } from '@/app/api/vehicles/[address]/get'
 import api from '@/services/api'
 import { VehicleNFT } from '@/types'
-import { InsuranceStatus } from '@/types/contract'
 import getContractsByTokenId from '@/utils/getContractsByTokenId'
-import readContract from '@/utils/readContract'
+import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
 
@@ -24,22 +23,15 @@ const useVehicleRequests = () => {
 
       const nfts: VehicleNFT[] = await Promise.all(
         ownedNFTs.map(async (ownedNFT) => {
-          const response = await readContract({
+          const vehicleMetadata = await getVehicleNFTMetadataByTokenId({
+            tokenId: ownedNFT.tokenId,
             signer,
-            functionName: 'getVehicleNFTMetadataByTokenId',
-            args: [1],
           })
-
           const contracts = await getContractsByTokenId({ tokenId: ownedNFT.tokenId, signer })
 
           const nft: VehicleNFT = {
             ...ownedNFT,
-            vehicleRegistrationCode: response?.vehicleRegistrationCode || 'no',
-            carBrand: response?.carBrand || 'no',
-            carModel: response?.carModel || 'no',
-            manufacturingDate: Number(response?.manufacturingDate || (0 as number)),
-            vehicleOwnershipRecordIds:
-              response?.vehicleOwnershipRecordIds.map((id) => Number(id)) || ([] as number[]),
+            vehicleMetadata,
             contracts,
           }
 
