@@ -12,7 +12,7 @@ interface Params {
 }
 const Page = ({ params: { tokenId } }: Params) => {
   return (
-    <Flex flex="1" direction="column" justify="flex-start" align="center" gap="10" marginTop="8">
+    <Flex flex="1" w='100%' direction="column" justify="flex-start" align="center" gap="10" marginTop="8">
       <VehicleInfo tokenId={tokenId} />
       <VehicleTabs tokenId={tokenId} />
     </Flex>

@@ -36,9 +36,9 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   return (
-    <Flex w="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
+    <Flex w="100%" maxW="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm">
       <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
-        <TabList display="flex" flexDirection="row" w="100%" bg="white" py="2">
+        <TabList w="100%" display="flex" flexDirection="row" bg="white" py="2">
           <Tab
             _selected={{ color: 'primary' }}
             _active={{ bg: 'transparent' }}
@@ -76,8 +76,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
             Solicitar contrato
           </CreateButton>
         </TabList>
-        <TabIndicator mt="-1.5px" height="2px" bg="primary" borderRadius="1px" />
-        <TabPanels bg="gray.50">
+        <TabIndicator w="100%" mt="-1.5px" height="2px" bg="primary" borderRadius="1px" />
+        <TabPanels w="100%" bg="gray.50">
           <TabPanel p="0" w="100%">
             <CustomDataTable
               columns={[

@@ -32,7 +32,16 @@ const VehicleInfo = ({ tokenId }: Props) => {
       borderColor="secondary"
       overflow="hidden"
     >
-      <Box w="auto" h="18.5625rem" rounded="xl" aspectRatio={1} py="10" px="14" alignSelf="center">
+      <Box
+        w="auto"
+        h="18.5625rem"
+        rounded="xl"
+        aspectRatio={1}
+        py={{ base: 0, sm: 0, md: 10 }}
+        px={{ base: 0, md: 14 }}
+        mt={{ base: 10, sm: 10, md: 0 }}
+        alignSelf="center"
+      >
         <Img w="auto" h="100%" src="/vehicle-nft.png" alt="vehicle nft" />
       </Box>
       <Flex
