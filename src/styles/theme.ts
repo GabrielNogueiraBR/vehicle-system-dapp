@@ -22,6 +22,10 @@ export const theme = extendTheme({
         bg: 'gray.100',
         color: 'dark',
       },
+      button: {
+        _hover: { transform: 'scale(1.08)' },
+        _active: { transform: 'scale(1)' },
+      },
     },
   },
   components: {
