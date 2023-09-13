@@ -23,7 +23,7 @@ const Sidebar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const { isOpen: isExpanded, onOpen: onExpand, onClose: onMinimize } = useDisclosure()
 
-  const isSmallScreen = useBreakpointValue({ sm: true, md: false })
+  const isSmallScreen = useBreakpointValue({ base: true, sm: true, md: false })
 
   if (isSmallScreen)
     return (
@@ -52,7 +52,7 @@ const Sidebar = () => {
     )
 
   return (
-    <Flex maxW="18rem" minH="100%" direction="column" gap="10" py={6} shadow="sm" bg="white">
+    <Flex maxW="18rem" minH="100vh" direction="column" gap="10" py={6} shadow="sm" bg="white">
       <SidebarHeader isExpanded={isExpanded} />
       <SidebarContent isExpanded={isExpanded} />
       <Spacer />

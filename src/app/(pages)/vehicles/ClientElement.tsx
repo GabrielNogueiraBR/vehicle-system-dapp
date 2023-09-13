@@ -24,7 +24,7 @@ const ClientElement = () => {
   if (isLoading) return <LoadingPage />
 
   return (
-    <Flex direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25" w="100%">
+    <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
       <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen}>
         Novo veículo
       </CreateButton>

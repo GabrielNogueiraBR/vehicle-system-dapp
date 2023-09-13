@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Tabs,
   TabList,
@@ -11,11 +11,6 @@ import {
   Spacer,
   TabIndicator,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
 } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
@@ -41,7 +36,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   return (
-    <Flex rounded="xl" w="100%" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
+    <Flex w="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
       <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
         <TabList display="flex" flexDirection="row" w="100%" bg="white" py="2">
           <Tab
@@ -72,40 +67,54 @@ const VehicleTabs = ({ tokenId }: Props) => {
           <CreateButton
             display={tabIndex === 0 ? 'flex' : 'none'}
             onClick={onOpenVehicleServiceModal}
+            hideTextOnSmallScreen
+            mr="4"
           >
             Cadastrar serviço
           </CreateButton>
-          <CreateButton display={tabIndex === 2 ? 'flex' : 'none'}>Solicitar contrato</CreateButton>
+          <CreateButton display={tabIndex === 2 ? 'flex' : 'none'} hideTextOnSmallScreen mr="4">
+            Solicitar contrato
+          </CreateButton>
         </TabList>
         <TabIndicator mt="-1.5px" height="2px" bg="primary" borderRadius="1px" />
         <TabPanels bg="gray.50">
-          <TabPanel p="0">
+          <TabPanel p="0" w="100%">
             <CustomDataTable
               columns={[
                 {
                   name: 'ID',
                   selector: (row) => row.id,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
                 {
                   name: 'Requisitado por',
                   selector: (row) => row.requester,
                   sortable: true,
+                  wrap: true,
+                  grow: 3,
                 },
                 {
                   name: 'Título',
                   selector: (row) => row.title,
                   sortable: true,
+                  wrap: true,
+                  grow: 2,
                 },
                 {
                   name: 'Preço',
                   selector: (row) => row.price,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
                 {
                   name: 'Data',
                   selector: (row) => row.date,
                   sortable: true,
+                  wrap: true,
+                  grow: 1,
                 },
               ]}
               data={services}
@@ -119,26 +128,36 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   name: 'ID',
                   selector: (row) => row.id,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
                 {
                   name: 'Dono do veículo',
                   selector: (row) => row.vehicleOwner,
                   sortable: true,
+                  wrap: true,
+                  grow: 3,
                 },
                 {
                   name: 'Seguradora',
                   selector: (row) => row.insurer,
                   sortable: true,
+                  wrap: true,
+                  grow: 3,
                 },
                 {
                   name: 'Descrição',
                   selector: (row) => row.description,
                   sortable: true,
+                  wrap: true,
+                  grow: 1,
                 },
                 {
                   name: 'Data do sinistro',
                   selector: (row) => row.accidentDate,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
               ]}
               data={accidents}
@@ -152,31 +171,43 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   name: 'ID',
                   selector: (row) => row.id,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
                 {
                   name: 'Requisitado por',
                   selector: (row) => row.requester,
                   sortable: true,
+                  wrap: true,
+                  grow: 3,
                 },
                 {
                   name: 'Seguradora',
                   selector: (row) => row.insurer,
                   sortable: true,
+                  wrap: true,
+                  grow: 3,
                 },
                 {
                   name: 'Início em',
                   selector: (row) => row.insuranceStartDate,
                   sortable: true,
+                  wrap: true,
+                  grow: 1,
                 },
                 {
                   name: 'Final em',
                   selector: (row) => row.insuranceEndDate,
                   sortable: true,
+                  wrap: true,
+                  grow: 1,
                 },
                 {
                   name: 'Contrato (link)',
                   selector: (row) => row.contractUrl,
                   sortable: true,
+                  wrap: true,
+                  grow: 0.5,
                 },
               ]}
               data={contracts}
