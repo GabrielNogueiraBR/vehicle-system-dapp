@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSigner } from '@usedapp/core'
 import contract from '@/lib/contract'
-import { VehicleContract } from '@/types/contract'
-import getContractsByTokenId from '@/utils/getContractsByTokenId'
+import { VehicleMetadata } from '@/types/contract'
+import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 
-const useVehicleContracts = (tokenId: string) => {
+const useVehicleMetadata = (tokenId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [contracts, setContracts] = useState<VehicleContract[]>([])
+  const [metadata, setMetadata] = useState<VehicleMetadata>()
 
   const signer = useSigner()
 
@@ -16,9 +16,8 @@ const useVehicleContracts = (tokenId: string) => {
     try {
       setIsLoading(true)
 
-      const data = await getContractsByTokenId({ tokenId, signer })
-
-      setContracts(data)
+      const data = await getVehicleNFTMetadataByTokenId({ tokenId, signer })
+      if (data) setMetadata(data)
     } catch (e) {
       console.error(e)
     } finally {
@@ -30,7 +29,7 @@ const useVehicleContracts = (tokenId: string) => {
     if (signer && contract) load()
   }, [signer, contract])
 
-  return { contracts, isLoading, load }
+  return { metadata, isLoading, load }
 }
 
-export default useVehicleContracts
+export default useVehicleMetadata

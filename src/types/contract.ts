@@ -40,3 +40,12 @@ export type VehicleContract = {
   createdAt: number
   updatedAt: number
 }
+
+export type VehicleMetadata = {
+  owner: string
+  vehicleRegistrationCode: string
+  carBrand: string
+  carModel: string
+  manufacturingDate: Date
+  vehicleOwnershipRecordIds: number[]
+}

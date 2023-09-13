@@ -2,6 +2,7 @@ import contract from '@/lib/contract'
 import { VehicleMetadata } from '@/types/contract'
 import { useSigner } from '@usedapp/core'
 import readContract from './readContract'
+import ownerOfTokenId from './ownerOfTokenId'
 
 type Params = {
   tokenId: string
@@ -20,24 +21,22 @@ const getVehicleNFTMetadataByTokenId = async ({ tokenId, signer }: Params) => {
 
     if (!response) throw Error('Error on get vehicle metadata')
 
+    const manufacturingDate = new Date(Number(response.manufacturingDate) * 1000)
+    const owner = await ownerOfTokenId({ tokenId, signer })
+
     const data: VehicleMetadata = {
+      owner: owner || '0x00',
       vehicleRegistrationCode: response.vehicleRegistrationCode,
       carBrand: response.carBrand,
       carModel: response.carModel,
-      manufacturingDate: Number(response.manufacturingDate),
+      manufacturingDate,
       vehicleOwnershipRecordIds: response.vehicleOwnershipRecordIds.map((id) => Number(id)),
     }
 
     return data
   } catch (e) {
     console.error(e)
-    return {
-      vehicleRegistrationCode: 'no code',
-      carBrand: 'no brand',
-      carModel: 'no model',
-      manufacturingDate: 0,
-      vehicleOwnershipRecordIds: [],
-    }
+    return null
   }
 }
 
