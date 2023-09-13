@@ -36,7 +36,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   return (
-    <Flex w="100%" maxW="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm">
+    <Flex w="100%" maxW="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
       <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
         <TabList w="100%" display="flex" flexDirection="row" bg="white" py="2">
           <Tab
