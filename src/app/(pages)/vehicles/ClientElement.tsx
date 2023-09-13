@@ -28,7 +28,7 @@ const ClientElement = () => {
       <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen}>
         Novo veículo
       </CreateButton>
-      <Flex flexFlow="row wrap" gap="4" display={hasVehicles ? 'flex' : 'none'}>
+      <Flex flexFlow="row wrap" gap="8" display={hasVehicles ? 'flex' : 'none'}>
         {vehiclesNfts.map((nft) => (
           <VehicleNFTCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
             <VehicleNFTCard.Icon status="nft" />
