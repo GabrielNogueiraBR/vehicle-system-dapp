@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Flex, Box } from '@chakra-ui/react'
+import { Flex, Box, Img } from '@chakra-ui/react'
 
 const VehicleInfo = () => {
   return (
@@ -14,16 +14,20 @@ const VehicleInfo = () => {
       bg="white"
       shadow="sm"
       w="100%"
-      p="6"
+      border="2px solid"
+      borderColor="secondary"
     >
       <Box
         flex={{ base: 'none', md: 1 }}
-        w={{ base: '50%', md: '100%' }}
-        bg="blue"
+        h="18.5625rem"
         rounded="xl"
         aspectRatio={1}
+        py="10"
+        px="14"
         alignSelf="center"
-      />
+      >
+        <Img w="auto" h="100%" src="/vehicle-nft.png" alt="vehicle nft" />
+      </Box>
       <Flex flex="4" direction="row" gap="2">
         teste
       </Flex>
