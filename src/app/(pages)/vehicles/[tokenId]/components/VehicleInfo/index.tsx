@@ -4,13 +4,17 @@ import React from 'react'
 import { Flex, Box, Img, Heading, HStack, VStack, Button } from '@chakra-ui/react'
 import useVehicleMetadata from '@/hooks/useVehicleMetadata'
 import Detail from './Detail'
+import useOwnerOfToken from '@/hooks/useOwnerOfToken'
 
 interface Props {
   tokenId: string
 }
 
 const VehicleInfo = ({ tokenId }: Props) => {
-  const { metadata, isLoading } = useVehicleMetadata(tokenId)
+  const { owner, isLoading: isOwnerLoading } = useOwnerOfToken(tokenId)
+  const { metadata, isLoading: isMetadataLoading } = useVehicleMetadata(tokenId)
+
+  const isLoading = isOwnerLoading || isMetadataLoading
 
   return (
     <Flex
@@ -69,7 +73,7 @@ const VehicleInfo = ({ tokenId }: Props) => {
           </Flex>
           <Flex direction="row" flex="1">
             <VStack flex="1" justify="center" align="flex-start" spacing="3">
-              <Detail title="Dono:" value={metadata?.owner} isLoading={isLoading} />
+              <Detail title="Dono:" value={owner} isLoading={isLoading} />
               <Detail
                 title="Renavam:"
                 value={metadata?.vehicleRegistrationCode}

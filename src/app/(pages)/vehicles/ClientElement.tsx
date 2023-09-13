@@ -44,8 +44,8 @@ const ClientElement = () => {
                 }
               />
               <VehicleNFTCard.Info.SubTitle>
-                <Text>{nft.vehicleMetadata.carModel}</Text>
-                <Text>{nft.vehicleMetadata.carBrand}</Text>
+                <Text>{nft.vehicleMetadata?.carModel}</Text>
+                <Text>{nft.vehicleMetadata?.carBrand}</Text>
               </VehicleNFTCard.Info.SubTitle>
             </VehicleNFTCard.Info.Root>
           </VehicleNFTCard.Root>

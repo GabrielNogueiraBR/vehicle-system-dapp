@@ -42,7 +42,6 @@ export type VehicleContract = {
 }
 
 export type VehicleMetadata = {
-  owner: string
   vehicleRegistrationCode: string
   carBrand: string
   carModel: string

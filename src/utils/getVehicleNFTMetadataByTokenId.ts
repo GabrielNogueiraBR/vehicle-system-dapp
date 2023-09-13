@@ -22,10 +22,8 @@ const getVehicleNFTMetadataByTokenId = async ({ tokenId, signer }: Params) => {
     if (!response) throw Error('Error on get vehicle metadata')
 
     const manufacturingDate = new Date(Number(response.manufacturingDate) * 1000)
-    const owner = await ownerOfTokenId({ tokenId, signer })
 
     const data: VehicleMetadata = {
-      owner: owner || '0x00',
       vehicleRegistrationCode: response.vehicleRegistrationCode,
       carBrand: response.carBrand,
       carModel: response.carModel,
@@ -36,7 +34,7 @@ const getVehicleNFTMetadataByTokenId = async ({ tokenId, signer }: Params) => {
     return data
   } catch (e) {
     console.error(e)
-    return null
+    return
   }
 }
 
