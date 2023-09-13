@@ -14,8 +14,8 @@ const Root = ({ tokenId, children, ...rest }: Props) => {
     <FramerMotionBox
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
-      whileHover={{ scale: 1.01 }}
-      whileTap={{ scale: 0.99 }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1. }}
       // @ts-ignore no problem in operation, although type error appears.
       transition={{
         type: 'spring',
