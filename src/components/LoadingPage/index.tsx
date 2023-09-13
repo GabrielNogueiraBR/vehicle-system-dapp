@@ -7,7 +7,7 @@ interface Props extends SpinnerProps {}
 
 const LoadingPage = ({ ...rest }: Props) => {
   return (
-    <Center w="100%">
+    <Center w="100%" h="100%">
       <Spinner
         thickness="5px"
         speed="0.65s"

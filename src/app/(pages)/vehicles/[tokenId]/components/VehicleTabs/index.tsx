@@ -76,7 +76,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
             Solicitar contrato
           </CreateButton>
         </TabList>
-        <TabIndicator w="100%" mt="-1.5px" height="2px" bg="primary" borderRadius="1px" />
         <TabPanels w="100%" bg="gray.50">
           <TabPanel p="0" w="100%">
             <CustomDataTable

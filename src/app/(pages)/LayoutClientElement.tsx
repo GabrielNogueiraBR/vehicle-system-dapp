@@ -13,7 +13,7 @@ const LayoutClientElement = ({ children }: { children: React.ReactNode }) => {
   return (
     <React.Fragment>
       <Sidebar />
-      <Flex flex="1" py="6" px={{ base: 4, md: 10 }}>
+      <Flex flex="1" direction='column' py="6" maxH='100vh' overflowY='auto' px={{ base: 4, md: 10 }}>
         {children}
       </Flex>
     </React.Fragment>
