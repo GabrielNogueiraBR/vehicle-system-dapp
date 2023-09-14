@@ -11,6 +11,10 @@ export const theme = extendTheme({
     'light-green': '#CBFFFA',
     'dark-green': '#03DCC7',
     'light-gray': '#7D7D7D',
+    'light-purple': '#DAD0F9',
+    light: '#FFFFFF',
+    'dark-purple': '#8B65D7',
+    background: '#EFF3FE',
   },
   fonts: {
     heading: montserrat.style.fontFamily,
@@ -19,7 +23,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'gray.100',
+        bg: 'background',
         color: 'dark',
       },
       button: {
