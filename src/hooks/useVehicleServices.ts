@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { VehicleService } from '@/types/contract'
 import { useSigner } from '@usedapp/core'
 import contract from '@/lib/contract'
+import { ethers } from 'ethers'
 
 const useVehicleServices = (tokenId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -34,7 +35,7 @@ const useVehicleServices = (tokenId: string) => {
             tokenId: Number(tokenId),
             title,
             description,
-            price: Number(price),
+            price: Number(ethers.utils.formatEther(price)),
             date: Number(date),
             createdAt: Number(createdAt),
           })

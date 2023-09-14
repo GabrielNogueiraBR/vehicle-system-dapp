@@ -1,17 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Flex,
-  Spacer,
-  TabIndicator,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, useDisclosure } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
@@ -24,7 +14,6 @@ interface Props {
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const [tabIndex, setTabIndex] = useState(0)
   const {
     isOpen: isVehicleServiceModalOpen,
     onOpen: onOpenVehicleServiceModal,
@@ -36,63 +25,68 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
 
   return (
-    <Flex w="100%" maxW="100%" rounded="xl" bg="white" paddingTop={2} shadow="sm" overflow="hidden">
-      <Tabs size="md" w="100%" onChange={(index) => setTabIndex(index)} variant="line">
-        <TabList w="100%" display="flex" flexDirection="row" bg="white" py="2">
+    <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
+      <Tabs size="md" w="100%" variant="line">
+        <TabList
+          w="100%"
+          display="flex"
+          flexDirection="row"
+          bg="white"
+          border="2px solid"
+          borderColor="primary"
+          roundedTop="xl"
+        >
           <Tab
-            _selected={{ color: 'primary' }}
+            _selected={{ color: 'white', bg: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'primary', transition: 'all 250ms' }}
+            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
+            py={3}
             fontWeight={600}
           >
             Serviços
           </Tab>
           <Tab
-            _selected={{ color: 'primary' }}
+            _selected={{ color: 'white', bg: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'primary', transition: 'all 250ms' }}
+            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
             fontWeight={600}
           >
             Sinistros
           </Tab>
           <Tab
-            _selected={{ color: 'primary' }}
+            _selected={{ color: 'white', bg: 'primary' }}
             _active={{ bg: 'transparent' }}
-            _hover={{ color: 'primary', transition: 'all 250ms' }}
+            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
             fontWeight={600}
           >
             Contratos
           </Tab>
-          <Spacer />
-          <CreateButton
-            display={tabIndex === 0 ? 'flex' : 'none'}
-            onClick={onOpenVehicleServiceModal}
-            hideTextOnSmallScreen
-            mr="4"
-          >
-            Cadastrar serviço
-          </CreateButton>
-          <CreateButton display={tabIndex === 2 ? 'flex' : 'none'} hideTextOnSmallScreen mr="4">
-            Solicitar contrato
-          </CreateButton>
         </TabList>
-        <TabPanels w="100%" bg="gray.50">
-          <TabPanel p="0" w="100%">
+        <TabPanels
+          w="100%"
+          bg="white"
+          roundedBottom="xl"
+          border="2px solid"
+          borderColor="light-purple"
+          borderTop="0"
+        >
+          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
+            <CreateButton
+              alignSelf="flex-end"
+              onClick={onOpenVehicleServiceModal}
+              mr="4"
+              hideTextOnSmallScreen
+            >
+              Cadastrar serviço
+            </CreateButton>
             <CustomDataTable
               columns={[
                 {
-                  name: 'ID',
+                  name: '#',
                   selector: (row) => row.id,
                   sortable: true,
                   wrap: true,
                   grow: 0.5,
-                },
-                {
-                  name: 'Requisitado por',
-                  selector: (row) => row.requester,
-                  sortable: true,
-                  wrap: true,
-                  grow: 3,
                 },
                 {
                   name: 'Título',
@@ -106,11 +100,18 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   selector: (row) => row.price,
                   sortable: true,
                   wrap: true,
-                  grow: 0.5,
+                  grow: 1,
                 },
                 {
                   name: 'Data',
                   selector: (row) => row.date,
+                  sortable: true,
+                  wrap: true,
+                  grow: 1,
+                },
+                {
+                  name: 'Status',
+                  selector: (row) => 'Pago',
                   sortable: true,
                   wrap: true,
                   grow: 1,
@@ -120,7 +121,10 @@ const VehicleTabs = ({ tokenId }: Props) => {
               progressPending={isLoadingServices}
             />
           </TabPanel>
-          <TabPanel p="0">
+          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
+            <CreateButton alignSelf="flex-end" mr="4" hideTextOnSmallScreen>
+              Cadastrar sinistro
+            </CreateButton>
             <CustomDataTable
               columns={[
                 {
@@ -163,7 +167,10 @@ const VehicleTabs = ({ tokenId }: Props) => {
               progressPending={isLoadingAccidents}
             />
           </TabPanel>
-          <TabPanel p="0">
+          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
+            <CreateButton alignSelf="flex-end" mr="4" hideTextOnSmallScreen>
+              Solicitar contrato
+            </CreateButton>
             <CustomDataTable
               columns={[
                 {
