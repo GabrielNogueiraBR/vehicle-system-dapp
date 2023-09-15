@@ -11,12 +11,25 @@ const LayoutClientElement = ({ children }: { children: React.ReactNode }) => {
   if (!account && !isLoading) redirect('/auth')
 
   return (
-    <React.Fragment>
+    <Flex
+      flex="1"
+      maxW="100vw"
+      maxH={{ base: '100%', sm: '100%', md: '100vh' }}
+      overflowY={{ base: 'auto', md: 'hidden' }}
+      direction={{ base: 'column', md: 'row' }}
+    >
       <Sidebar />
-      <Flex flex="1" direction="column" py="6" px={{ base: 4, md: 10 }}>
+      <Flex
+        flex="1"
+        direction="column"
+        py="6"
+        maxH={{ base: '100%', sm: '100%', md: '100vh' }}
+        overflowY={{ base: 'hidden', md: 'auto' }}
+        px={{ base: 4, md: 10 }}
+      >
         {children}
       </Flex>
-    </React.Fragment>
+    </Flex>
   )
 }
 
