@@ -129,7 +129,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   sortable: true,
                   wrap: true,
                   grow: 0.5,
-                  format: (row) => `${row.price} ETH`,
+                  format: (row) => `${parseFloat(row.price.toFixed(2))} ETH`,
                 },
                 {
                   name: 'Data',
