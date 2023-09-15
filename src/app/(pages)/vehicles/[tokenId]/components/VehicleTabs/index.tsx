@@ -94,6 +94,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
               Cadastrar serviço
             </CreateButton>
             <CustomDataTable
+              defaultSortFieldId="date"
+              defaultSortAsc={false}
               columns={[
                 {
                   name: '#',
@@ -138,6 +140,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   format: (row) => `${parseFloat(row.price.toFixed(2))} ETH`,
                 },
                 {
+                  id: 'date',
                   name: 'Data',
                   selector: (row) => row.date,
                   sortable: true,
@@ -179,6 +182,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
               Cadastrar sinistro
             </CreateButton>
             <CustomDataTable
+              defaultSortFieldId="date"
+              defaultSortAsc={false}
               columns={[
                 {
                   name: 'ID',
@@ -209,6 +214,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   grow: 1,
                 },
                 {
+                  id: 'date',
                   name: 'Data do sinistro',
                   selector: (row) => row.accidentDate,
                   sortable: true,
@@ -225,6 +231,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
               Solicitar contrato
             </CreateButton>
             <CustomDataTable
+              defaultSortFieldId="final_date"
+              defaultSortAsc={false}
               columns={[
                 {
                   name: 'ID',
@@ -255,6 +263,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   grow: 1,
                 },
                 {
+                  id: 'final_date',
                   name: 'Final em',
                   selector: (row) => row.insuranceEndDate,
                   sortable: true,
