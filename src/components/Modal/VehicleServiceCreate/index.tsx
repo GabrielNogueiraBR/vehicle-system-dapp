@@ -105,7 +105,9 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Cadastro Serviço de Manutenção</ModalHeader>
+        <ModalHeader>
+          {vehicleService ? 'Serviço de Manutenção' : 'Cadastro Serviço de Manutenção'}
+        </ModalHeader>
         <ModalBody>
           <Flex
             as="form"
