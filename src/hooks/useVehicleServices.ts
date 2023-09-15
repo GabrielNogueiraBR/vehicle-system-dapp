@@ -3,6 +3,7 @@ import { VehicleService } from '@/types/contract'
 import { useSigner } from '@usedapp/core'
 import contract from '@/lib/contract'
 import { ethers } from 'ethers'
+import getVehicleServiceRecordById from '@/utils/getVehicleServiceRecordById'
 
 const useVehicleServices = (tokenId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -24,21 +25,8 @@ const useVehicleServices = (tokenId: string) => {
 
       await Promise.all(
         servicesIds.map(async (id) => {
-          const tx = contract.connect(signer).getVehicleServiceRecordById(id)
-          const value = await tx
-
-          const { requester, tokenId, title, description, price, date, createdAt } = value
-
-          servicesList.push({
-            id,
-            requester,
-            tokenId: Number(tokenId),
-            title,
-            description,
-            price: Number(ethers.utils.formatEther(price)),
-            date: Number(date),
-            createdAt: Number(createdAt),
-          })
+          const vehicleService = await getVehicleServiceRecordById({ id, signer })
+          if (vehicleService) servicesList.push(vehicleService)
         })
       )
 
