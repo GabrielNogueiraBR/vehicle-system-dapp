@@ -1,13 +1,25 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, useDisclosure } from '@chakra-ui/react'
+import {
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  Flex,
+  useDisclosure,
+  Icon,
+  Button,
+} from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
 import CustomDataTable from '@/components/CustomDataTable'
 import CreateButton from '@/components/CreateButton'
 import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
+import { TbEye } from 'react-icons/tb'
+import BadgeStatus from '@/components/BadgeStatus'
 
 interface Props {
   tokenId: string
@@ -83,10 +95,26 @@ const VehicleTabs = ({ tokenId }: Props) => {
               columns={[
                 {
                   name: '#',
+                  center: true,
                   selector: (row) => row.id,
                   sortable: true,
                   wrap: true,
                   grow: 0.5,
+                  cell: (row) => (
+                    <Button
+                      colorScheme="none"
+                      bg="light-gray"
+                      p={0}
+                      m={0}
+                      w="8"
+                      h="8"
+                      minW={0}
+                      minH={0}
+                      aspectRatio={1}
+                    >
+                      <Icon as={TbEye} fontSize="xl" color="white" />
+                    </Button>
+                  ),
                 },
                 {
                   name: 'Título',
@@ -100,7 +128,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   selector: (row) => row.price,
                   sortable: true,
                   wrap: true,
-                  grow: 1,
+                  grow: 0.5,
+                  format: (row) => `${row.price} ETH`,
                 },
                 {
                   name: 'Data',
@@ -108,13 +137,21 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   sortable: true,
                   wrap: true,
                   grow: 1,
+                  format: (row) =>
+                    new Intl.DateTimeFormat('pt-BR', {
+                      timeZone: 'UTC',
+                      month: 'long',
+                      year: 'numeric',
+                      day: '2-digit',
+                    }).format(new Date(row.date * 1000)),
                 },
                 {
                   name: 'Status',
-                  selector: (row) => 'Pago',
+                  selector: (row) => row.id,
                   sortable: true,
                   wrap: true,
-                  grow: 1,
+                  grow: 0.8,
+                  cell: (row) => <BadgeStatus status={row.id % 2 === 0 ? 'payed' : 'insured'} />,
                 },
               ]}
               data={services}
