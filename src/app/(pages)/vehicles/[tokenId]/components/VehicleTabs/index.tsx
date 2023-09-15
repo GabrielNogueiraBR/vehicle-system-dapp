@@ -160,17 +160,17 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   sortable: true,
                   wrap: true,
                   grow: 0.8,
-                  cell: (row) => (
-                    <BadgeStatus
-                      status={
-                        contracts.some((contract) =>
-                          contract.vehicleServicesIds.some((id) => id === row.id)
-                        )
-                          ? 'insured'
-                          : 'payed'
-                      }
-                    />
-                  ),
+                  cell: (row) => {
+                    const isInsured = contracts.some((contract) =>
+                      contract.vehicleServicesIds.some((id) => id === row.id)
+                    )
+
+                    return (
+                      <BadgeStatus theme={isInsured ? 'purple' : 'green'}>
+                        {isInsured ? 'Assegurado' : 'Pago'}
+                      </BadgeStatus>
+                    )
+                  },
                 },
               ]}
               data={services}

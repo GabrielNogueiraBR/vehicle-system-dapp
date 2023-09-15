@@ -4,15 +4,14 @@ import React, { useMemo } from 'react'
 import { Circle, Flex, FlexProps, Text } from '@chakra-ui/react'
 
 interface BadgeStatusProps extends FlexProps {
-  status: 'payed' | 'insured'
+  theme: 'green' | 'purple'
+  children?: React.ReactNode
 }
 
-const BadgeStatus = ({ status, ...rest }: BadgeStatusProps) => {
-  const statusText = useMemo(() => (status === 'payed' ? 'Pago' : 'Assegurado'), [status])
-
-  const color = status === 'payed' ? 'dark-green' : 'primary'
-  const borderColor = status === 'payed' ? 'dark-green' : 'primary'
-  const backgroundColor = status === 'payed' ? 'light-green' : 'light-purple'
+const BadgeStatus = ({ theme, children, ...rest }: BadgeStatusProps) => {
+  const color = theme === 'green' ? 'dark-green' : 'primary'
+  const borderColor = theme === 'green' ? 'dark-green' : 'primary'
+  const backgroundColor = theme === 'green' ? 'light-green' : 'light-purple'
 
   return (
     <Flex
@@ -32,7 +31,7 @@ const BadgeStatus = ({ status, ...rest }: BadgeStatusProps) => {
     >
       <Circle size="0.6875rem" bg={color} />
       <Text fontSize="1rem" fontWeight={700} lineHeight="150%">
-        {statusText}
+        {children}
       </Text>
     </Flex>
   )
