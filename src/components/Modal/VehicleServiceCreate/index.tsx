@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Modal,
   ModalProps,
@@ -26,6 +26,7 @@ import { useForm } from 'react-hook-form'
 import { AutoResizeTextarea } from '@/components/AutoResizeTextarea'
 import { ethers } from 'ethers'
 import { BLOCK_EXPLORER } from '@/constants/web3'
+import { VehicleService } from '@/types/contract'
 
 type FormValue = {
   title: string
@@ -36,10 +37,11 @@ type FormValue = {
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
+  vehicleService?: VehicleService
   onCreate?: () => void
 }
 
-const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
+const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest }: Props) => {
   const { addVehicleServiceRecord } = useWeb3()
   const toast = useToast()
   const {
@@ -124,11 +126,13 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                 <Input
                   id="title"
                   placeholder="Insira o título..."
+                  value={vehicleService ? vehicleService.title : undefined}
                   {...register('title', {
                     required: 'Campo obrigatório',
                     minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                   })}
                   disabled={isSubmitting}
+                  isReadOnly={!!vehicleService}
                 />
                 <FormErrorMessage>{errors.title && errors.title.message}</FormErrorMessage>
               </FormControl>
@@ -140,12 +144,14 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                     id="price"
                     type="number"
                     step="0.001"
+                    value={vehicleService ? vehicleService.price : undefined}
                     placeholder="Insira o preço..."
                     {...register('price', {
                       required: 'Campo obrigatório',
                       min: 0,
                     })}
                     disabled={isSubmitting}
+                    isReadOnly={!!vehicleService}
                   />
                   <InputRightAddon>ETH</InputRightAddon>
                 </InputGroup>
@@ -157,10 +163,16 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
               <FormLabel htmlFor="date">Data</FormLabel>
               <Input
                 id="date"
-                type="datetime-local"
+                type="date"
                 placeholder="Insira a data..."
-                {...register('date', { required: 'Campo obrigatório' })}
+                value={
+                  vehicleService
+                    ? new Date(vehicleService.date * 1000).toISOString().slice(0, 10)
+                    : undefined
+                }
+                {...register('date', { valueAsDate: true, required: 'Campo obrigatório' })}
                 disabled={isSubmitting}
+                isReadOnly={!!vehicleService}
               />
             </FormControl>
 
@@ -170,11 +182,13 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
                 id="description"
                 placeholder="Insira a descrição..."
                 minRows={2}
+                value={vehicleService ? vehicleService.description : undefined}
                 {...register('description', {
                   required: 'Campo obrigatório',
                   minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                 })}
                 disabled={isSubmitting}
+                isReadOnly={!!vehicleService}
               />
               <FormErrorMessage>
                 {errors.description && errors.description.message}
@@ -182,10 +196,28 @@ const VehicleServiceCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
             </FormControl>
 
             <ButtonGroup mt={4} justifySelf="flex-end" alignSelf="flex-end" spacing={4}>
-              <Button onClick={rest.onClose} isDisabled={isSubmitting}>
+              <Button
+                onClick={rest.onClose}
+                variant="outline"
+                colorScheme="purple"
+                display={vehicleService ? 'flex' : 'none'}
+                px="12"
+              >
+                OK
+              </Button>
+              <Button
+                onClick={rest.onClose}
+                isDisabled={isSubmitting}
+                display={vehicleService ? 'none' : 'flex'}
+              >
                 Cancelar
               </Button>
-              <Button colorScheme="purple" isLoading={isSubmitting} type="submit">
+              <Button
+                colorScheme="purple"
+                isLoading={isSubmitting}
+                type="submit"
+                display={vehicleService ? 'none' : 'flex'}
+              >
                 Enviar
               </Button>
             </ButtonGroup>

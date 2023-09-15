@@ -1,10 +1,12 @@
 'use client'
 
 import React from 'react'
-import { Textarea, forwardRef } from '@chakra-ui/react'
+import { Textarea, TextareaProps, forwardRef } from '@chakra-ui/react'
 import ResizeTextarea, { TextareaAutosizeProps } from 'react-textarea-autosize'
 
-export const AutoResizeTextarea = forwardRef<TextareaAutosizeProps, 'textarea'>((props, ref) => {
+type Props = TextareaAutosizeProps | TextareaProps
+
+export const AutoResizeTextarea = forwardRef<Props, 'textarea'>((props, ref) => {
   return (
     <Textarea
       minH="unset"

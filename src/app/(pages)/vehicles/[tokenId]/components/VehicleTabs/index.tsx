@@ -32,6 +32,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
     onClose: onCloseVehicleServiceModal,
   } = useDisclosure()
 
+  const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
+
   const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
   const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
   const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
@@ -111,6 +113,10 @@ const VehicleTabs = ({ tokenId }: Props) => {
                       minW={0}
                       minH={0}
                       aspectRatio={1}
+                      onClick={() => {
+                        setVehicleServiceViewId(row.id)
+                        onOpenVehicleServiceModal()
+                      }}
                     >
                       <Icon as={TbEye} fontSize="xl" color="white" />
                     </Button>
@@ -261,8 +267,14 @@ const VehicleTabs = ({ tokenId }: Props) => {
       </Tabs>
       <VehicleServiceCreateModal
         tokenId={tokenId}
+        vehicleService={
+          vehicleServiceViewId ? services.find((s) => s.id === vehicleServiceViewId) : undefined
+        }
         isOpen={isVehicleServiceModalOpen}
-        onClose={onCloseVehicleServiceModal}
+        onClose={() => {
+          onCloseVehicleServiceModal()
+          setVehicleServiceViewId(undefined)
+        }}
         onCreate={loadServices}
       />
     </Flex>
