@@ -119,7 +119,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
               justifyContent="flex-start"
               w="100%"
               gap={{ base: '4', md: '2' }}
-              alignItems="center"
+              alignItems="flex-start"
             >
               <FormControl isInvalid={!!errors.title}>
                 <FormLabel htmlFor="title">Título</FormLabel>
