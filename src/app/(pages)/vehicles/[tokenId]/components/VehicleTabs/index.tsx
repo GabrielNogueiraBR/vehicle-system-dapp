@@ -268,7 +268,9 @@ const VehicleTabs = ({ tokenId }: Props) => {
       <VehicleServiceCreateModal
         tokenId={tokenId}
         vehicleService={
-          vehicleServiceViewId ? services.find((s) => s.id === vehicleServiceViewId) : undefined
+          vehicleServiceViewId !== undefined
+            ? services.find((s) => s.id === vehicleServiceViewId)
+            : undefined
         }
         isOpen={isVehicleServiceModalOpen}
         onClose={() => {
