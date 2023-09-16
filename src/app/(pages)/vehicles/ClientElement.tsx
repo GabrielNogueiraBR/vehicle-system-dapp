@@ -7,7 +7,7 @@ import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
 import VehicleCard from '@/components/VehicleCard'
-import { InsuranceStatus } from '@/types/contract'
+import { InsuranceStatus, Status } from '@/types/contract'
 
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import useVehiclesRequests from '@/hooks/useVehicleRequests'
@@ -32,6 +32,26 @@ const ClientElement = () => {
         Novo veículo
       </CreateButton>
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
+        {vehiclesRequests.map((request) => {
+          const theme = request.status === Status.PENDING ? 'request-pending' : 'request-approved'
+
+          return (
+            <VehicleCard.Root theme={theme} key={request.id}>
+              <VehicleCard.Icon theme={theme} />
+              <VehicleCard.Info.Root>
+                <VehicleCard.Info.Title>{request.vehicleRegistrationCode}</VehicleCard.Info.Title>
+                <VehicleCard.Info.SubTitle>
+                  <Text>
+                    {request.status === Status.PENDING
+                      ? 'Solicitação em aberto'
+                      : 'Solicitação aprovada'}
+                  </Text>
+                </VehicleCard.Info.SubTitle>
+              </VehicleCard.Info.Root>
+            </VehicleCard.Root>
+          )
+        })}
+
         {vehiclesNfts.map((nft) => (
           <VehicleCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
             <VehicleCard.Icon theme="NFT" />

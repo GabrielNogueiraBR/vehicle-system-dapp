@@ -56,6 +56,7 @@ const useVehiclesRequests = () => {
             }
 
             const vehicleRequest: VehicleRequest = {
+              id: Number(requestId),
               requester,
               agent,
               vehicleRegistrationCode,

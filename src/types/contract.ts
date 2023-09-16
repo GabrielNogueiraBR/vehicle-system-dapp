@@ -29,6 +29,7 @@ export type VehicleRequestData = {
 }
 
 export type VehicleRequest = {
+  id: number
   requester: string
   agent: string
   vehicleRegistrationCode: string
