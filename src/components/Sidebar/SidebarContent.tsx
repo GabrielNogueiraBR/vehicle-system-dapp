@@ -7,8 +7,15 @@ import { NavLink } from './NavLink'
 import { RiShakeHandsLine } from 'react-icons/ri'
 import VehicleOcta from '../Icons/VehicleOcta'
 import HomeRounded from '../Icons/HomeRounded'
-import ProfileRounded from '../Icons/ProfileRounded'
 import { usePathname } from 'next/navigation'
+import VehicleRequest from '../Assets/VehicleRequest'
+
+type LinkInfo = {
+  role: 'user' | 'agent' | 'insurer'
+  title: string
+  icon: React.ElementType
+  href: string
+}
 
 interface SidebarContentProps {
   isExpanded?: boolean
@@ -20,12 +27,29 @@ interface SidebarContentProps {
 const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) => {
   const pathname = usePathname()
 
-  const links: { title: string; icon: React.ElementType; href: string }[] = useMemo(
+  const links: LinkInfo[] = useMemo(
     () => [
-      { title: 'Início', icon: HomeRounded, href: '/home' },
-      { title: 'Meus Veículos', icon: VehicleOcta, href: '/vehicles' },
-      { title: 'Meus Contratos', icon: RiShakeHandsLine, href: '/contracts' },
-      { title: 'Perfil', icon: ProfileRounded, href: '/profile' },
+      { title: 'Início', icon: HomeRounded, href: '/home', role: 'user' },
+      { title: 'Meus Veículos', icon: VehicleOcta, href: '/vehicles', role: 'user' },
+      { title: 'Meus Contratos', icon: RiShakeHandsLine, href: '/contracts', role: 'user' },
+      {
+        title: 'Solicitações de Veículos',
+        icon: VehicleRequest,
+        href: '/contracts',
+        role: 'agent',
+      },
+      {
+        title: 'Contratos de veículos',
+        icon: RiShakeHandsLine,
+        href: '/contracts',
+        role: 'insurer',
+      },
+      {
+        title: 'Solicitações de contratos',
+        icon: RiShakeHandsLine,
+        href: '/contracts',
+        role: 'insurer',
+      },
     ],
     []
   )
