@@ -96,7 +96,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
   }
 
   return (
-    <Modal closeOnEsc={!isSubmitting} closeOnOverlayClick={!isSubmitting} {...rest}>
+    <Modal closeOnEsc={false} closeOnOverlayClick={false} {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{vehicleService ? 'Serviço de Manutenção' : 'Adicionar Serviço'}</ModalHeader>
