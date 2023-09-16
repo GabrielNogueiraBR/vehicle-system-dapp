@@ -33,7 +33,10 @@ export const ModalStyle: ComponentStyleConfig = {
       fontWeight: 500,
     },
     closeButton: {},
-    footer: {},
+    footer: {
+      p: '2.5rem 0 0 0',
+      m: 0,
+    },
   },
   defaultProps: { size: '2xl', isCentered: true },
 }

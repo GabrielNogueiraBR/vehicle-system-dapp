@@ -35,6 +35,7 @@ const Root = ({ tokenId, theme = 'NFT', children, ...rest }: Props) => {
         p="7px"
         shadow="xl"
         cursor="pointer"
+        userSelect={'none'}
         {...rest}
       >
         <Flex rounded="xl" bg="white" direction="column" justify="center" align="center" p="6">

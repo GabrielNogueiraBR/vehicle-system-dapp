@@ -1,6 +1,6 @@
 'use client'
 
-import { VehicleRequest, VehicleRequestData } from '@/types/contract'
+import { Status, VehicleRequest, VehicleRequestData } from '@/types/contract'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
@@ -45,6 +45,8 @@ const useVehiclesRequests = () => {
               createdAt,
               updatedAt,
             } = data
+
+            if (status === Status.COMPLETED) return Promise.resolve()
 
             const { carBrand, carModel, manufacturingDate, vehicleOwnershipRecordIds } =
               blockchainVehicleData
