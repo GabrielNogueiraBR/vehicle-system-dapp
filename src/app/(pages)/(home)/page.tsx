@@ -1,19 +1,9 @@
 'use client'
 
-import { Button, Divider, Flex, FormControl, FormLabel, Input, Text } from '@chakra-ui/react'
+import { Center, Flex } from '@chakra-ui/react'
 import ConnectButton from '@/components/ConnectButton'
-import { useState } from 'react'
-import { useWeb3 } from '@/contexts/Web3Context'
-import { TransactionState } from '@usedapp/core'
 
 export default function Home() {
-  const { userRegistration, defineDriverLicenseCode } = useWeb3()
-
-  const [userRegistrationInput, setUserRegistrationInput] = useState('')
-  const [cnhDefinitionInput, setCnhDefinitionInput] = useState('')
-
-  const loadingStates: TransactionState[] = ['Mining', 'PendingSignature']
-
   return (
     <Flex
       flex="1"
@@ -25,45 +15,9 @@ export default function Home() {
       gap="4"
       paddingTop="4"
     >
-      <ConnectButton />
-      <Divider />
-      <Flex direction="column" gap="4" minW="120px">
-        <FormControl>
-          <FormLabel>User Registration</FormLabel>
-          <Input
-            type="text"
-            value={userRegistrationInput}
-            onChange={(e) => setUserRegistrationInput(e.target.value)}
-          />
-        </FormControl>
-        <Button
-          colorScheme="purple"
-          onClick={() => userRegistration.send({ driverLicenseCode: userRegistrationInput })}
-          isLoading={loadingStates.includes(userRegistration.state.status)}
-        >
-          Send
-        </Button>
-        <Text>Status: {userRegistration.state.status}</Text>
-      </Flex>
-      <Divider />
-      <Flex direction="column" gap="4" minW="120px">
-        <FormControl>
-          <FormLabel>CNH User Definition</FormLabel>
-          <Input
-            type="text"
-            value={cnhDefinitionInput}
-            onChange={(e) => setCnhDefinitionInput(e.target.value)}
-          />
-        </FormControl>
-        <Button
-          colorScheme="purple"
-          onClick={() => defineDriverLicenseCode.send({ driverLicenseCode: cnhDefinitionInput })}
-          isLoading={loadingStates.includes(defineDriverLicenseCode.state.status)}
-        >
-          Send
-        </Button>
-        <Text>Status: {defineDriverLicenseCode.state.status}</Text>
-      </Flex>
+      <Center flex="1">
+        <ConnectButton />
+      </Center>
     </Flex>
   )
 }

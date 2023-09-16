@@ -12,7 +12,7 @@ const AuthPage = () => {
   if (account && !isLoading) redirect('/home')
 
   return (
-    <Center flex="1" w="100%">
+    <Center flex="1" w="100%" h="100%">
       <Flex
         direction="column"
         justify="center"
