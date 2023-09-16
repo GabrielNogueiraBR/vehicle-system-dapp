@@ -1,23 +1,27 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { Center, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
 import VehicleCard from '@/components/VehicleCard'
-import { InsuranceStatus, Status } from '@/types/contract'
+import { InsuranceStatus, Status, VehicleRequest } from '@/types/contract'
 
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import useVehiclesRequests from '@/hooks/useVehicleRequests'
+import VehicleRequestModal from '@/components/Modal/VehicleRequest'
 
 const ClientElement = () => {
+  const vehicleRequestRef = useRef<VehicleRequest | undefined>(undefined)
+
   const {
     vehiclesNfts,
     isLoading: isLoadingVehiclesNFTs,
     load: loadVehiclesNFTs,
   } = useVehicleNFTs()
+
   const {
     vehiclesRequests,
     isLoading: isLoadingVehiclesRequests,
@@ -25,18 +29,32 @@ const ClientElement = () => {
   } = useVehiclesRequests()
 
   const {
-    isOpen: isVehicleRequestModalOpen,
-    onOpen: onVehicleRequestModalOpen,
-    onClose: onVehicleRequestModalClose,
+    isOpen: isVehicleRequestCreateModalOpen,
+    onOpen: onVehicleRequestCreateModalOpen,
+    onClose: onVehicleRequestCreateModalClose,
   } = useDisclosure()
 
-  const isLoading = isLoadingVehiclesNFTs || isLoadingVehiclesRequests
+  const {
+    isOpen: isVehicleRequestViewModalOpen,
+    onOpen: onVehicleRequestViewModalOpen,
+    onClose: onVehicleRequestViewModalClose,
+  } = useDisclosure()
 
+  const handleVehicleRequestClick = (vehicleRequest: VehicleRequest) => {
+    vehicleRequestRef.current = vehicleRequest
+    onVehicleRequestViewModalOpen()
+  }
+
+  const isLoading = isLoadingVehiclesNFTs || isLoadingVehiclesRequests
   const hasContent = !!vehiclesNfts.length || !!vehiclesRequests.length
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
-      <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen} isDisabled={isLoading}>
+      <CreateButton
+        alignSelf="flex-end"
+        onClick={onVehicleRequestCreateModalOpen}
+        isDisabled={isLoading}
+      >
         Novo veículo
       </CreateButton>
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
@@ -44,7 +62,11 @@ const ClientElement = () => {
           const theme = request.status === Status.PENDING ? 'request-pending' : 'request-approved'
 
           return (
-            <VehicleCard.Root theme={theme} key={request.id}>
+            <VehicleCard.Root
+              theme={theme}
+              key={request.id}
+              onClick={() => handleVehicleRequestClick(request)}
+            >
               <VehicleCard.Icon theme={theme} />
               <VehicleCard.Info.Root>
                 <VehicleCard.Info.Title>{request.vehicleRegistrationCode}</VehicleCard.Info.Title>
@@ -96,11 +118,17 @@ const ClientElement = () => {
         <Heading as="h3">Sem veículos cadastrados</Heading>
       </Center>
 
-
       <VehicleRequestCreateModal
-        isOpen={isVehicleRequestModalOpen}
-        onClose={onVehicleRequestModalClose}
+        isOpen={isVehicleRequestCreateModalOpen}
+        onClose={onVehicleRequestCreateModalClose}
         onCreate={() => loadVehiclesRequests()}
+      />
+
+      <VehicleRequestModal
+        isOpen={isVehicleRequestViewModalOpen}
+        onClose={onVehicleRequestViewModalClose}
+        vehicleRequest={vehicleRequestRef.current}
+        onCreateVehicle={() => loadVehiclesNFTs()}
       />
     </Flex>
   )
