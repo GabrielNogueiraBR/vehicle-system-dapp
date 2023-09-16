@@ -99,9 +99,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
     <Modal closeOnEsc={!isSubmitting} closeOnOverlayClick={!isSubmitting} {...rest}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>
-          {vehicleService ? 'Serviço de Manutenção' : 'Adicionar Serviço'}
-        </ModalHeader>
+        <ModalHeader>{vehicleService ? 'Serviço de Manutenção' : 'Adicionar Serviço'}</ModalHeader>
         <ModalBody>
           <Flex
             as="form"
@@ -202,6 +200,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
                 OK
               </Button>
               <Button
+                variant="cancel"
                 onClick={rest.onClose}
                 isDisabled={isSubmitting}
                 display={vehicleService ? 'none' : 'flex'}
@@ -210,6 +209,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
               </Button>
               <Button
                 colorScheme="purple"
+                variant="outline"
                 isLoading={isSubmitting}
                 type="submit"
                 display={vehicleService ? 'none' : 'flex'}

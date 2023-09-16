@@ -90,11 +90,7 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
   }
 
   return (
-    <Modal
-      closeOnEsc={!isSubmitting}
-      closeOnOverlayClick={!isSubmitting}
-      {...rest}
-    >
+    <Modal closeOnEsc={!isSubmitting} closeOnOverlayClick={!isSubmitting} {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Solicitação de veículo</ModalHeader>
@@ -138,7 +134,7 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
             </FormControl>
 
             <ButtonGroup mt={4} justifySelf="flex-end" alignSelf="flex-end" spacing={4}>
-              <Button onClick={rest.onClose} isDisabled={isSubmitting}>
+              <Button onClick={rest.onClose} isDisabled={isSubmitting} variant="cancel">
                 Cancelar
               </Button>
               <Button colorScheme="purple" isLoading={isSubmitting} type="submit">
