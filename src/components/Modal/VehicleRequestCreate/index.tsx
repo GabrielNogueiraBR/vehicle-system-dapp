@@ -75,11 +75,11 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
           duration: 7000,
           position: 'top-right',
         }),
-        error: (e) => ({
+        error: {
           title: 'Erro ao cadastrar solicitação de veículo',
           position: 'top-right',
-        }),
-        loading: { title: 'Cadastrando...' },
+        },
+        loading: { title: 'Cadastrando veículo...' },
       })
 
       rest.onClose()
