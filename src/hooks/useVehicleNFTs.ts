@@ -1,3 +1,5 @@
+'use client'
+
 import { GetNftsForAddressResponse } from '@/app/api/vehicles/[address]/get'
 import api from '@/services/api'
 import { VehicleNFT } from '@/types'

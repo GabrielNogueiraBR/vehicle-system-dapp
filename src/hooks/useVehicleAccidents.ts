@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { useSigner } from '@usedapp/core'
 import contract from '@/lib/contract'

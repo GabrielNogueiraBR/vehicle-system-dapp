@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { VehicleService } from '@/types/contract'
 import { useSigner } from '@usedapp/core'
