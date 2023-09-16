@@ -1,6 +1,41 @@
+export enum Status {
+  PENDING,
+  APPROVED,
+  COMPLETED,
+  CANCEL,
+}
+
 export enum InsuranceStatus {
   ACTIVE = 'ACTIVE',
   EXPIRED = 'EXPIRED',
+}
+
+export type VehicleOwnershipRecord = {
+  driverLicenseCode: string
+  federalUnit: string
+  county: string
+  vehiclePlate: string
+  year: string
+  startDate: Date
+  endDate: Date
+}
+
+export type VehicleRequestData = {
+  carBrand: string
+  carModel: string
+  manufacturingDate: Date
+  vehicleOwnershipRecordIds: number[]
+  vehicleOwnershipRecords?: VehicleOwnershipRecord[]
+}
+
+export type VehicleRequest = {
+  requester: string
+  agent: string
+  vehicleRegistrationCode: string
+  vehicleData: VehicleRequestData
+  status: Status
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type VehicleService = {

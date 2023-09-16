@@ -13,11 +13,10 @@ const useVehicleNFTs = () => {
   const signer = useSigner()
 
   const [vehiclesNfts, setVehiclesNfts] = useState<VehicleNFT[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const loadVehiclesByAddress = async (address: string) => {
     try {
-      if (isLoading) return
       setIsLoading(true)
 
       const response = await api.get<GetNftsForAddressResponse>(`/vehicles/${address}`)
