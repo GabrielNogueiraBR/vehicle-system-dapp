@@ -24,6 +24,7 @@ import { useWeb3 } from '@/contexts/Web3Context'
 import { useForm } from 'react-hook-form'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 import useReadContract from '@/hooks/useReadContract'
+import { TransactionReceipt } from 'alchemy-sdk'
 
 type FormValue = {
   agent: string
@@ -51,35 +52,40 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
     try {
       const { agent, renavam: vehicleRegistrationCode } = data
 
-      const receipt = await createVehicleRequest.send(agent, vehicleRegistrationCode)
+      const promise = new Promise<TransactionReceipt | undefined>(async (resolve, reject) => {
+        const receipt = await createVehicleRequest.send(agent, vehicleRegistrationCode)
+        if (receipt?.status !== 1) reject(receipt)
+        resolve(receipt)
+      })
 
-      if (receipt?.status !== 1) throw new Error('Erro ao cadastrar solicitação de veículo')
-      const href = `${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`
-
-      toast({
-        title: 'Sucesso ao cadastrar solicitação de veículo',
-        description: (
-          <Text>
-            Para consultar a transação{' '}
-            <Link href={href} target="_blank">
-              clique aqui
-            </Link>{' '}
-          </Text>
-        ),
-        duration: 7000,
-        position: 'top-right',
-        status: 'success',
+      toast.promise(promise, {
+        success: (receipt) => ({
+          title: 'Sucesso ao cadastrar solicitação de veículo',
+          description: (
+            <Text>
+              Para consultar a transação{' '}
+              <Link
+                href={`${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`}
+                target="_blank"
+              >
+                clique aqui
+              </Link>{' '}
+            </Text>
+          ),
+          duration: 7000,
+          position: 'top-right',
+        }),
+        error: (e) => ({
+          title: 'Erro ao cadastrar solicitação de veículo',
+          position: 'top-right',
+        }),
+        loading: { title: 'Cadastrando...' },
       })
 
       rest.onClose()
       if (onCreate) onCreate()
     } catch (e) {
       console.error(e)
-      toast({
-        title: 'Erro ao cadastrar solicitação de veículo',
-        position: 'top-right',
-        status: 'error',
-      })
     }
   }
 
@@ -90,10 +96,10 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
   }
 
   return (
-    <Modal closeOnEsc={!isSubmitting} closeOnOverlayClick={!isSubmitting} {...rest}>
+    <Modal size="3xl" {...rest}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Solicitação de veículo</ModalHeader>
+        <ModalHeader>Solicitação da criação do veiculo</ModalHeader>
         <ModalBody>
           <Flex
             as="form"

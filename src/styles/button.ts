@@ -8,6 +8,7 @@ export const ButtonStyle: ComponentStyleConfig = {
       fontSize: '1.125rem',
       fontWeight: 600,
       border: '2px solid',
+      px: '2.5rem',
     },
     primary: {
       bg: 'white',
@@ -25,6 +26,7 @@ export const ButtonStyle: ComponentStyleConfig = {
       color: 'white',
       fontSize: '1.125rem',
       fontWeight: 600,
+      px: '2.5rem',
     },
   },
 }
