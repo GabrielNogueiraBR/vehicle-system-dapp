@@ -34,7 +34,7 @@ const ClientElement = () => {
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
         {vehiclesNfts.map((nft) => (
           <VehicleCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
-            <VehicleCard.Icon status="nft" />
+            <VehicleCard.Icon theme="NFT" />
             <VehicleCard.Info.Root>
               <VehicleCard.Info.Title>
                 Token #{nft.tokenId.toString().padStart(3, '0')}
