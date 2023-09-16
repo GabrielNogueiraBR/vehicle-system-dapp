@@ -1,7 +1,6 @@
 'use client'
 
-import { Center, Flex } from '@chakra-ui/react'
-import ConnectButton from '@/components/ConnectButton'
+import { Button, Flex, Heading, Link } from '@chakra-ui/react'
 
 export default function Home() {
   return (
@@ -10,14 +9,15 @@ export default function Home() {
       w="100%"
       h="100%"
       direction="column"
-      justify="flex-start"
+      justify="center"
       align="center"
       gap="4"
       paddingTop="4"
     >
-      <Center flex="1">
-        <ConnectButton />
-      </Center>
+      <Heading>Entrar na plataforma</Heading>
+      <Link href="/home">
+        <Button colorScheme="green">Entrar</Button>
+      </Link>
     </Flex>
   )
 }
