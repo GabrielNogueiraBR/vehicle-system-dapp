@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { Center, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react'
-import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
@@ -10,8 +9,12 @@ import NoVehicles from '@/components/Assets/NoVehicles'
 import VehicleNFTCard from '@/components/VehicleNFTCard'
 import { InsuranceStatus } from '@/types/contract'
 
+import useVehicleNFTs from '@/hooks/useVehicleNFTs'
+import useVehiclesRequests from '@/hooks/useVehicleRequests'
+
 const ClientElement = () => {
-  const { vehiclesNfts, isLoading } = useVehicleNFTs()
+  const { vehiclesNfts, isLoading: isLoadingVehiclesNFTs } = useVehicleNFTs()
+  const { vehiclesRequests, isLoading: isLoadingVehiclesRequests } = useVehiclesRequests()
 
   const {
     isOpen: isVehicleRequestModalOpen,
@@ -19,16 +22,17 @@ const ClientElement = () => {
     onClose: onVehicleRequestModalClose,
   } = useDisclosure()
 
-  const hasVehicles = !!vehiclesNfts.length || true
+  const isLoading = isLoadingVehiclesNFTs || isLoadingVehiclesRequests
 
-  if (isLoading) return <LoadingPage />
+  const hasContent = !!vehiclesNfts.length || !!vehiclesRequests.length
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
-      <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen}>
+      <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen} isDisabled={isLoading}>
         Novo veículo
       </CreateButton>
-      <Flex flexFlow="row wrap" gap="8" display={hasVehicles ? 'flex' : 'none'}>
+
+      <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
         {vehiclesNfts.map((nft) => (
           <VehicleNFTCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
             <VehicleNFTCard.Icon status="nft" />
@@ -52,10 +56,12 @@ const ClientElement = () => {
         ))}
       </Flex>
 
+      <LoadingPage display={isLoading ? 'flex' : 'none'} />
+
       <Center
         flexDirection="column"
         w="100%"
-        display={hasVehicles ? 'none' : 'flex'}
+        display={!isLoading && !hasContent ? 'flex' : 'none'}
         mt="16"
         gap="4"
       >
