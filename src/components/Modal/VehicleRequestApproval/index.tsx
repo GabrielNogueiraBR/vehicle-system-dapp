@@ -11,11 +11,35 @@ import {
   Button,
   ButtonGroup,
   ModalFooter,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+  Text,
+  VStack,
+  Icon,
+  IconButton,
 } from '@chakra-ui/react'
-import { useForm } from 'react-hook-form'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { Status, VehicleRequest } from '@/types/contract'
+import { RiAddCircleLine, RiIndeterminateCircleLine } from 'react-icons/ri'
 
-type FormValue = {}
+type FormValueOwnershipRecord = {
+  driverLicenseCode: string
+  federalUnit: string
+  county: string
+  vehiclePlate: string
+  year: string
+  startDate: string
+  endDate: string
+}
+
+type FormValue = {
+  carBrand: string
+  carModel: string
+  manufacturingDate: string
+  ownershipRecords: FormValueOwnershipRecord[]
+}
 
 interface Props extends Omit<ModalProps, 'children'> {
   vehicleRequest?: VehicleRequest
@@ -23,40 +47,238 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 
 const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Props) => {
-  const [isApproving, setIsApproving] = useState<boolean>(false)
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
   const isSubmitted = vehicleRequest ? submittedStatus.includes(vehicleRequest.status) : false
 
   const {
+    control,
     handleSubmit,
     register,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValue>()
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray<FormValue>({
+    control,
+    name: 'ownershipRecords',
+  })
 
   const onSubmit = async (data: FormValue) => {
-    console.log({ data })
+    try {
+      console.log({ data })
 
-    rest.onClose()
-    if (onApprove) onApprove()
+      rest.onClose()
+      if (onApprove) onApprove()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const onCloseParam = rest.onClose
   rest.onClose = () => {
     reset()
     onCloseParam()
+
+    //     color: var(--Dark, #3C3C3C);
+    // font-family: Montserrat;
+    // font-size: 18px;
+    // font-style: normal;
+    // font-weight: 500;
+    // line-height: 150%; /* 27px */
   }
 
   return (
-    <Modal closeOnEsc={false} closeOnOverlayClick={false} {...rest}>
+    <Modal size={'4xl'} closeOnEsc={false} closeOnOverlayClick={false} {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
           {isSubmitted ? 'Solicitação aprovada' : 'Aprovação da solicitação'}
         </ModalHeader>
         <ModalBody>
-          <Flex direction="column" justifyContent="flex-start" gap="4">
-            {vehicleRequest?.agent}
+          <Flex
+            direction="column"
+            justifyContent="flex-start"
+            gap="4"
+            px="4"
+            sx={{
+              input: {
+                fontSize: 'md',
+              },
+              label: {
+                color: 'dark',
+                fontSize: 'lg',
+                fontWeight: 500,
+              },
+            }}
+          >
+            <Flex w="100%" h="fit-content" direction="row" justify="" align="flex-start">
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="90%">
+                  <FormLabel htmlFor="renavam">Código Renavam</FormLabel>
+                  <Input id="renavam" value={vehicleRequest?.vehicleRegistrationCode} isReadOnly />
+                </FormControl>
+              </Flex>
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="65%" isInvalid={!!errors.manufacturingDate}>
+                  <FormLabel htmlFor="manufacturingDate">Data de fabricação</FormLabel>
+                  <Input
+                    id="manufacturingDate"
+                    type="date"
+                    placeholder="Insira a data..."
+                    value={
+                      isSubmitted
+                        ? vehicleRequest?.vehicleData.manufacturingDate.toISOString().slice(0, 10)
+                        : undefined
+                    }
+                    {...register('manufacturingDate', {
+                      valueAsDate: true,
+                      required: 'Campo obrigatório',
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>
+                    {errors.manufacturingDate && errors.manufacturingDate.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </Flex>
+            </Flex>
+            <Flex w="100%" h="fit-content" direction="row" justify="" align="flex-start">
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="90%" isInvalid={!!errors.carBrand}>
+                  <FormLabel htmlFor="carBrand">Marca</FormLabel>
+                  <Input
+                    id="carBrand"
+                    placeholder="Insira a marca do veículo..."
+                    value={isSubmitted ? vehicleRequest?.vehicleData.carBrand : undefined}
+                    {...register('carBrand', {
+                      required: 'Campo obrigatório',
+                      minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>{errors.carBrand && errors.carBrand.message}</FormErrorMessage>
+                </FormControl>
+              </Flex>
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl isInvalid={!!errors.carModel}>
+                  <FormLabel htmlFor="carModel">Modelo</FormLabel>
+                  <Input
+                    id="carModel"
+                    placeholder="Insira a marca do veículo..."
+                    value={isSubmitted ? vehicleRequest?.vehicleData.carModel : undefined}
+                    {...register('carModel', {
+                      required: 'Campo obrigatório',
+                      minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>{errors.carModel && errors.carModel.message}</FormErrorMessage>
+                </FormControl>
+              </Flex>
+            </Flex>
+            <Flex
+              w="100%"
+              maxW="100%"
+              h="fit-content"
+              maxH="xs"
+              overflowX="hidden"
+              overflowY="auto"
+              direction="row"
+              justify="flex-start"
+              align="flex-start"
+              sx={{
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                  borderRadius: '8px',
+                  backgroundColor: '#D9D9D9',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  borderRadius: '8px',
+                  backgroundColor: 'light-gray',
+                },
+              }}
+            >
+              <VStack w="100%" justify="flex-start" align="flex-start">
+                <Text>Antigos proprietários</Text>
+                <VStack
+                  w="100%"
+                  spacing={4}
+                  justify="flex-start"
+                  align="flex-start"
+                  sx={{
+                    'div:nth-child(n)': {
+                      rounded: 'lg',
+                      border: '1px dashed',
+                      borderColor: 'light-gray',
+                      bg: 'white',
+                      w: '99%',
+                    },
+                  }}
+                >
+                  {fields.map((field, index) => {
+                    return (
+                      <Flex
+                        key={field.id}
+                        direction="column"
+                        justify="flex-start"
+                        align="flex-start"
+                        gap="4"
+                        h="220px"
+                        w="100%"
+                      >
+                        <Button
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          variant="ghost"
+                          color="red"
+                          colorScheme="none"
+                          justifySelf="flex-end"
+                          alignSelf="flex-end"
+                          p={1}
+                          m={0}
+                          w="fit-content"
+                          h="fit-content"
+                          minH={0}
+                          minW={0}
+                          onClick={() => remove(index)}
+                        >
+                          <Icon p={0} m={0} as={RiIndeterminateCircleLine} fontSize="xl" />
+                        </Button>
+                      </Flex>
+                    )
+                  })}
+                </VStack>
+              </VStack>
+            </Flex>
+            <Button
+              variant="ghost"
+              color="primary"
+              colorScheme="none"
+              alignSelf="center"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              gap="2"
+              fontWeight={700}
+              fontSize="lg"
+              onClick={() =>
+                append({
+                  driverLicenseCode: '',
+                  federalUnit: '',
+                  county: '',
+                  vehiclePlate: '',
+                  year: '',
+                  startDate: '',
+                  endDate: '',
+                })
+              }
+            >
+              <Icon as={RiAddCircleLine} fontSize="xl" />
+              Adicionar Proprietário
+            </Button>
           </Flex>
         </ModalBody>
         <ModalFooter>
@@ -76,7 +298,7 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
             <Button
               colorScheme="purple"
               variant="outline"
-              isLoading={isApproving}
+              isLoading={isSubmitting}
               onClick={handleSubmit(onSubmit)}
               type="submit"
               display={isSubmitted ? 'none' : 'flex'}
