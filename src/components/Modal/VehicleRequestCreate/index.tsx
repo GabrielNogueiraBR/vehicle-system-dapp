@@ -137,7 +137,7 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
               <Button onClick={rest.onClose} isDisabled={isSubmitting} variant="cancel">
                 Cancelar
               </Button>
-              <Button colorScheme="purple" isLoading={isSubmitting} type="submit">
+              <Button colorScheme="purple" isLoading={isSubmitting} type="submit" variant="outline">
                 Enviar
               </Button>
             </ButtonGroup>
