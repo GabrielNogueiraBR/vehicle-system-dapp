@@ -31,23 +31,23 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
     () => [
       { title: 'Início', icon: HomeRounded, href: '/home', role: 'user' },
       { title: 'Meus Veículos', icon: VehicleOcta, href: '/vehicles', role: 'user' },
-      { title: 'Meus Contratos', icon: RiShakeHandsLine, href: '/contracts', role: 'user' },
+      { title: 'Meus Contratos', icon: RiShakeHandsLine, href: '/user/contracts', role: 'user' },
       {
         title: 'Solicitações de Veículos',
         icon: VehicleRequest,
-        href: '/contracts',
+        href: '/agent/requests',
         role: 'agent',
       },
       {
         title: 'Contratos de veículos',
         icon: RiShakeHandsLine,
-        href: '/contracts',
+        href: '/insurer/contracts',
         role: 'insurer',
       },
       {
         title: 'Solicitações de contratos',
         icon: RiShakeHandsLine,
-        href: '/contracts',
+        href: '/insurer/requests',
         role: 'insurer',
       },
     ],
