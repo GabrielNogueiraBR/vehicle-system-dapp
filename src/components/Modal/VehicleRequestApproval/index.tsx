@@ -86,6 +86,8 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
     // line-height: 150%; /* 27px */
   }
 
+  // TODO: Colocar método para popular automaticamente os ownerships
+
   return (
     <Modal size={'4xl'} closeOnEsc={false} closeOnOverlayClick={false} {...rest}>
       <ModalOverlay />
@@ -210,7 +212,15 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                 justify="flex-start"
                 align="flex-start"
               >
-                <Text>Antigos proprietários</Text>
+                <Text
+                  display={
+                    vehicleRequest?.vehicleData.vehicleOwnershipRecordIds.length || fields.length
+                      ? 'block'
+                      : 'none'
+                  }
+                >
+                  Antigos proprietários
+                </Text>
                 <VStack
                   w="100%"
                   spacing={4}
@@ -265,44 +275,58 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                           align="flex-start"
                         >
                           <Flex flex="1" direction="column" gap="1">
-                            <FormControl maxW="90%" isInvalid={!!errors.carBrand}>
-                              <FormLabel htmlFor="carBrand">CNH</FormLabel>
+                            <FormControl
+                              maxW="90%"
+                              isInvalid={!!errors?.ownershipRecords?.[index]?.driverLicenseCode}
+                            >
+                              <FormLabel htmlFor={`driverLicenseCode-${field.id}`}>CNH</FormLabel>
                               <Input
-                                id="carBrand"
+                                id={`driverLicenseCode-${field.id}`}
                                 placeholder="Insira a CNH..."
                                 value={
-                                  isSubmitted ? vehicleRequest?.vehicleData.carBrand : undefined
+                                  isSubmitted
+                                    ? vehicleRequest?.vehicleData?.vehicleOwnershipRecords?.[index]
+                                        .driverLicenseCode
+                                    : undefined
                                 }
-                                {...register('carBrand', {
+                                {...register(`ownershipRecords.${index}.driverLicenseCode`, {
                                   required: 'Campo obrigatório',
-                                  minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                                  minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                                 })}
                                 disabled={isSubmitting}
                                 isReadOnly={isSubmitted}
                               />
                               <FormErrorMessage>
-                                {errors.carBrand && errors.carBrand.message}
+                                {errors?.ownershipRecords?.[index]?.driverLicenseCode &&
+                                  errors?.ownershipRecords?.[index]?.driverLicenseCode?.message}
                               </FormErrorMessage>
                             </FormControl>
                           </Flex>
                           <Flex flex="1" direction="column" gap="1">
-                            <FormControl isInvalid={!!errors.carModel}>
-                              <FormLabel htmlFor="carModel">Placa do veículo</FormLabel>
+                            <FormControl
+                              maxW="90%"
+                              isInvalid={!!errors?.ownershipRecords?.[index]?.driverLicenseCode}
+                            >
+                              <FormLabel htmlFor={`driverLicenseCode-${field.id}`}>CNH</FormLabel>
                               <Input
-                                id="carModel"
-                                placeholder="Insira a placa do veículo..."
+                                id={`driverLicenseCode-${field.id}`}
+                                placeholder="Insira a CNH..."
                                 value={
-                                  isSubmitted ? vehicleRequest?.vehicleData.carModel : undefined
+                                  isSubmitted
+                                    ? vehicleRequest?.vehicleData?.vehicleOwnershipRecords?.[index]
+                                        .driverLicenseCode
+                                    : undefined
                                 }
-                                {...register('carModel', {
+                                {...register(`ownershipRecords.${index}.driverLicenseCode`, {
                                   required: 'Campo obrigatório',
-                                  minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                                  minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
                                 })}
                                 disabled={isSubmitting}
                                 isReadOnly={isSubmitted}
                               />
                               <FormErrorMessage>
-                                {errors.carModel && errors.carModel.message}
+                                {errors?.ownershipRecords?.[index]?.driverLicenseCode &&
+                                  errors?.ownershipRecords?.[index]?.driverLicenseCode?.message}
                               </FormErrorMessage>
                             </FormControl>
                           </Flex>
