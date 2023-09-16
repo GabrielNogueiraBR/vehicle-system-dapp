@@ -12,9 +12,10 @@ const useVehiclesRequests = () => {
   const [vehiclesRequests, setVehiclesRequests] = useState<VehicleRequest[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const loadVehiclesRequestsByAddress = async (address: string) => {
+  const loadVehiclesRequestsByAddress = async () => {
     try {
       setIsLoading(true)
+      if (!signer || !account) throw new Error('Invalid')
 
       const requestsIds = await readContract({
         signer,
@@ -85,7 +86,7 @@ const useVehiclesRequests = () => {
   }
 
   useEffect(() => {
-    if (account && signer) loadVehiclesRequestsByAddress(account)
+    if (account && signer) loadVehiclesRequestsByAddress()
   }, [account, signer])
 
   return { vehiclesRequests, isLoading, load: loadVehiclesRequestsByAddress }

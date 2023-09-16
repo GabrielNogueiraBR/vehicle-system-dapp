@@ -13,8 +13,16 @@ import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import useVehiclesRequests from '@/hooks/useVehicleRequests'
 
 const ClientElement = () => {
-  const { vehiclesNfts, isLoading: isLoadingVehiclesNFTs } = useVehicleNFTs()
-  const { vehiclesRequests, isLoading: isLoadingVehiclesRequests } = useVehiclesRequests()
+  const {
+    vehiclesNfts,
+    isLoading: isLoadingVehiclesNFTs,
+    load: loadVehiclesNFTs,
+  } = useVehicleNFTs()
+  const {
+    vehiclesRequests,
+    isLoading: isLoadingVehiclesRequests,
+    load: loadVehiclesRequests,
+  } = useVehiclesRequests()
 
   const {
     isOpen: isVehicleRequestModalOpen,
@@ -87,9 +95,12 @@ const ClientElement = () => {
         <NoVehicles color="primary" w="md" />
         <Heading as="h3">Sem veículos cadastrados</Heading>
       </Center>
+
+
       <VehicleRequestCreateModal
         isOpen={isVehicleRequestModalOpen}
         onClose={onVehicleRequestModalClose}
+        onCreate={() => loadVehiclesRequests()}
       />
     </Flex>
   )

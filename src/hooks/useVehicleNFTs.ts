@@ -15,11 +15,12 @@ const useVehicleNFTs = () => {
   const [vehiclesNfts, setVehiclesNfts] = useState<VehicleNFT[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const loadVehiclesByAddress = async (address: string) => {
+  const loadVehiclesByAddress = async () => {
     try {
       setIsLoading(true)
+      if (!signer || !account) throw new Error('Invalid')
 
-      const response = await api.get<GetNftsForAddressResponse>(`/vehicles/${address}`)
+      const response = await api.get<GetNftsForAddressResponse>(`/vehicles/${account}`)
       const { nfts: ownedNFTs } = response.data
 
       const nfts: VehicleNFT[] = await Promise.all(
@@ -49,7 +50,7 @@ const useVehicleNFTs = () => {
   }
 
   useEffect(() => {
-    if (account && signer) loadVehiclesByAddress(account)
+    if (account && signer) loadVehiclesByAddress()
   }, [account, signer])
 
   return { vehiclesNfts, isLoading, load: loadVehiclesByAddress }

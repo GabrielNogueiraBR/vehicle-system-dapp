@@ -82,6 +82,8 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
         loading: { title: 'Cadastrando veículo...' },
       })
 
+      await promise
+
       rest.onClose()
       if (onCreate) onCreate()
     } catch (e) {
@@ -141,7 +143,7 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
 
             <ButtonGroup mt={4} justifySelf="flex-end" alignSelf="flex-end" spacing={4}>
               <Button onClick={rest.onClose} isDisabled={isSubmitting} variant="cancel">
-                Cancelar
+                {isSubmitting ? 'Fechar' : 'Cancelar'}
               </Button>
               <Button colorScheme="purple" isLoading={isSubmitting} type="submit" variant="outline">
                 Enviar
