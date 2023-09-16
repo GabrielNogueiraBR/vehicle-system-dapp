@@ -93,8 +93,6 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
     <Modal
       closeOnEsc={!isSubmitting}
       closeOnOverlayClick={!isSubmitting}
-      isCentered
-      size="xl"
       {...rest}
     >
       <ModalOverlay />

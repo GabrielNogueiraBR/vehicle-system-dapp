@@ -96,17 +96,11 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
   }
 
   return (
-    <Modal
-      closeOnEsc={!isSubmitting}
-      closeOnOverlayClick={!isSubmitting}
-      isCentered
-      size="xl"
-      {...rest}
-    >
+    <Modal closeOnEsc={!isSubmitting} closeOnOverlayClick={!isSubmitting} {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {vehicleService ? 'Serviço de Manutenção' : 'Cadastro Serviço de Manutenção'}
+          {vehicleService ? 'Serviço de Manutenção' : 'Adicionar Serviço'}
         </ModalHeader>
         <ModalBody>
           <Flex

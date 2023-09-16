@@ -1,5 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 import { Montserrat } from 'next/font/google'
+import { ModalStyle } from './modal'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@ export const theme = extendTheme({
     },
   },
   components: {
+    Modal: ModalStyle,
     Button: {
       variants: {
         primary: {
