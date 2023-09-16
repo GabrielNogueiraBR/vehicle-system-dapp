@@ -25,7 +25,7 @@ const ClientComponent = () => {
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4">
-      <Heading>Solicitações de Veículos</Heading>
+      <Heading mt='8'>Solicitações de Veículos</Heading>
       <Flex
         w="100%"
         h="fit-content"
