@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Center, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react'
-import useVehicleRequests from '@/hooks/useVehiclesRequest'
+import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
@@ -11,7 +11,7 @@ import VehicleNFTCard from '@/components/VehicleNFTCard'
 import { InsuranceStatus } from '@/types/contract'
 
 const ClientElement = () => {
-  const { vehiclesNfts, isLoading } = useVehicleRequests()
+  const { vehiclesNfts, isLoading } = useVehicleNFTs()
 
   const {
     isOpen: isVehicleRequestModalOpen,

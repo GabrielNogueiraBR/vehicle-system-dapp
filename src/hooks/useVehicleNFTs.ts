@@ -6,7 +6,7 @@ import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByToken
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
 
-const useVehicleRequests = () => {
+const useVehicleNFTs = () => {
   const { account } = useEthers()
   const signer = useSigner()
 
@@ -54,4 +54,4 @@ const useVehicleRequests = () => {
   return { vehiclesNfts, isLoading, load: loadVehiclesByAddress }
 }
 
-export default useVehicleRequests
+export default useVehicleNFTs
