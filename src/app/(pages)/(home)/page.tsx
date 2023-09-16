@@ -16,6 +16,7 @@ export default function Home() {
 
   return (
     <Flex
+      flex="1"
       w="100%"
       h="100%"
       direction="column"
