@@ -153,7 +153,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
               </FormControl>
             </Flex>
 
-            <FormControl>
+            <FormControl isInvalid={!!errors.date}>
               <FormLabel htmlFor="date">Data</FormLabel>
               <Input
                 id="date"
@@ -168,6 +168,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
                 disabled={isSubmitting}
                 isReadOnly={!!vehicleService}
               />
+              <FormErrorMessage>{errors.date && errors.date.message}</FormErrorMessage>
             </FormControl>
 
             <FormControl isInvalid={!!errors.description}>
