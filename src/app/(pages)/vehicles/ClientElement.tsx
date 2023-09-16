@@ -6,7 +6,7 @@ import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
 import NoVehicles from '@/components/Assets/NoVehicles'
-import VehicleNFTCard from '@/components/VehicleNFTCard'
+import VehicleCard from '@/components/VehicleCard'
 import { InsuranceStatus } from '@/types/contract'
 
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
@@ -31,28 +31,27 @@ const ClientElement = () => {
       <CreateButton alignSelf="flex-end" onClick={onVehicleRequestModalOpen} isDisabled={isLoading}>
         Novo veículo
       </CreateButton>
-
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
         {vehiclesNfts.map((nft) => (
-          <VehicleNFTCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
-            <VehicleNFTCard.Icon status="nft" />
-            <VehicleNFTCard.Info.Root>
-              <VehicleNFTCard.Info.Title>
+          <VehicleCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
+            <VehicleCard.Icon status="nft" />
+            <VehicleCard.Info.Root>
+              <VehicleCard.Info.Title>
                 Token #{nft.tokenId.toString().padStart(3, '0')}
-              </VehicleNFTCard.Info.Title>
-              <VehicleNFTCard.Info.InsuredBadge
+              </VehicleCard.Info.Title>
+              <VehicleCard.Info.InsuredBadge
                 display={
                   nft.contracts.some((contract) => contract.status === InsuranceStatus.ACTIVE)
                     ? 'flex'
                     : 'none'
                 }
               />
-              <VehicleNFTCard.Info.SubTitle>
+              <VehicleCard.Info.SubTitle>
                 <Text>{nft.vehicleMetadata?.carModel}</Text>
                 <Text>{nft.vehicleMetadata?.carBrand}</Text>
-              </VehicleNFTCard.Info.SubTitle>
-            </VehicleNFTCard.Info.Root>
-          </VehicleNFTCard.Root>
+              </VehicleCard.Info.SubTitle>
+            </VehicleCard.Info.Root>
+          </VehicleCard.Root>
         ))}
       </Flex>
 
