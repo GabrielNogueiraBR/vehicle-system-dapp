@@ -13,6 +13,7 @@ const Root = ({ children, ...rest }: Props) => {
       gap="0.5"
       w="full"
       direction="column"
+      maxW="283px"
       shadow="xl"
       rounded="xl"
       border="1px solid"
