@@ -200,7 +200,16 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                 },
               }}
             >
-              <VStack w="100%" justify="flex-start" align="flex-start">
+              <VStack
+                display={
+                  isSubmitted && vehicleRequest?.vehicleData.vehicleOwnershipRecordIds.length
+                    ? 'none'
+                    : 'flex'
+                }
+                w="100%"
+                justify="flex-start"
+                align="flex-start"
+              >
                 <Text>Antigos proprietários</Text>
                 <VStack
                   w="100%"
@@ -208,12 +217,13 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                   justify="flex-start"
                   align="flex-start"
                   sx={{
-                    'div:nth-child(n)': {
+                    '& > div:nth-child(n)': {
                       rounded: 'lg',
                       border: '1px dashed',
                       borderColor: 'light-gray',
                       bg: 'white',
                       w: '99%',
+                      p: 3,
                     },
                   }}
                 >
@@ -247,6 +257,56 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                         >
                           <Icon p={0} m={0} as={RiIndeterminateCircleLine} fontSize="xl" />
                         </Button>
+                        <Flex
+                          w="100%"
+                          h="fit-content"
+                          direction="row"
+                          justify=""
+                          align="flex-start"
+                        >
+                          <Flex flex="1" direction="column" gap="1">
+                            <FormControl maxW="90%" isInvalid={!!errors.carBrand}>
+                              <FormLabel htmlFor="carBrand">CNH</FormLabel>
+                              <Input
+                                id="carBrand"
+                                placeholder="Insira a CNH..."
+                                value={
+                                  isSubmitted ? vehicleRequest?.vehicleData.carBrand : undefined
+                                }
+                                {...register('carBrand', {
+                                  required: 'Campo obrigatório',
+                                  minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                                })}
+                                disabled={isSubmitting}
+                                isReadOnly={isSubmitted}
+                              />
+                              <FormErrorMessage>
+                                {errors.carBrand && errors.carBrand.message}
+                              </FormErrorMessage>
+                            </FormControl>
+                          </Flex>
+                          <Flex flex="1" direction="column" gap="1">
+                            <FormControl isInvalid={!!errors.carModel}>
+                              <FormLabel htmlFor="carModel">Placa do veículo</FormLabel>
+                              <Input
+                                id="carModel"
+                                placeholder="Insira a placa do veículo..."
+                                value={
+                                  isSubmitted ? vehicleRequest?.vehicleData.carModel : undefined
+                                }
+                                {...register('carModel', {
+                                  required: 'Campo obrigatório',
+                                  minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                                })}
+                                disabled={isSubmitting}
+                                isReadOnly={isSubmitted}
+                              />
+                              <FormErrorMessage>
+                                {errors.carModel && errors.carModel.message}
+                              </FormErrorMessage>
+                            </FormControl>
+                          </Flex>
+                        </Flex>
                       </Flex>
                     )
                   })}
@@ -258,7 +318,7 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
               color="primary"
               colorScheme="none"
               alignSelf="center"
-              display="flex"
+              display={isSubmitted ? 'none' : 'flex'}
               justifyContent="center"
               alignItems="center"
               gap="2"
