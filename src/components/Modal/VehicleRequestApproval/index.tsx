@@ -23,6 +23,7 @@ import {
 import { useFieldArray, useForm } from 'react-hook-form'
 import { Status, VehicleRequest } from '@/types/contract'
 import { RiAddCircleLine, RiIndeterminateCircleLine } from 'react-icons/ri'
+import OwnershipForm from './OwnershipForm'
 
 type FormValueOwnershipRecord = {
   driverLicenseCode: string
@@ -34,7 +35,7 @@ type FormValueOwnershipRecord = {
   endDate: string
 }
 
-type FormValue = {
+export type FormValue = {
   carBrand: string
   carModel: string
   manufacturingDate: string
@@ -234,104 +235,24 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
                       bg: 'white',
                       w: '99%',
                       p: 3,
+                      px: 4,
+                      pb: 8,
                     },
                   }}
                 >
                   {fields.map((field, index) => {
                     return (
-                      <Flex
+                      <OwnershipForm
                         key={field.id}
-                        direction="column"
-                        justify="flex-start"
-                        align="flex-start"
-                        gap="4"
-                        h="220px"
-                        w="100%"
-                      >
-                        <Button
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          variant="ghost"
-                          color="red"
-                          colorScheme="none"
-                          justifySelf="flex-end"
-                          alignSelf="flex-end"
-                          p={1}
-                          m={0}
-                          w="fit-content"
-                          h="fit-content"
-                          minH={0}
-                          minW={0}
-                          onClick={() => remove(index)}
-                        >
-                          <Icon p={0} m={0} as={RiIndeterminateCircleLine} fontSize="xl" />
-                        </Button>
-                        <Flex
-                          w="100%"
-                          h="fit-content"
-                          direction="row"
-                          justify=""
-                          align="flex-start"
-                        >
-                          <Flex flex="1" direction="column" gap="1">
-                            <FormControl
-                              maxW="90%"
-                              isInvalid={!!errors?.ownershipRecords?.[index]?.driverLicenseCode}
-                            >
-                              <FormLabel htmlFor={`driverLicenseCode-${field.id}`}>CNH</FormLabel>
-                              <Input
-                                id={`driverLicenseCode-${field.id}`}
-                                placeholder="Insira a CNH..."
-                                value={
-                                  isSubmitted
-                                    ? vehicleRequest?.vehicleData?.vehicleOwnershipRecords?.[index]
-                                        .driverLicenseCode
-                                    : undefined
-                                }
-                                {...register(`ownershipRecords.${index}.driverLicenseCode`, {
-                                  required: 'Campo obrigatório',
-                                  minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
-                                })}
-                                disabled={isSubmitting}
-                                isReadOnly={isSubmitted}
-                              />
-                              <FormErrorMessage>
-                                {errors?.ownershipRecords?.[index]?.driverLicenseCode &&
-                                  errors?.ownershipRecords?.[index]?.driverLicenseCode?.message}
-                              </FormErrorMessage>
-                            </FormControl>
-                          </Flex>
-                          <Flex flex="1" direction="column" gap="1">
-                            <FormControl
-                              maxW="90%"
-                              isInvalid={!!errors?.ownershipRecords?.[index]?.driverLicenseCode}
-                            >
-                              <FormLabel htmlFor={`driverLicenseCode-${field.id}`}>CNH</FormLabel>
-                              <Input
-                                id={`driverLicenseCode-${field.id}`}
-                                placeholder="Insira a CNH..."
-                                value={
-                                  isSubmitted
-                                    ? vehicleRequest?.vehicleData?.vehicleOwnershipRecords?.[index]
-                                        .driverLicenseCode
-                                    : undefined
-                                }
-                                {...register(`ownershipRecords.${index}.driverLicenseCode`, {
-                                  required: 'Campo obrigatório',
-                                  minLength: { value: 4, message: 'Mínimo de 4 caracteres' },
-                                })}
-                                disabled={isSubmitting}
-                                isReadOnly={isSubmitted}
-                              />
-                              <FormErrorMessage>
-                                {errors?.ownershipRecords?.[index]?.driverLicenseCode &&
-                                  errors?.ownershipRecords?.[index]?.driverLicenseCode?.message}
-                              </FormErrorMessage>
-                            </FormControl>
-                          </Flex>
-                        </Flex>
-                      </Flex>
+                        index={index}
+                        field={field}
+                        vehicleRequest={vehicleRequest}
+                        isSubmitted={isSubmitted}
+                        isSubmitting={isSubmitting}
+                        errors={errors}
+                        remove={remove}
+                        register={register}
+                      />
                     )
                   })}
                 </VStack>
