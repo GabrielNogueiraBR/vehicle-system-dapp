@@ -144,7 +144,6 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
   }
 
   // TODO: Colocar método para popular automaticamente os ownerships
-  // TODO: QUANDO criar o veículo, atualizar lista de veículos e lista de solicitações (por causa da aprovada, para não se repetir)
 
   return (
     <Modal size={'4xl'} closeOnEsc={false} closeOnOverlayClick={false} {...rest}>

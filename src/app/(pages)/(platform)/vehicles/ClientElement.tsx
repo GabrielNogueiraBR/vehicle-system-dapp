@@ -48,6 +48,11 @@ const ClientElement = () => {
   const isLoading = isLoadingVehiclesNFTs || isLoadingVehiclesRequests
   const hasContent = !!vehiclesNfts.length || !!vehiclesRequests.length
 
+  const handleOnCreateVehicle = () => {
+    loadVehiclesNFTs()
+    loadVehiclesRequests()
+  }
+
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
       <CreateButton
@@ -128,7 +133,7 @@ const ClientElement = () => {
         isOpen={isVehicleRequestViewModalOpen}
         onClose={onVehicleRequestViewModalClose}
         vehicleRequest={vehicleRequestRef.current}
-        onCreateVehicle={() => loadVehiclesNFTs()}
+        onCreateVehicle={handleOnCreateVehicle}
       />
     </Flex>
   )
