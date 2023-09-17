@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import {
   Modal,
   ModalOverlay,
@@ -18,12 +18,16 @@ import {
   Text,
   VStack,
   Icon,
-  IconButton,
+  useToast,
+  Link,
 } from '@chakra-ui/react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { Status, VehicleRequest } from '@/types/contract'
-import { RiAddCircleLine, RiIndeterminateCircleLine } from 'react-icons/ri'
+import { RiAddCircleLine } from 'react-icons/ri'
 import OwnershipForm from './OwnershipForm'
+import { useContractFunction } from '@usedapp/core'
+import { useWeb3 } from '@/contexts/Web3Context'
+import { BLOCK_EXPLORER } from '@/constants/web3'
 
 type FormValueOwnershipRecord = {
   driverLicenseCode: string
@@ -42,12 +46,17 @@ export type FormValue = {
   ownershipRecords: FormValueOwnershipRecord[]
 }
 
+type ReturnOfFunction = Awaited<ReturnType<ReturnType<typeof useContractFunction>['send']>>
+
 interface Props extends Omit<ModalProps, 'children'> {
   vehicleRequest?: VehicleRequest
   onApprove?: () => void
 }
 
 const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Props) => {
+  const { approveVehicleRequest } = useWeb3()
+  const toast = useToast()
+
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
   const isSubmitted = vehicleRequest ? submittedStatus.includes(vehicleRequest.status) : false
 
@@ -58,14 +67,67 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValue>()
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray<FormValue>({
+  const { fields, append, remove } = useFieldArray<FormValue>({
     control,
     name: 'ownershipRecords',
   })
 
   const onSubmit = async (data: FormValue) => {
     try {
-      console.log({ data })
+      const requestId = vehicleRequest?.id
+      if (!requestId) throw new Error('Invalid')
+
+      const carBrand = data.carBrand
+      const carModel = data.carModel
+      const manufacturingDate = new Date(data.manufacturingDate).getTime() / 1000
+      const ownershipRecords =
+        data.ownershipRecords.map((o) => ({
+          ...o,
+          startDate: new Date(o.startDate).getTime() / 1000,
+          endDate: new Date(o.endDate).getTime() / 1000,
+        })) || []
+
+      const promise = new Promise<ReturnOfFunction>(async (resolve, reject) => {
+        try {
+          const receipt = await approveVehicleRequest.send(
+            requestId,
+            carBrand,
+            carModel,
+            manufacturingDate,
+            ownershipRecords
+          )
+          if (receipt?.status !== 1) reject(receipt)
+          resolve(receipt)
+        } catch (e) {
+          reject(e)
+        }
+      })
+
+      toast.promise(promise, {
+        success: (receipt) => ({
+          title: 'Sucesso ao aprovar solicitação',
+          description: (
+            <Text>
+              Para consultar a transação{' '}
+              <Link
+                href={`${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`}
+                target="_blank"
+              >
+                clique aqui
+              </Link>{' '}
+            </Text>
+          ),
+          duration: 7000,
+          position: 'top-right',
+        }),
+        error: {
+          title: 'Erro ao aprovar solicitação, por favor, tente novamente.',
+          position: 'top-right',
+        },
+        loading: { title: 'Aprovando solicitação de veículo...' },
+      })
+
+      await promise
 
       rest.onClose()
       if (onApprove) onApprove()
@@ -78,16 +140,13 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
   rest.onClose = () => {
     reset()
     onCloseParam()
-
-    //     color: var(--Dark, #3C3C3C);
-    // font-family: Montserrat;
-    // font-size: 18px;
-    // font-style: normal;
-    // font-weight: 500;
-    // line-height: 150%; /* 27px */
   }
 
   // TODO: Colocar método para popular automaticamente os ownerships
+  // TODO: Ao fechar o modal, zerar quantidade de owners do array
+  // TODO: Desabilitar modal de adicionar owner quando estiver aprovando
+  // TODO: Desabilitar botão de remover owner quando estiver aprovando
+  // TODO: QUANDO criar o veículo, atualizar lista de veículos e lista de solicitações (por causa da aprovada, para não se repetir)
 
   return (
     <Modal size={'4xl'} closeOnEsc={false} closeOnOverlayClick={false} {...rest}>

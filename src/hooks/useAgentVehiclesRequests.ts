@@ -1,6 +1,6 @@
 'use client'
 
-import { Status, VehicleRequest, VehicleRequestData } from '@/types/contract'
+import { VehicleRequest, VehicleRequestData } from '@/types/contract'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
