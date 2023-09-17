@@ -62,6 +62,7 @@ const OwnershipForm = ({
         zIndex={1}
         minH={0}
         minW={0}
+        isDisabled={isSubmitting}
         onClick={() => remove(index)}
       >
         <Icon p={0} m={0} as={RiIndeterminateCircleLine} fontSize="xl" />
