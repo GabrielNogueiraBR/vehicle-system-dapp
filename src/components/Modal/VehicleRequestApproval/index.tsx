@@ -67,7 +67,7 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValue>()
-  const { fields, append, remove } = useFieldArray<FormValue>({
+  const { fields, append, remove,replace } = useFieldArray<FormValue>({
     control,
     name: 'ownershipRecords',
   })
@@ -138,12 +138,12 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
 
   const onCloseParam = rest.onClose
   rest.onClose = () => {
+    replace([])
     reset()
     onCloseParam()
   }
 
   // TODO: Colocar método para popular automaticamente os ownerships
-  // TODO: Ao fechar o modal, zerar quantidade de owners do array
   // TODO: Desabilitar modal de adicionar owner quando estiver aprovando
   // TODO: Desabilitar botão de remover owner quando estiver aprovando
   // TODO: QUANDO criar o veículo, atualizar lista de veículos e lista de solicitações (por causa da aprovada, para não se repetir)
