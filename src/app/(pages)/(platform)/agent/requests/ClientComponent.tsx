@@ -11,7 +11,7 @@ import VehicleRequestApprovalModal from '@/components/Modal/VehicleRequestApprov
 import useAgentVehiclesRequests from '@/hooks/useAgentVehiclesRequests'
 
 const ClientComponent = () => {
-  const { vehiclesRequests, isLoading } = useAgentVehiclesRequests()
+  const { vehiclesRequests, isLoading, load } = useAgentVehiclesRequests()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const vehicleRequestRef = useRef<VehicleRequest | undefined>(undefined)
@@ -23,9 +23,13 @@ const ClientComponent = () => {
     onOpen()
   }
 
+  const handleApproveVehicleRequest = () => {
+    load()
+  }
+
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4">
-      <Heading mt='8'>Solicitações de Veículos</Heading>
+      <Heading mt="8">Solicitações de Veículos</Heading>
       <Flex
         w="100%"
         h="fit-content"
@@ -130,6 +134,7 @@ const ClientComponent = () => {
         isOpen={isOpen}
         onClose={onClose}
         vehicleRequest={vehicleRequestRef.current}
+        onApprove={handleApproveVehicleRequest}
       />
     </Flex>
   )
