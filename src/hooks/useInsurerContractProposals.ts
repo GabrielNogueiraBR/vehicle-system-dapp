@@ -3,6 +3,7 @@
 import { VehicleInsuranceProposal, VehicleInsuranceRequest } from '@/types/contract'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 
 const useInsurerContractProposals = () => {
@@ -19,7 +20,7 @@ const useInsurerContractProposals = () => {
 
       const proposalsIds = await readContract({
         signer,
-        functionName: 'getVehicleInsuranceRequestIdsByInsurer',
+        functionName: 'getVehicleInsuranceProposalIdsByInsurer',
         args: [],
       })
       if (!proposalsIds) throw Error('Error on get contract requests')
@@ -31,18 +32,33 @@ const useInsurerContractProposals = () => {
           try {
             const data = await readContract({
               signer,
-              functionName: 'getVehicleInsuranceRequestById',
+              functionName: 'getVehicleInsuranceProposalById',
               args: [proposalId],
             })
             if (!data) return Promise.resolve()
 
-            const { requester, insurer, tokenId, status, createdAt, updatedAt } = data
+            const {
+              requester,
+              insurer,
+              tokenId,
+              insuranceStartDate,
+              insuranceEndDate,
+              price,
+              contractUrl,
+              status,
+              createdAt,
+              updatedAt,
+            } = data
 
             const insuranceProposal: VehicleInsuranceProposal = {
               id: Number(proposalId),
               requester,
               insurer,
               tokenId: Number(tokenId),
+              insuranceStartDate: new Date(Number(insuranceStartDate) * 1000),
+              insuranceEndDate: new Date(Number(insuranceEndDate) * 1000),
+              price: Number(ethers.utils.formatEther(price)),
+              contractUrl,
               status,
               createdAt: new Date(Number(createdAt) * 1000),
               updatedAt: new Date(Number(updatedAt) * 1000),
