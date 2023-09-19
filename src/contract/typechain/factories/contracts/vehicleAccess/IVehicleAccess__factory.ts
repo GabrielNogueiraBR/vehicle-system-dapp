@@ -612,6 +612,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getVehicleInsuranceProposalIdsByInsurer",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -752,6 +765,67 @@ const _abi = [
           },
         ],
         internalType: "struct INFT.MetadataVehicleNFT",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "ownershipId",
+        type: "uint256",
+      },
+    ],
+    name: "getVehicleOwnershipRecordById",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "driverLicenseCode",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "federalUnit",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "county",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "vehiclePlate",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "year",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "startDate",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "endDate",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct IBaseContract.VehicleOwnershipRecord",
         name: "",
         type: "tuple",
       },
