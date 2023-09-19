@@ -64,7 +64,7 @@ export type VehicleAccident = {
 }
 
 export type VehicleInsuranceRequest = {
-  id: string
+  id: number
   requester: string
   insurer: string
   tokenId: number
@@ -74,7 +74,7 @@ export type VehicleInsuranceRequest = {
 }
 
 export type VehicleInsuranceProposal = {
-  id: string
+  id: number
   requester: string
   insurer: string
   tokenId: number
