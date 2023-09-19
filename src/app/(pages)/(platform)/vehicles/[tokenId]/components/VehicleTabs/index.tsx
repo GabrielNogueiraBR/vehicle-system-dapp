@@ -1,15 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-  Flex,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, useDisclosure } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
@@ -99,7 +91,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   name: '#',
                   center: true,
                   selector: (row) => row.id,
-                  sortable: true,
                   wrap: true,
                   grow: 0.5,
                   cell: (row) => (
