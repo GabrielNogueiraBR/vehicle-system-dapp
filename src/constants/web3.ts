@@ -1,2 +1,2 @@
-export const CONTRACT_ADDRESS = '0xEf7d791a1A9663d86B8e155942dD617dFf61bb95'
+export const CONTRACT_ADDRESS = '0x07C03eBB50dac29257D8CFebAa6172D344ad6bAA'
 export const BLOCK_EXPLORER = 'https://mumbai.polygonscan.com'
