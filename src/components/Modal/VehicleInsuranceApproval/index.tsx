@@ -20,12 +20,15 @@ import {
   Icon,
   useToast,
   Link,
+  InputGroup,
+  InputRightAddon,
 } from '@chakra-ui/react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import {
   Status,
   VehicleInsuranceProposal,
   VehicleInsuranceRequest,
+  VehicleMetadata,
   VehicleRequest,
 } from '@/types/contract'
 import { RiAddCircleLine } from 'react-icons/ri'
@@ -33,6 +36,7 @@ import { useContractFunction } from '@usedapp/core'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 import useVehicleMetadata from '@/hooks/useVehicleMetadata'
+import { ethers } from 'ethers'
 
 type FormValueOwnershipRecord = {
   driverLicenseCode: string
@@ -54,21 +58,25 @@ export type FormValue = {
 type ReturnOfFunction = Awaited<ReturnType<ReturnType<typeof useContractFunction>['send']>>
 
 interface Props extends Omit<ModalProps, 'children'> {
+  tokenId: number
+  metadata?: VehicleMetadata
   vehicleInsuranceRequest?: VehicleInsuranceRequest
+  vehicleInsuranceProposal?: VehicleInsuranceProposal
   onApprove?: () => void
 }
 
-const VehicleInsuranceApproval = ({ vehicleInsuranceRequest, onApprove, ...rest }: Props) => {
+const VehicleInsuranceApproval = ({
+  tokenId,
+  metadata,
+  vehicleInsuranceRequest,
+  vehicleInsuranceProposal,
+  onApprove,
+  ...rest
+}: Props) => {
   const { approveVehicleRequest } = useWeb3()
-  const { metadata, isLoading: isMetadataLoading } = useVehicleMetadata(
-    String(vehicleInsuranceRequest?.tokenId) || 'no token'
-  )
   const toast = useToast()
 
-  const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
-  const isSubmitted = vehicleInsuranceRequest
-    ? submittedStatus.includes(vehicleInsuranceRequest.status)
-    : false
+  const isSubmitted = !!vehicleInsuranceProposal
 
   const {
     control,
@@ -80,6 +88,8 @@ const VehicleInsuranceApproval = ({ vehicleInsuranceRequest, onApprove, ...rest 
 
   const onSubmit = async (data: FormValue) => {
     try {
+      const price = ethers.utils.parseUnits(String(data.price), 'ether')
+      
       rest.onClose()
       if (onApprove) onApprove()
     } catch (e) {
@@ -119,7 +129,7 @@ const VehicleInsuranceApproval = ({ vehicleInsuranceRequest, onApprove, ...rest 
               <Flex flex="1" direction="column" gap="1">
                 <FormControl maxW="90%">
                   <FormLabel htmlFor="tokenId">TokenId</FormLabel>
-                  <Input id="tokenId" value={vehicleInsuranceRequest?.tokenId} isReadOnly />
+                  <Input id="tokenId" value={tokenId} isReadOnly />
                 </FormControl>
               </Flex>
               <Flex flex="1" direction="column" gap="1">
@@ -142,6 +152,78 @@ const VehicleInsuranceApproval = ({ vehicleInsuranceRequest, onApprove, ...rest 
                     value={metadata?.carModel}
                     isReadOnly
                   />
+                </FormControl>
+              </Flex>
+            </Flex>
+            <Flex w="100%" h="fit-content" direction="row" justify="" align="flex-start">
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="90%" isInvalid={!!errors.insuranceStartDate}>
+                  <FormLabel htmlFor="insuranceStartDate">Data de início</FormLabel>
+                  <Input
+                    id="insuranceStartDate"
+                    type="date"
+                    placeholder="Insira a data..."
+                    value={
+                      vehicleInsuranceProposal
+                        ? vehicleInsuranceProposal.insuranceStartDate.toISOString().slice(0, 10)
+                        : undefined
+                    }
+                    {...register('insuranceStartDate', {
+                      valueAsDate: true,
+                      required: 'Campo obrigatório',
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>
+                    {errors.insuranceStartDate && errors.insuranceStartDate.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </Flex>
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="90%" isInvalid={!!errors.insuranceEndDate}>
+                  <FormLabel htmlFor="insuranceEndDate">Data de fim</FormLabel>
+                  <Input
+                    id="insuranceEndDate"
+                    type="date"
+                    placeholder="Insira a data..."
+                    value={
+                      vehicleInsuranceProposal
+                        ? vehicleInsuranceProposal.insuranceEndDate.toISOString().slice(0, 10)
+                        : undefined
+                    }
+                    {...register('insuranceEndDate', {
+                      valueAsDate: true,
+                      required: 'Campo obrigatório',
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>
+                    {errors.insuranceEndDate && errors.insuranceEndDate.message}
+                  </FormErrorMessage>
+                </FormControl>
+              </Flex>
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl isInvalid={!!errors.price}>
+                  <FormLabel htmlFor="price">Preço</FormLabel>
+                  <InputGroup>
+                    <Input
+                      id="price"
+                      type="number"
+                      step="0.001"
+                      placeholder="Insira o preço..."
+                      value={vehicleInsuranceProposal ? vehicleInsuranceProposal.price : undefined}
+                      {...register('price', {
+                        required: 'Campo obrigatório',
+                        min: 0,
+                      })}
+                      disabled={isSubmitting}
+                      isReadOnly={isSubmitted}
+                    />
+                    <InputRightAddon>ETH</InputRightAddon>
+                  </InputGroup>
+                  <FormErrorMessage>{errors.price && errors.price.message}</FormErrorMessage>
                 </FormControl>
               </Flex>
             </Flex>

@@ -2,22 +2,40 @@
 
 import React, { useMemo, useRef } from 'react'
 import { Button, Flex, Heading, Icon, Tooltip, useDisclosure } from '@chakra-ui/react'
-import { Status, VehicleInsuranceRequest } from '@/types/contract'
+import {
+  Status,
+  VehicleInsuranceProposal,
+  VehicleInsuranceRequest,
+  VehicleMetadata,
+} from '@/types/contract'
 import CustomDataTable from '@/components/CustomDataTable'
 import BadgeStatus from '@/components/BadgeStatus'
-import useAgentVehiclesRequests from '@/hooks/useAgentVehiclesRequests'
 import DocumentPlus from '@/components/Icons/DocumentPlus'
 import DocumentDownload from '@/components/Icons/DocumentDownload'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import VehicleInsuranceApproval from '@/components/Modal/VehicleInsuranceApproval'
 import useInsurerContractRequests from '@/hooks/useInsurerContractRequests'
 import Link from 'next/link'
+import useInsurerContractProposals from '@/hooks/useInsurerContractProposals'
+
+type CustomData = {
+  metadata: VehicleMetadata
+  insuranceRequest: VehicleInsuranceRequest
+  insuranceProposal: VehicleInsuranceProposal
+}
 
 const ClientComponent = () => {
   //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
+
+  //TODO: COLOCAR USE EFFECT DE DADOS PARA JUNTAR O RESULTADO DE CONTRACT REQUEST E METADADOS DOS VEÍCULOS
   const contractRequestRef = useRef<VehicleInsuranceRequest | undefined>(undefined)
 
   const { contractRequests, isLoading, load } = useInsurerContractRequests()
+  const {
+    contractProposals,
+    isLoading: isLoadingContractProposals,
+    load: loadContractProposals,
+  } = useInsurerContractProposals()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -146,12 +164,12 @@ const ClientComponent = () => {
         />
       </Flex>
 
-      <VehicleInsuranceApproval
+      {/* <VehicleInsuranceApproval
         isOpen={isOpen}
         onClose={onClose}
         vehicleInsuranceRequest={contractRequestRef.current}
         onApprove={handleApproveContractRequest}
-      />
+      /> */}
     </Flex>
   )
 }
