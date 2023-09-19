@@ -78,13 +78,13 @@ export type VehicleInsuranceProposal = {
   requester: string
   insurer: string
   tokenId: number
-  insuranceStartDate: number
-  insuranceEndDate: number
+  insuranceStartDate: Date
+  insuranceEndDate: Date
   price: number
   contractUrl: string
   status: Status
-  createdAt: number
-  updatedAt: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type VehicleContract = {
