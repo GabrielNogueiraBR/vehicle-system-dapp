@@ -9,6 +9,7 @@ import VehicleOcta from '../Icons/VehicleOcta'
 import HomeRounded from '../Icons/HomeRounded'
 import { usePathname } from 'next/navigation'
 import VehicleRequest from '../Assets/VehicleRequest'
+import VehicleDocument from '../Icons/VehicleDocument'
 
 type LinkInfo = {
   role: 'user' | 'agent' | 'insurer'
@@ -46,7 +47,7 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
       },
       {
         title: 'Solicitações de contratos',
-        icon: RiShakeHandsLine,
+        icon: VehicleDocument,
         href: '/insurer/requests',
         role: 'insurer',
       },
