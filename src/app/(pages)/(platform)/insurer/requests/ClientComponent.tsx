@@ -28,7 +28,7 @@ const ClientComponent = () => {
   const [isFormating, setFormating] = useState<boolean>(true)
 
   //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
-  const requestData = useRef<CustomData | undefined>(undefined)
+  const requestDataRef = useRef<CustomData | undefined>(undefined)
 
   const {
     contractRequests,
@@ -49,7 +49,7 @@ const ClientComponent = () => {
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
 
   const handleClickContractRequest = (data: CustomData) => {
-    requestData.current = data
+    requestDataRef.current = data
     onOpen()
   }
 
@@ -201,12 +201,12 @@ const ClientComponent = () => {
         />
       </Flex>
 
-      {/* <VehicleInsuranceApproval
+      <VehicleInsuranceApproval
         isOpen={isOpen}
         onClose={onClose}
-        vehicleInsuranceRequest={contractRequestRef.current}
+        requestData={requestDataRef.current}
         onApprove={handleApproveContractRequest}
-      /> */}
+      />
     </Flex>
   )
 }

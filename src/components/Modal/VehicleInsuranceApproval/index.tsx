@@ -56,27 +56,20 @@ export type FormValue = {
 }
 
 type ReturnOfFunction = Awaited<ReturnType<ReturnType<typeof useContractFunction>['send']>>
+type CustomData = VehicleInsuranceRequest &
+  Partial<VehicleInsuranceProposal> & { metadata: VehicleMetadata }
 
 interface Props extends Omit<ModalProps, 'children'> {
-  tokenId: number
-  metadata?: VehicleMetadata
-  vehicleInsuranceRequest?: VehicleInsuranceRequest
-  vehicleInsuranceProposal?: VehicleInsuranceProposal
+  requestData?: CustomData
   onApprove?: () => void
 }
 
-const VehicleInsuranceApproval = ({
-  tokenId,
-  metadata,
-  vehicleInsuranceRequest,
-  vehicleInsuranceProposal,
-  onApprove,
-  ...rest
-}: Props) => {
+const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) => {
   const { approveVehicleRequest } = useWeb3()
   const toast = useToast()
 
-  const isSubmitted = !!vehicleInsuranceProposal
+  const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
+  const isSubmitted = requestData ? submittedStatus.includes(requestData.status) : false
 
   const {
     control,
@@ -89,7 +82,7 @@ const VehicleInsuranceApproval = ({
   const onSubmit = async (data: FormValue) => {
     try {
       const price = ethers.utils.parseUnits(String(data.price), 'ether')
-      
+
       rest.onClose()
       if (onApprove) onApprove()
     } catch (e) {
@@ -129,7 +122,7 @@ const VehicleInsuranceApproval = ({
               <Flex flex="1" direction="column" gap="1">
                 <FormControl maxW="90%">
                   <FormLabel htmlFor="tokenId">TokenId</FormLabel>
-                  <Input id="tokenId" value={tokenId} isReadOnly />
+                  <Input id="tokenId" value={requestData?.tokenId} isReadOnly />
                 </FormControl>
               </Flex>
               <Flex flex="1" direction="column" gap="1">
@@ -138,7 +131,7 @@ const VehicleInsuranceApproval = ({
                   <Input
                     id="carBrand"
                     placeholder="Insira a marca do veículo..."
-                    value={metadata?.carBrand}
+                    value={requestData?.metadata.carBrand}
                     isReadOnly
                   />
                 </FormControl>
@@ -149,7 +142,7 @@ const VehicleInsuranceApproval = ({
                   <Input
                     id="carModel"
                     placeholder="Insira a marca do veículo..."
-                    value={metadata?.carModel}
+                    value={requestData?.metadata.carModel}
                     isReadOnly
                   />
                 </FormControl>
@@ -164,8 +157,8 @@ const VehicleInsuranceApproval = ({
                     type="date"
                     placeholder="Insira a data..."
                     value={
-                      vehicleInsuranceProposal
-                        ? vehicleInsuranceProposal.insuranceStartDate.toISOString().slice(0, 10)
+                      isSubmitted
+                        ? requestData?.insuranceStartDate?.toISOString().slice(0, 10)
                         : undefined
                     }
                     {...register('insuranceStartDate', {
@@ -188,8 +181,8 @@ const VehicleInsuranceApproval = ({
                     type="date"
                     placeholder="Insira a data..."
                     value={
-                      vehicleInsuranceProposal
-                        ? vehicleInsuranceProposal.insuranceEndDate.toISOString().slice(0, 10)
+                      isSubmitted
+                        ? requestData?.insuranceEndDate?.toISOString().slice(0, 10)
                         : undefined
                     }
                     {...register('insuranceEndDate', {
@@ -213,7 +206,7 @@ const VehicleInsuranceApproval = ({
                       type="number"
                       step="0.001"
                       placeholder="Insira o preço..."
-                      value={vehicleInsuranceProposal ? vehicleInsuranceProposal.price : undefined}
+                      value={isSubmitted ? requestData?.price : undefined}
                       {...register('price', {
                         required: 'Campo obrigatório',
                         min: 0,
