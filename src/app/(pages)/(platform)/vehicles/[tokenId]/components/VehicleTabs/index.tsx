@@ -10,6 +10,7 @@ import CreateButton from '@/components/CreateButton'
 import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
 import BadgeStatus from '@/components/BadgeStatus'
 import ButtonEye from '@/components/Buttons/ButtonEye'
+import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
 
 interface Props {
   tokenId: string
@@ -21,12 +22,17 @@ const VehicleTabs = ({ tokenId }: Props) => {
     onOpen: onOpenVehicleServiceModal,
     onClose: onCloseVehicleServiceModal,
   } = useDisclosure()
+  const {
+    isOpen: isVehicleInsuranceRequestModalOpen,
+    onOpen: onOpenVehicleInsuranceRequestModal,
+    onClose: onCloseVehicleInsuranceRequestModal,
+  } = useDisclosure()
 
   const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
 
   const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
-  const { accidents, isLoading: isLoadingAccidents } = useVehicleAccidents(tokenId)
-  const { contracts, isLoading: isLoadingContracts } = useVehicleContracts(tokenId)
+  const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useVehicleAccidents(tokenId)
+  const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useVehicleContracts(tokenId)
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -205,7 +211,12 @@ const VehicleTabs = ({ tokenId }: Props) => {
             />
           </TabPanel>
           <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
-            <CreateButton alignSelf="flex-end" mr="4" hideTextOnSmallScreen>
+            <CreateButton
+              alignSelf="flex-end"
+              mr="4"
+              onClick={onOpenVehicleInsuranceRequestModal}
+              hideTextOnSmallScreen
+            >
               Solicitar contrato
             </CreateButton>
             <CustomDataTable
@@ -275,6 +286,13 @@ const VehicleTabs = ({ tokenId }: Props) => {
           setVehicleServiceViewId(undefined)
         }}
         onCreate={loadServices}
+      />
+
+      <VehicleContractRequestCreateModal
+        tokenId={tokenId}
+        isOpen={isVehicleInsuranceRequestModalOpen}
+        onClose={onCloseVehicleInsuranceRequestModal}
+        onCreate={loadContracts}
       />
     </Flex>
   )
