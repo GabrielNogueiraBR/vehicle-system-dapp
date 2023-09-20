@@ -20,17 +20,15 @@ import useInsurerContractProposals from '@/hooks/useInsurerContractProposals'
 import { useSigner } from '@usedapp/core'
 import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 
-type CustomData = (VehicleInsuranceRequest | VehicleInsuranceProposal) & {
-  metadata: VehicleMetadata
-}
+type CustomData = VehicleInsuranceRequest &
+  Partial<VehicleInsuranceProposal> & { metadata: VehicleMetadata }
 
 const ClientComponent = () => {
   const [dataTable, setDataTable] = useState<CustomData[]>([])
   const [isFormating, setFormating] = useState<boolean>(true)
-  //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
 
-  //TODO: COLOCAR USE EFFECT DE DADOS PARA JUNTAR O RESULTADO DE CONTRACT REQUEST E METADADOS DOS VEÍCULOS
-  const contractRequestRef = useRef<VehicleInsuranceRequest | undefined>(undefined)
+  //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
+  const requestData = useRef<CustomData | undefined>(undefined)
 
   const {
     contractRequests,
@@ -43,13 +41,15 @@ const ClientComponent = () => {
     load: loadContractProposals,
   } = useInsurerContractProposals()
 
+  const isLoading = isLoadingContractRequests || isLoadingContractProposals || isFormating
+
   const signer = useSigner()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
 
-  const handleClickContractRequest = (vehicleRequest: VehicleInsuranceRequest) => {
-    contractRequestRef.current = vehicleRequest
+  const handleClickContractRequest = (data: CustomData) => {
+    requestData.current = data
     onOpen()
   }
 
@@ -82,8 +82,6 @@ const ClientComponent = () => {
       setFormating(false)
     }
   }
-
-  const isLoading = isLoadingContractRequests || isLoadingContractProposals || isFormating
 
   useEffect(() => {
     formatTableData()
@@ -139,12 +137,14 @@ const ClientComponent = () => {
               selector: (row) => row.metadata.carBrand,
               sortable: true,
               wrap: true,
+              cell: (row) => row.metadata.carBrand || '-',
             },
             {
               name: 'Modelo',
               selector: (row) => row.metadata.carModel,
               sortable: true,
               wrap: true,
+              cell: (row) => row.metadata.carModel || '-',
             },
             {
               id: 'request_data',
