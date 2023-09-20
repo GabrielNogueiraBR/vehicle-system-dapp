@@ -1,16 +1,31 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Center, Flex, Heading, useDisclosure } from '@chakra-ui/react'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
-import NoVehicles from '@/components/Assets/NoVehicles'
 
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
 import NoContracts from '@/components/Assets/NoContracts'
+import {
+  VehicleContract,
+  VehicleInsuranceProposal,
+  VehicleInsuranceRequest,
+} from '@/types/contract'
+import readContract from '@/utils/readContract'
+import { useSigner } from '@usedapp/core'
+import getInsuranceRequestsByTokenId from '@/utils/getInsuranceRequestsByTokenId'
+import getContractsByTokenId from '@/utils/getContractsByTokenId'
+import getInsuranceProposalsByTokenId from '@/utils/getInsuranceProposalsByTokenId'
 
 const ClientElement = () => {
+  const [insuranceRequests, setInsuranceRequests] = useState<VehicleInsuranceRequest[]>([])
+  const [insuranceProposals, setInsuranceProposals] = useState<VehicleInsuranceProposal[]>([])
+  const [vehicleContracts, setVehicleContracts] = useState<VehicleContract[]>([])
+
+  const [isLoadingData, setIsLoadingData] = useState<boolean>(true)
+
   const {
     vehiclesNfts,
     isLoading: isLoadingVehiclesNFTs,
@@ -29,8 +44,46 @@ const ClientElement = () => {
     onClose: onVehicleRequestViewModalClose,
   } = useDisclosure()
 
-  const isLoading = false
-  const hasContent = false
+  const signer = useSigner()
+
+  const loadInsuranceData = async () => {
+    try {
+      if (isLoadingVehiclesNFTs || !signer) return
+      setIsLoadingData(true)
+
+      const requests: VehicleInsuranceRequest[] = []
+      const proposals: VehicleInsuranceProposal[] = []
+      const contracts: VehicleContract[] = []
+
+      await Promise.all(
+        vehiclesNfts.map(async ({ tokenId }) => {
+          const vehicleRequests = await getInsuranceRequestsByTokenId({ tokenId, signer })
+          const vehicleProposals = await getInsuranceProposalsByTokenId({ tokenId, signer })
+          const vehicleContracs = await getContractsByTokenId({ tokenId, signer })
+
+          requests.push(...vehicleRequests)
+          proposals.push(...vehicleProposals)
+          contracts.push(...vehicleContracs)
+        })
+      )
+
+      setInsuranceRequests(requests)
+      setInsuranceProposals(proposals)
+      setVehicleContracts(contracts)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setIsLoadingData(false)
+    }
+  }
+
+  const isLoading = isLoadingVehiclesNFTs || isLoadingData
+  const hasContent =
+    !!insuranceRequests.length || !!insuranceProposals.length || !!vehicleContracts.length
+
+  useEffect(() => {
+    loadInsuranceData()
+  }, [vehiclesNfts])
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
@@ -42,7 +95,13 @@ const ClientElement = () => {
         Solicitar contrato
       </CreateButton>
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
-        contratos
+        {JSON.stringify(insuranceRequests)}
+      </Flex>
+      <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
+        {JSON.stringify(insuranceProposals)}
+      </Flex>
+      <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
+        {JSON.stringify(vehicleContracts)}
       </Flex>
 
       <LoadingPage display={isLoading ? 'flex' : 'none'} />
