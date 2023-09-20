@@ -1,6 +1,6 @@
 'use client'
 
-import { VehicleInsuranceRequest } from '@/types/contract'
+import { Status, VehicleInsuranceRequest } from '@/types/contract'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
 import { useEffect, useState } from 'react'
@@ -35,6 +35,9 @@ const useInsurerContractRequests = () => {
               args: [requestId],
             })
             if (!data) return Promise.resolve()
+
+            // Only pending requests
+            if (data.status !== Status.PENDING) return Promise.resolve()
 
             const { requester, insurer, tokenId, status, createdAt, updatedAt } = data
 
