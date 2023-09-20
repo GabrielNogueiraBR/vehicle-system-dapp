@@ -123,13 +123,16 @@ const ClientComponent = () => {
               selector: (row) => row.requester,
               sortable: true,
               wrap: true,
-              cell: (row) => <Text noOfLines={1}>{row.requester.replace(ADDRESS_REGEX, '$1...$2')}</Text>,
+              cell: (row) => (
+                <Text noOfLines={1}>{row.requester.replace(ADDRESS_REGEX, '$1...$2')}</Text>
+              ),
             },
             {
               name: 'TokenId',
               selector: (row) => row.tokenId,
               sortable: true,
               wrap: true,
+              cell: (row) => `#${row.tokenId.toString().padStart(3, '0')}`,
             },
             {
               name: 'Marca',
