@@ -206,7 +206,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
                 isDisabled={isSubmitting}
                 display={vehicleService ? 'none' : 'flex'}
               >
-                Cancelar
+                {isSubmitting ? 'Fechar' : 'Cancelar'}Cancelar
               </Button>
               <Button
                 colorScheme="purple"

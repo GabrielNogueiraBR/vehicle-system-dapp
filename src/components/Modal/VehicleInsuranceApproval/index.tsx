@@ -234,7 +234,7 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
               OK
             </Button>
             <Button variant="cancel" onClick={rest.onClose} display={isSubmitted ? 'none' : 'flex'}>
-              Cancelar
+              {isSubmitting ? 'Fechar' : 'Cancelar'}
             </Button>
             <Button
               colorScheme="purple"
