@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useMemo, useRef } from 'react'
-import { Button, Flex, Heading, Icon, Tooltip, useDisclosure } from '@chakra-ui/react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { Button, Flex, Heading, Icon, Tooltip, useDisclosure, Text } from '@chakra-ui/react'
 import {
   Status,
   VehicleInsuranceProposal,
@@ -17,26 +17,33 @@ import VehicleInsuranceApproval from '@/components/Modal/VehicleInsuranceApprova
 import useInsurerContractRequests from '@/hooks/useInsurerContractRequests'
 import Link from 'next/link'
 import useInsurerContractProposals from '@/hooks/useInsurerContractProposals'
+import { useSigner } from '@usedapp/core'
+import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 
-type CustomData = {
+type CustomData = (VehicleInsuranceRequest | VehicleInsuranceProposal) & {
   metadata: VehicleMetadata
-  insuranceRequest: VehicleInsuranceRequest
-  insuranceProposal: VehicleInsuranceProposal
 }
 
 const ClientComponent = () => {
+  const [dataTable, setDataTable] = useState<CustomData[]>([])
+  const [isFormating, setFormating] = useState<boolean>(true)
   //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
 
   //TODO: COLOCAR USE EFFECT DE DADOS PARA JUNTAR O RESULTADO DE CONTRACT REQUEST E METADADOS DOS VEÍCULOS
   const contractRequestRef = useRef<VehicleInsuranceRequest | undefined>(undefined)
 
-  const { contractRequests, isLoading, load } = useInsurerContractRequests()
+  const {
+    contractRequests,
+    isLoading: isLoadingContractRequests,
+    load: loadContractRequests,
+  } = useInsurerContractRequests()
   const {
     contractProposals,
     isLoading: isLoadingContractProposals,
     load: loadContractProposals,
   } = useInsurerContractProposals()
 
+  const signer = useSigner()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
@@ -47,8 +54,40 @@ const ClientComponent = () => {
   }
 
   const handleApproveContractRequest = () => {
-    load()
+    loadContractRequests()
+    loadContractProposals()
   }
+
+  const formatTableData = async () => {
+    try {
+      setFormating(true)
+      const union = [...contractRequests, ...contractProposals]
+      const data: CustomData[] = []
+
+      await Promise.all(
+        union.map(async (value) => {
+          const metadata = await getVehicleNFTMetadataByTokenId({
+            tokenId: String(value.tokenId),
+            signer,
+          })
+
+          if (metadata) data.push({ ...value, metadata })
+        })
+      )
+
+      setDataTable(data)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setFormating(false)
+    }
+  }
+
+  const isLoading = isLoadingContractRequests || isLoadingContractProposals || isFormating
+
+  useEffect(() => {
+    formatTableData()
+  }, [contractRequests, contractProposals, signer])
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4">
@@ -66,12 +105,14 @@ const ClientComponent = () => {
         <CustomDataTable
           defaultSortFieldId="request_data"
           defaultSortAsc={false}
+          data={dataTable}
           columns={[
             {
               name: '#',
               selector: (row) => row.tokenId,
               center: true,
               wrap: true,
+              grow: 0.5,
               cell: (row) => (
                 <Tooltip label="Visualizar veículo" hasArrow>
                   <Link href={`/vehicles/${row.tokenId}`}>
@@ -82,31 +123,28 @@ const ClientComponent = () => {
             },
             {
               name: 'Proprietário',
-              selector: (row) => row.tokenId,
+              selector: (row) => row.requester,
               sortable: true,
               wrap: true,
-              cell: (row) => row.tokenId,
+              cell: (row) => <Text noOfLines={1}>{row.requester}</Text>,
             },
             {
               name: 'TokenId',
               selector: (row) => row.tokenId,
               sortable: true,
               wrap: true,
-              cell: (row) => row.tokenId,
             },
             {
               name: 'Marca',
-              selector: (row) => row.tokenId,
+              selector: (row) => row.metadata.carBrand,
               sortable: true,
               wrap: true,
-              cell: (row) => row.tokenId,
             },
             {
               name: 'Modelo',
-              selector: (row) => row.tokenId,
+              selector: (row) => row.metadata.carModel,
               sortable: true,
               wrap: true,
-              cell: (row) => row.tokenId,
             },
             {
               id: 'request_data',
@@ -159,7 +197,6 @@ const ClientComponent = () => {
               },
             },
           ]}
-          data={contractRequests}
           progressPending={isLoading}
         />
       </Flex>
