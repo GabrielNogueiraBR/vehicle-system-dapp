@@ -93,8 +93,8 @@ export type VehicleContract = {
   insurer: string
   tokenId: number
   contractUrl: string
-  insuranceStartDate: number
-  insuranceEndDate: number
+  insuranceStartDate: Date
+  insuranceEndDate: Date
   vehicleServicesIds: number[]
   status: InsuranceStatus
   createdAt: number

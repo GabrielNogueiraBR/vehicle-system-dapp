@@ -18,6 +18,7 @@ import { useSigner } from '@usedapp/core'
 import getInsuranceRequestsByTokenId from '@/utils/getInsuranceRequestsByTokenId'
 import getContractsByTokenId from '@/utils/getContractsByTokenId'
 import getInsuranceProposalsByTokenId from '@/utils/getInsuranceProposalsByTokenId'
+import ContractCard from '@/components/ContractCard'
 
 const ClientElement = () => {
   const [insuranceRequests, setInsuranceRequests] = useState<VehicleInsuranceRequest[]>([])
@@ -94,14 +95,36 @@ const ClientElement = () => {
       >
         Solicitar contrato
       </CreateButton>
+
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
-        {JSON.stringify(insuranceRequests)}
-      </Flex>
-      <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
-        {JSON.stringify(insuranceProposals)}
-      </Flex>
-      <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
-        {JSON.stringify(vehicleContracts)}
+        {insuranceRequests.map((request) => (
+          <ContractCard
+            key={request.id}
+            tokenId={request.tokenId}
+            insurer={request.insurer}
+            requestCreatedAt={request.createdAt}
+            status="request"
+          />
+        ))}
+        {insuranceProposals.map((proposal) => (
+          <ContractCard
+            key={proposal.id}
+            tokenId={proposal.tokenId}
+            insurer={proposal.insurer}
+            requestCreatedAt={proposal.createdAt}
+            status="proposal"
+          />
+        ))}
+        {vehicleContracts.map((contract) => (
+          <ContractCard
+            key={contract.id}
+            tokenId={contract.tokenId}
+            insurer={contract.insurer}
+            insuranceStartDate={contract.insuranceStartDate}
+            insuranceEndDate={contract.insuranceEndDate}
+            status="contract-active"
+          />
+        ))}
       </Flex>
 
       <LoadingPage display={isLoading ? 'flex' : 'none'} />

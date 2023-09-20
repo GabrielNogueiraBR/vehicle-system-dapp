@@ -246,7 +246,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                 },
                 {
                   name: 'Início em',
-                  selector: (row) => row.insuranceStartDate,
+                  selector: (row) => row.insuranceStartDate.getTime(),
                   sortable: true,
                   wrap: true,
                   grow: 1,
@@ -254,7 +254,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                 {
                   id: 'final_date',
                   name: 'Final em',
-                  selector: (row) => row.insuranceEndDate,
+                  selector: (row) => row.insuranceEndDate.getTime(),
                   sortable: true,
                   wrap: true,
                   grow: 1,
