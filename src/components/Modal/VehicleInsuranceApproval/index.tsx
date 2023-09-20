@@ -49,6 +49,7 @@ type FormValueOwnershipRecord = {
 }
 
 export type FormValue = {
+  tokenId: string
   insuranceStartDate: string
   insuranceEndDate: string
   price: number
@@ -65,14 +66,13 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 
 const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) => {
-  const { approveVehicleRequest } = useWeb3()
+  const { createVehicleInsuranceProposal } = useWeb3()
   const toast = useToast()
 
   const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
   const isSubmitted = requestData ? submittedStatus.includes(requestData.status) : false
 
   const {
-    control,
     handleSubmit,
     register,
     reset,
@@ -81,7 +81,54 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
 
   const onSubmit = async (data: FormValue) => {
     try {
+      const requestId = requestData?.id
+      if (!requestId) throw new Error('Invalid')
+      const { contractUrl } = data
+      const insuranceStartDate = new Date(data.insuranceStartDate).getTime() / 1000
+      const insuranceEndDate = new Date(data.insuranceEndDate).getTime() / 1000
       const price = ethers.utils.parseUnits(String(data.price), 'ether')
+
+      const promise = new Promise<ReturnOfFunction>(async (resolve, reject) => {
+        try {
+          const receipt = await createVehicleInsuranceProposal.send(
+            requestId,
+            insuranceStartDate,
+            insuranceEndDate,
+            price,
+            contractUrl
+          )
+          if (receipt?.status !== 1) reject(receipt)
+          resolve(receipt)
+        } catch (e) {
+          reject(e)
+        }
+      })
+
+      toast.promise(promise, {
+        success: (receipt) => ({
+          title: 'Sucesso ao enviar proposta de seguro',
+          description: (
+            <Text>
+              Para consultar a transação{' '}
+              <Link
+                href={`${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`}
+                target="_blank"
+              >
+                clique aqui
+              </Link>{' '}
+            </Text>
+          ),
+          duration: 7000,
+          position: 'top-right',
+        }),
+        error: {
+          title: 'Erro ao criar proposta de seguro, por favor, tente novamente.',
+          position: 'top-right',
+        },
+        loading: { title: 'Enviando proposta de seguro...' },
+      })
+
+      await promise
 
       rest.onClose()
       if (onApprove) onApprove()
@@ -122,7 +169,14 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
               <Flex flex="1" direction="column" gap="1">
                 <FormControl maxW="90%">
                   <FormLabel htmlFor="tokenId">TokenId</FormLabel>
-                  <Input id="tokenId" value={requestData?.tokenId} isReadOnly />
+                  <Input
+                    id="tokenId"
+                    value={requestData?.tokenId}
+                    {...register('tokenId', {
+                      required: 'Campo obrigatório',
+                    })}
+                    isReadOnly
+                  />
                 </FormControl>
               </Flex>
               <Flex flex="1" direction="column" gap="1">
@@ -217,6 +271,27 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
                     <InputRightAddon>ETH</InputRightAddon>
                   </InputGroup>
                   <FormErrorMessage>{errors.price && errors.price.message}</FormErrorMessage>
+                </FormControl>
+              </Flex>
+            </Flex>
+            <Flex w="100%" h="fit-content" direction="row" justify="" align="flex-start">
+              <Flex flex="1" direction="column" gap="1">
+                <FormControl maxW="63.5%" isInvalid={!!errors.contractUrl}>
+                  <FormLabel htmlFor="contractUrl">Url externo</FormLabel>
+                  <Input
+                    id="contractUrl"
+                    placeholder="Link do contrato..."
+                    value={isSubmitted ? requestData?.contractUrl : undefined}
+                    {...register('contractUrl', {
+                      required: 'Campo obrigatório',
+                      minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
+                    })}
+                    disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
+                  />
+                  <FormErrorMessage>
+                    {errors.contractUrl && errors.contractUrl.message}
+                  </FormErrorMessage>
                 </FormControl>
               </Flex>
             </Flex>
