@@ -122,7 +122,7 @@ const ClientElement = () => {
             insurer={contract.insurer}
             insuranceStartDate={contract.insuranceStartDate}
             insuranceEndDate={contract.insuranceEndDate}
-            status="contract-active"
+            status="contract"
           />
         ))}
       </Flex>

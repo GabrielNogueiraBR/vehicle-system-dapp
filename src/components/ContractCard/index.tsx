@@ -14,7 +14,7 @@ interface Props extends FlexProps {
   insuranceStartDate?: Date
   insuranceEndDate?: Date
   requestCreatedAt?: Date
-  status: 'contract-active' | 'contract-expired' | 'request' | 'proposal'
+  status: 'contract' | 'contract' | 'request' | 'proposal'
 }
 
 const ContractCard = ({
@@ -26,6 +26,8 @@ const ContractCard = ({
   status,
   ...rest
 }: Props) => {
+  const isContractExpired = insuranceEndDate ? insuranceEndDate.getTime() < Date.now() : false
+
   return (
     <FramerMotionBox
       initial={{ scale: 0 }}
@@ -59,7 +61,11 @@ const ContractCard = ({
         <Flex direction="column" justify="flex-start" align="flex-start" gap="2">
           <Box>
             <Heading as="h3" fontSize="xl">
-              Contrato de seguro
+              {status === 'request'
+                ? 'Solicitação de seguro'
+                : status === 'proposal'
+                ? 'Proposta de contrato'
+                : 'Contrato de seguro'}
             </Heading>
             <Text color="light-gray" fontSize="lg" fontWeight={500}>
               Token #{tokenId.toString().padStart(3, '0')}
@@ -83,7 +89,7 @@ const ContractCard = ({
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceStartDate)}</Text>
               </Text>
               <Text fontSize="lg" fontWeight={500}>
-                Início:{' '}
+                Fim:{' '}
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceEndDate)}</Text>
               </Text>
             </HStack>
@@ -96,14 +102,24 @@ const ContractCard = ({
           mt="5"
           mr="5"
           minW="5.625rem"
-          theme="green"
+          theme={
+            status === 'request'
+              ? 'blue'
+              : status === 'proposal'
+              ? 'purple'
+              : isContractExpired
+              ? 'red'
+              : 'green'
+          }
           hiddenCircle
         >
           {status === 'request'
-            ? 'Solicitação de seguro'
+            ? 'Pendente'
             : status === 'proposal'
-            ? 'Proposta de contrato'
-            : 'Contrato de seguro'}
+            ? 'Aprovado'
+            : isContractExpired
+            ? 'Expirado'
+            : 'Ativo'}
         </BadgeStatus>
       </Flex>
     </FramerMotionBox>
