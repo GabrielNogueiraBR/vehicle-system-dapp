@@ -5,6 +5,7 @@ import { Flex, VStack } from '@chakra-ui/react'
 import { NavLink } from './NavLink'
 
 import { RiShakeHandsLine } from 'react-icons/ri'
+import { VscRequestChanges } from 'react-icons/vsc'
 import VehicleOcta from '../Icons/VehicleOcta'
 import HomeRounded from '../Icons/HomeRounded'
 import { usePathname } from 'next/navigation'
@@ -41,13 +42,13 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
       },
       {
         title: 'Contratos de veículos',
-        icon: RiShakeHandsLine,
+        icon: VehicleDocument,
         href: '/insurer/contracts',
         role: 'insurer',
       },
       {
         title: 'Solicitações de contratos',
-        icon: VehicleDocument,
+        icon: VscRequestChanges,
         href: '/insurer/requests',
         role: 'insurer',
       },
