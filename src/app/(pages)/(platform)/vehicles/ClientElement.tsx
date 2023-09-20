@@ -113,10 +113,10 @@ const ClientElement = () => {
       <LoadingPage display={isLoading ? 'flex' : 'none'} />
 
       <Center
+        flex="1"
         flexDirection="column"
         w="100%"
         display={!isLoading && !hasContent ? 'flex' : 'none'}
-        mt="16"
         gap="4"
       >
         <NoVehicles color="primary" w="md" />
