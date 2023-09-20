@@ -46,7 +46,7 @@ const ContractCard = ({
         direction="row"
         minW={{ base: '100%', md: '100%', lg: '31.25rem' }}
         w="fit-content"
-        h="fit-content"
+        h="100%"
         gap="3"
         p="5"
         rounded="2xl"
@@ -83,7 +83,7 @@ const ContractCard = ({
               Data criação:{' '}
               <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(requestCreatedAt)}</Text>
             </Text>
-            <HStack spacing={5}>
+            <HStack display={status === 'request' ? 'none' : undefined} spacing={5}>
               <Text fontSize="lg" fontWeight={500}>
                 Início:{' '}
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceStartDate)}</Text>

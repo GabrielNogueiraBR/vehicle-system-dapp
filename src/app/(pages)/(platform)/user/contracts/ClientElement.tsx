@@ -143,6 +143,7 @@ const ClientElement = () => {
       <VehicleContractRequestCreateModal
         isOpen={isVehicleInsuranceRequestModalOpen}
         onClose={onCloseVehicleInsuranceRequestModal}
+        onCreate={() => loadVehiclesNFTs()}
       />
     </Flex>
   )
