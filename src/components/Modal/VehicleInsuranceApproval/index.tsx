@@ -69,8 +69,7 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
   const { createVehicleInsuranceProposal } = useWeb3()
   const toast = useToast()
 
-  const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
-  const isSubmitted = requestData ? submittedStatus.includes(requestData.status) : false
+  const isSubmitted = requestData?.insuranceStartDate !== undefined
 
   const {
     handleSubmit,

@@ -46,8 +46,6 @@ const ClientComponent = () => {
   const signer = useSigner()
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const submittedStatus = useMemo(() => [Status.APPROVED, Status.COMPLETED, Status.CANCEL], [])
-
   const handleClickContractRequest = (data: CustomData) => {
     requestDataRef.current = data
     onOpen()
@@ -160,7 +158,7 @@ const ClientComponent = () => {
               sortable: true,
               wrap: true,
               cell: (row) => {
-                const isSubmitted = submittedStatus.includes(row.status)
+                const isSubmitted = row?.insuranceStartDate !== undefined
                 return (
                   <BadgeStatus theme={isSubmitted ? 'purple' : 'green'}>
                     {isSubmitted ? 'Aprovado' : 'Pendente'}
@@ -172,7 +170,7 @@ const ClientComponent = () => {
               selector: (row) => row.id,
               grow: 0.5,
               cell: (row) => {
-                const isSubmitted = submittedStatus.includes(row.status)
+                const isSubmitted = row?.insuranceStartDate !== undefined
                 return (
                   <Button
                     colorScheme="none"
