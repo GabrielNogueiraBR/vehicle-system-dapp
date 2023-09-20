@@ -29,6 +29,7 @@ const ClientComponent = () => {
   const [isFormating, setFormating] = useState<boolean>(true)
 
   //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
+  //TODO: MODIFICAR O MODAL DE VISUALIZAÇÃO -> SEGUIR FIGMA (DIFERENTE DO DE CRIAÇÃO)
   const requestDataRef = useRef<CustomData | undefined>(undefined)
 
   const {
