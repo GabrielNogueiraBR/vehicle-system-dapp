@@ -19,7 +19,7 @@ import {
 import { Status, VehicleRequest } from '@/types/contract'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { useContractFunction } from '@usedapp/core'
-import { BLOCK_EXPLORER } from '@/constants/web3'
+import { ADDRESS_REGEX, BLOCK_EXPLORER } from '@/constants/web3'
 
 interface Props extends Omit<ModalProps, 'children'> {
   vehicleRequest?: VehicleRequest
@@ -117,7 +117,7 @@ const VehicleRequestModal = ({ vehicleRequest, onCreateVehicle, ...rest }: Props
               <Text>
                 Agente:{' '}
                 <Text as="span">
-                  {vehicleRequest?.agent.replace(/^(.{0,5}).*?(.{0,5})$/, '$1...$2')}
+                  {vehicleRequest?.agent.replace(ADDRESS_REGEX, '$1...$2')}
                 </Text>
               </Text>
               <Text display={isPending ? 'block' : 'none'}>

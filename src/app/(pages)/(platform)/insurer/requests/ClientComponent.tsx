@@ -19,6 +19,7 @@ import Link from 'next/link'
 import useInsurerContractProposals from '@/hooks/useInsurerContractProposals'
 import { useSigner } from '@usedapp/core'
 import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
+import { ADDRESS_REGEX } from '@/constants/web3'
 
 type CustomData = VehicleInsuranceRequest &
   Partial<VehicleInsuranceProposal> & { metadata: VehicleMetadata }
@@ -122,7 +123,7 @@ const ClientComponent = () => {
               selector: (row) => row.requester,
               sortable: true,
               wrap: true,
-              cell: (row) => <Text noOfLines={1}>{row.requester}</Text>,
+              cell: (row) => <Text noOfLines={1}>{row.requester.replace(ADDRESS_REGEX, '$1...$2')}</Text>,
             },
             {
               name: 'TokenId',
