@@ -4,7 +4,11 @@ import React from 'react'
 import { Box, Flex, FlexProps, HStack, Heading, Icon, Text } from '@chakra-ui/react'
 import BadgeStatus from '../BadgeStatus'
 
-import { HiOutlineDocumentText } from 'react-icons/hi'
+import {
+  HiOutlineDocumentDownload,
+  HiOutlineDocumentSearch,
+  HiOutlineDocumentText,
+} from 'react-icons/hi'
 import FramerMotionBox from '../FramerMotionBox'
 import { ADDRESS_REGEX } from '@/constants/web3'
 
@@ -57,7 +61,18 @@ const ContractCard = ({
         userSelect={'none'}
         {...rest}
       >
-        <Icon boxSize="3.75rem" m={0} p={0} as={HiOutlineDocumentText} />
+        <Icon
+          boxSize="3.75rem"
+          m={0}
+          p={0}
+          as={
+            status === 'request'
+              ? HiOutlineDocumentSearch
+              : status === 'proposal'
+              ? HiOutlineDocumentDownload
+              : HiOutlineDocumentText
+          }
+        />
         <Flex direction="column" justify="flex-start" align="flex-start" gap="2">
           <Box>
             <Heading as="h3" fontSize="xl">
@@ -71,7 +86,7 @@ const ContractCard = ({
               Token #{tokenId.toString().padStart(3, '0')}
             </Text>
           </Box>
-          <Box sx={{ p: { color: 'dark' }, span: { color: 'light-gray' } }}>
+          <Box w="100%" sx={{ p: { color: 'dark' }, span: { color: 'light-gray' } }}>
             <Text fontSize="lg" fontWeight={500}>
               Seguradora: <Text as="span">{insurer.replace(ADDRESS_REGEX, '$1...$2')}</Text>
             </Text>
@@ -83,7 +98,7 @@ const ContractCard = ({
               Data criação:{' '}
               <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(requestCreatedAt)}</Text>
             </Text>
-            <HStack display={status === 'request' ? 'none' : undefined} spacing={5}>
+            <Flex direction="row" gap="2" display={status === 'request' ? 'none' : undefined}>
               <Text fontSize="lg" fontWeight={500}>
                 Início:{' '}
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceStartDate)}</Text>
@@ -92,7 +107,7 @@ const ContractCard = ({
                 Fim:{' '}
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceEndDate)}</Text>
               </Text>
-            </HStack>
+            </Flex>
           </Box>
         </Flex>
         <BadgeStatus
