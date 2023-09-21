@@ -23,11 +23,13 @@ import { useContractFunction } from '@usedapp/core'
 import { ADDRESS_REGEX, BLOCK_EXPLORER } from '@/constants/web3'
 import { ReturnOfFunction } from '@/types'
 import { HiExternalLink } from 'react-icons/hi'
+import { ethers } from 'ethers'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: number
   insurer: string
   proposalId?: number
+  price?: number
   insuranceStartDate?: Date
   insuranceEndDate?: Date
   requestCreatedAt?: Date
@@ -41,6 +43,7 @@ const VehicleContractInfoModal = ({
   tokenId,
   insurer,
   proposalId,
+  price,
   insuranceStartDate,
   insuranceEndDate,
   requestCreatedAt,
@@ -62,10 +65,12 @@ const VehicleContractInfoModal = ({
   const handleContractVehicleInsurance = async () => {
     try {
       setIsContracting(true)
-      if (!proposalId) throw new Error('Invalid')
+      if (!proposalId || !price) throw new Error('Invalid')
 
       const promise = new Promise<ReturnOfFunction>(async (resolve, reject) => {
-        const receipt = await contractVehicleInsuranceProposal.send(proposalId)
+        const receipt = await contractVehicleInsuranceProposal.send(proposalId, {
+          value: ethers.utils.parseEther(String(price)),
+        })
         if (receipt?.status !== 1) reject(receipt)
         resolve(receipt)
       })
@@ -203,6 +208,9 @@ const VehicleContractInfoModal = ({
                     ? 'Expirado'
                     : 'Ativo'}
                 </Text>
+              </Text>
+              <Text>
+                Preço: <Text as="span">{price?.toString().padStart(3, '0')} ETH</Text>
               </Text>
             </Flex>
           </Flex>

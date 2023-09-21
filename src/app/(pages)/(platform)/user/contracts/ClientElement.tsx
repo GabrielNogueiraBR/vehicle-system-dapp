@@ -25,6 +25,7 @@ type ModalViewProps = {
   tokenId: number
   insurer: string
   proposalId?: number
+  price?: number
   insuranceStartDate?: Date
   insuranceEndDate?: Date
   requestCreatedAt?: Date
@@ -146,6 +147,7 @@ const ClientElement = () => {
                 proposalId: proposal.id,
                 tokenId: proposal.tokenId,
                 insurer: proposal.insurer,
+                price: proposal.price,
                 insuranceStartDate: proposal.insuranceStartDate,
                 insuranceEndDate: proposal.insuranceEndDate,
                 contractUrl: proposal.contractUrl,
@@ -202,6 +204,7 @@ const ClientElement = () => {
         tokenId={modalProps?.current?.tokenId || 0}
         insurer={modalProps?.current?.insurer || ''}
         proposalId={modalProps?.current?.proposalId}
+        price={modalProps?.current?.price}
         insuranceStartDate={modalProps?.current?.insuranceStartDate}
         insuranceEndDate={modalProps?.current?.insuranceEndDate}
         requestCreatedAt={modalProps?.current?.requestCreatedAt}
