@@ -113,7 +113,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   selector: (row) => row.title,
                   sortable: true,
                   wrap: true,
-                  grow: 2,
+                  grow: 1,
                 },
                 {
                   name: 'Preço',
@@ -129,7 +129,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   selector: (row) => row.date,
                   sortable: true,
                   wrap: true,
-                  grow: 1,
+                  grow: 0.8,
                   format: (row) =>
                     new Intl.DateTimeFormat('pt-BR', {
                       timeZone: 'UTC',
@@ -140,10 +140,11 @@ const VehicleTabs = ({ tokenId }: Props) => {
                 },
                 {
                   name: 'Status',
+                  center: true,
                   selector: (row) => row.id,
                   sortable: true,
                   wrap: true,
-                  grow: 0.8,
+                  grow: 0.5,
                   cell: (row) => {
                     const isInsured = contracts.some((contract) =>
                       contract.vehicleServicesIds.some((id) => id === row.id)
