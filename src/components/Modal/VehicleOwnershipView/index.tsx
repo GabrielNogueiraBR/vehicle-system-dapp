@@ -36,7 +36,7 @@ const VehicleOwnershipViewModal = ({ ownership, ...rest }: Props) => {
                 selector: (row) => row.driverLicenseCode,
                 wrap: true,
                 grow: 0.5,
-                format: (row) => row.driverLicenseCode,
+                format: (row) => row.driverLicenseCode || '-',
               },
               {
                 name: 'Placa do veículo',
@@ -44,6 +44,7 @@ const VehicleOwnershipViewModal = ({ ownership, ...rest }: Props) => {
                 sortable: true,
                 wrap: true,
                 grow: 1,
+                format: (row) => row.vehiclePlate || '-',
               },
               {
                 id: 'startDate',
@@ -81,6 +82,7 @@ const VehicleOwnershipViewModal = ({ ownership, ...rest }: Props) => {
                 sortable: true,
                 wrap: true,
                 grow: 0.5,
+                format: (row) => row.federalUnit || '-',
               },
             ]}
             data={ownership}
