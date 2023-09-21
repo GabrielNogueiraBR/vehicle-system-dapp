@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from 'react'
+import React from 'react'
 import {
   Modal,
   ModalOverlay,
@@ -16,37 +16,21 @@ import {
   FormLabel,
   Input,
   Text,
-  VStack,
-  Icon,
   useToast,
   Link,
   InputGroup,
   InputRightAddon,
 } from '@chakra-ui/react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import {
-  Status,
   VehicleInsuranceProposal,
   VehicleInsuranceRequest,
   VehicleMetadata,
-  VehicleRequest,
 } from '@/types/contract'
-import { RiAddCircleLine } from 'react-icons/ri'
 import { useContractFunction } from '@usedapp/core'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { BLOCK_EXPLORER } from '@/constants/web3'
-import useVehicleMetadata from '@/hooks/useVehicleMetadata'
 import { ethers } from 'ethers'
-
-type FormValueOwnershipRecord = {
-  driverLicenseCode: string
-  federalUnit: string
-  county: string
-  vehiclePlate: string
-  year: string
-  startDate: string
-  endDate: string
-}
 
 export type FormValue = {
   tokenId: string

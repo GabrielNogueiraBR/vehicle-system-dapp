@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Center, Flex, Heading, useDisclosure } from '@chakra-ui/react'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
@@ -19,6 +19,18 @@ import getInsuranceRequestsByTokenId from '@/utils/getInsuranceRequestsByTokenId
 import getContractsByTokenId from '@/utils/getContractsByTokenId'
 import getInsuranceProposalsByTokenId from '@/utils/getInsuranceProposalsByTokenId'
 import ContractCard from '@/components/ContractCard'
+import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
+
+type ModalViewProps = {
+  tokenId: number
+  insurer: string
+  proposalId?: number
+  insuranceStartDate?: Date
+  insuranceEndDate?: Date
+  requestCreatedAt?: Date
+  requestUpdatedAt?: Date
+  status: 'contract' | 'contract' | 'request' | 'proposal'
+}
 
 const ClientElement = () => {
   const [insuranceRequests, setInsuranceRequests] = useState<VehicleInsuranceRequest[]>([])
@@ -26,6 +38,7 @@ const ClientElement = () => {
   const [vehicleContracts, setVehicleContracts] = useState<VehicleContract[]>([])
 
   const [isLoadingData, setIsLoadingData] = useState<boolean>(true)
+  const modalProps = useRef<ModalViewProps>()
 
   const {
     vehiclesNfts,
@@ -40,9 +53,9 @@ const ClientElement = () => {
   } = useDisclosure()
 
   const {
-    isOpen: isVehicleRequestViewModalOpen,
-    onOpen: onVehicleRequestViewModalOpen,
-    onClose: onVehicleRequestViewModalClose,
+    isOpen: isVehicleContractInfoModalOpen,
+    onOpen: onVehicleContractInfoModalOpen,
+    onClose: onVehicleContractInfoModalClose,
   } = useDisclosure()
 
   const signer = useSigner()
@@ -78,6 +91,11 @@ const ClientElement = () => {
     }
   }
 
+  const handleOpenContractViewModal = (props: ModalViewProps) => {
+    modalProps.current = props
+    onVehicleContractInfoModalOpen()
+  }
+
   const isLoading = isLoadingVehiclesNFTs || isLoadingData
   const hasContent =
     !!insuranceRequests.length || !!insuranceProposals.length || !!vehicleContracts.length
@@ -104,6 +122,15 @@ const ClientElement = () => {
             insurer={request.insurer}
             requestCreatedAt={request.createdAt}
             status="request"
+            onClick={() =>
+              handleOpenContractViewModal({
+                tokenId: request.tokenId,
+                insurer: request.insurer,
+                requestCreatedAt: request.createdAt,
+                requestUpdatedAt: request.updatedAt,
+                status: 'request',
+              })
+            }
           />
         ))}
         {insuranceProposals.map((proposal) => (
@@ -113,6 +140,16 @@ const ClientElement = () => {
             insurer={proposal.insurer}
             requestCreatedAt={proposal.createdAt}
             status="proposal"
+            onClick={() =>
+              handleOpenContractViewModal({
+                proposalId: proposal.id,
+                tokenId: proposal.tokenId,
+                insurer: proposal.insurer,
+                insuranceStartDate: proposal.insuranceStartDate,
+                insuranceEndDate: proposal.insuranceEndDate,
+                status: 'proposal',
+              })
+            }
           />
         ))}
         {vehicleContracts.map((contract) => (
@@ -123,6 +160,15 @@ const ClientElement = () => {
             insuranceStartDate={contract.insuranceStartDate}
             insuranceEndDate={contract.insuranceEndDate}
             status="contract"
+            onClick={() =>
+              handleOpenContractViewModal({
+                tokenId: contract.tokenId,
+                insurer: contract.insurer,
+                insuranceStartDate: contract.insuranceStartDate,
+                insuranceEndDate: contract.insuranceEndDate,
+                status: 'contract',
+              })
+            }
           />
         ))}
       </Flex>
@@ -144,6 +190,20 @@ const ClientElement = () => {
         isOpen={isVehicleInsuranceRequestModalOpen}
         onClose={onCloseVehicleInsuranceRequestModal}
         onCreate={() => loadVehiclesNFTs()}
+      />
+
+      <VehicleContractInfoModal
+        isOpen={isVehicleContractInfoModalOpen}
+        onClose={onVehicleContractInfoModalClose}
+        onCreateContract={() => loadVehiclesNFTs()}
+        tokenId={modalProps?.current?.tokenId || 0}
+        insurer={modalProps?.current?.insurer || ''}
+        proposalId={modalProps?.current?.proposalId}
+        insuranceStartDate={modalProps?.current?.insuranceStartDate}
+        insuranceEndDate={modalProps?.current?.insuranceEndDate}
+        requestCreatedAt={modalProps?.current?.requestCreatedAt}
+        requestUpdatedAt={modalProps?.current?.requestUpdatedAt}
+        status={modalProps?.current?.status || 'request'}
       />
     </Flex>
   )

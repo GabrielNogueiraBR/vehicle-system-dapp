@@ -11,6 +11,7 @@ interface Web3ContextData {
   approveVehicleRequest: ReturnType<typeof useContractFunction>
   createVehicleInsuranceRequest: ReturnType<typeof useContractFunction>
   createVehicleInsuranceProposal: ReturnType<typeof useContractFunction>
+  contractVehicleInsuranceProposal: ReturnType<typeof useContractFunction>
 }
 
 export const Web3Context = createContext({} as Web3ContextData)
@@ -58,6 +59,12 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
     { transactionName: 'Create Vehicle Insurance Proposal' }
   )
 
+  const contractVehicleInsuranceProposal = useContractFunction(
+    contract,
+    'contractVehicleInsuranceProposal',
+    { transactionName: 'Contract Vehicle Insurance Proposal' }
+  )
+
   return (
     <Web3Context.Provider
       value={{
@@ -68,7 +75,8 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
         createVehicle,
         approveVehicleRequest,
         createVehicleInsuranceRequest,
-        createVehicleInsuranceProposal
+        createVehicleInsuranceProposal,
+        contractVehicleInsuranceProposal,
       }}
     >
       {children}
