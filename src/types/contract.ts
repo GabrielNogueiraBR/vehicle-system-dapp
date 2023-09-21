@@ -107,4 +107,5 @@ export type VehicleMetadata = {
   carModel: string
   manufacturingDate: Date
   vehicleOwnershipRecordIds: number[]
+  vehicleOwnershipRecords: VehicleOwnershipRecord[]
 }
