@@ -142,7 +142,7 @@ const VehicleContractInfoModal = ({
             }}
           >
             <Flex
-              flex="1"
+              flex="1.5"
               direction="column"
               justifyContent="flex-start"
               alignItems="flex-start"
