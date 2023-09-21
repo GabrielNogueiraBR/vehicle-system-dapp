@@ -29,6 +29,7 @@ type ModalViewProps = {
   insuranceEndDate?: Date
   requestCreatedAt?: Date
   requestUpdatedAt?: Date
+  contractUrl?: string
   status: 'contract' | 'contract' | 'request' | 'proposal'
 }
 
@@ -147,6 +148,7 @@ const ClientElement = () => {
                 insurer: proposal.insurer,
                 insuranceStartDate: proposal.insuranceStartDate,
                 insuranceEndDate: proposal.insuranceEndDate,
+                contractUrl: proposal.contractUrl,
                 status: 'proposal',
               })
             }
@@ -166,6 +168,7 @@ const ClientElement = () => {
                 insurer: contract.insurer,
                 insuranceStartDate: contract.insuranceStartDate,
                 insuranceEndDate: contract.insuranceEndDate,
+                contractUrl: contract.contractUrl,
                 status: 'contract',
               })
             }
@@ -203,6 +206,7 @@ const ClientElement = () => {
         insuranceEndDate={modalProps?.current?.insuranceEndDate}
         requestCreatedAt={modalProps?.current?.requestCreatedAt}
         requestUpdatedAt={modalProps?.current?.requestUpdatedAt}
+        contractUrl={modalProps?.current?.contractUrl}
         status={modalProps?.current?.status || 'request'}
       />
     </Flex>

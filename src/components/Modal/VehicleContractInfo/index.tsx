@@ -15,12 +15,14 @@ import {
   ModalFooter,
   useToast,
   Link,
+  Icon,
 } from '@chakra-ui/react'
 import { Status, VehicleRequest } from '@/types/contract'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { useContractFunction } from '@usedapp/core'
 import { ADDRESS_REGEX, BLOCK_EXPLORER } from '@/constants/web3'
 import { ReturnOfFunction } from '@/types'
+import { HiExternalLink } from 'react-icons/hi'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: number
@@ -30,6 +32,7 @@ interface Props extends Omit<ModalProps, 'children'> {
   insuranceEndDate?: Date
   requestCreatedAt?: Date
   requestUpdatedAt?: Date
+  contractUrl?: string
   status: 'contract' | 'contract' | 'request' | 'proposal'
   onCreateContract?: () => void
 }
@@ -42,6 +45,7 @@ const VehicleContractInfoModal = ({
   insuranceEndDate,
   requestCreatedAt,
   requestUpdatedAt,
+  contractUrl,
   status,
   onCreateContract,
   ...rest
@@ -142,6 +146,7 @@ const VehicleContractInfoModal = ({
               <Text>
                 Seguradora: <Text as="span">{insurer.replace(ADDRESS_REGEX, '$1...$2')}</Text>
               </Text>
+
               <Text display={isRequest ? 'block' : 'none'}>
                 Data criação:{' '}
                 <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(requestCreatedAt)}</Text>
@@ -152,9 +157,30 @@ const VehicleContractInfoModal = ({
               </Text>
 
               <Text display={isRequest ? 'none' : 'block'}>
-                {'Modelo: '}
-                <Text as="span">Link externo</Text>
+                Data de início:{' '}
+                <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceStartDate)}</Text>
               </Text>
+              <Text display={isRequest ? 'none' : 'block'}>
+                Data de fim:{' '}
+                <Text as="span">{new Intl.DateTimeFormat('pt-BR').format(insuranceEndDate)}</Text>
+              </Text>
+
+              <Link
+                display={isRequest ? 'none' : 'flex'}
+                fontSize="xl"
+                fontWeight={700}
+                color="primary"
+                flexDirection="row"
+                columnGap={2}
+                justifyContent="flex-start"
+                alignItems="center"
+                href={contractUrl}
+                target="_blank"
+                isExternal
+              >
+                <Icon as={HiExternalLink} fontSize="2xl" />
+                Link externo
+              </Link>
             </Flex>
             <Flex
               flex="1"
