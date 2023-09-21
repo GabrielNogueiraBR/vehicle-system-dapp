@@ -137,7 +137,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
                   <Input
                     id="price"
                     type="number"
-                    step="0.001"
+                    step="0.000000000000000001"
                     value={vehicleService ? vehicleService.price : undefined}
                     placeholder="Insira o preço..."
                     {...register('price', {

@@ -257,7 +257,7 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
                     <Input
                       id="price"
                       type="number"
-                      step="0.001"
+                      step="0.000000000000000001"
                       placeholder="Insira o preço..."
                       value={isSubmitted ? requestData?.price : undefined}
                       {...register('price', {
