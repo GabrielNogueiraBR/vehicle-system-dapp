@@ -209,7 +209,7 @@ const VehicleContractInfoModal = ({
                     : 'Ativo'}
                 </Text>
               </Text>
-              <Text>
+              <Text display={isProposal ? 'block' : 'none'}>
                 Preço: <Text as="span">{price?.toString().padStart(3, '0')} ETH</Text>
               </Text>
             </Flex>
