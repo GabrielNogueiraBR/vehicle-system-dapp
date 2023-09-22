@@ -21,7 +21,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import { InsuranceStatus, VehicleAccident } from '@/types/contract'
+import { InsuranceStatus, VehicleAccident as VehicleAccidentModal } from '@/types/contract'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 import { ReturnOfFunction } from '@/types'
@@ -35,11 +35,11 @@ export type FormValue = {
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
-  vehicleAccident?: VehicleAccident
+  vehicleAccident?: VehicleAccidentModal
   onCreate?: () => void
 }
 
-const VehicleAccidentCreate = ({ vehicleAccident, onCreate, ...rest }: Props) => {
+const VehicleAccidentModal = ({ vehicleAccident, onCreate, ...rest }: Props) => {
   const { tokenId, useContract } = useVehicle()
   const { registerVehicleAccidentRecord } = useWeb3()
 
@@ -144,8 +144,10 @@ const VehicleAccidentCreate = ({ vehicleAccident, onCreate, ...rest }: Props) =>
                   <FormLabel htmlFor="insurance">Contrato de Seguro</FormLabel>
                   <Select
                     id="insurance"
+                    value={isSubmitted ? vehicleAccident.insuranceId : undefined}
                     {...register('insurance', { required: 'Campo obrigatório' })}
                     disabled={isSubmitting}
+                    isReadOnly={isSubmitted}
                   >
                     {contracts
                       ?.filter((contract) => contract.status !== InsuranceStatus.EXPIRED)
@@ -175,7 +177,11 @@ const VehicleAccidentCreate = ({ vehicleAccident, onCreate, ...rest }: Props) =>
                     id="date"
                     type="date"
                     placeholder="Insira a data..."
-                    value={isSubmitted ? '10-10-2010' : undefined}
+                    value={
+                      isSubmitted
+                        ? vehicleAccident.accidentDate.toISOString().slice(0, 10)
+                        : undefined
+                    }
                     {...register('date', {
                       valueAsDate: true,
                       required: 'Campo obrigatório',
@@ -195,7 +201,7 @@ const VehicleAccidentCreate = ({ vehicleAccident, onCreate, ...rest }: Props) =>
                     id="description"
                     placeholder="Descrição..."
                     minRows={5}
-                    value={isSubmitted ? 'Descrição do sinistro' : undefined}
+                    value={isSubmitted ? vehicleAccident.description : undefined}
                     {...register('description', {
                       required: 'Campo obrigatório',
                       minLength: { value: 2, message: 'Mínimo de 2 caracteres' },
@@ -242,4 +248,4 @@ const VehicleAccidentCreate = ({ vehicleAccident, onCreate, ...rest }: Props) =>
   )
 }
 
-export default VehicleAccidentCreate
+export default VehicleAccidentModal

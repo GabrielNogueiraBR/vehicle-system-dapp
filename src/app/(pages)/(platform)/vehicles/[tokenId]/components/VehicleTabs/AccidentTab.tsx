@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 
 import { TabPanel, TabPanelProps, useDisclosure } from '@chakra-ui/react'
 import CreateButton from '@/components/CreateButton'
@@ -8,7 +8,8 @@ import CustomDataTable from '@/components/CustomDataTable'
 import { ADDRESS_REGEX } from '@/constants/web3'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import { useVehicle } from '@/contexts/VehicleContext'
-import VehicleAccidentCreate from '@/components/Modal/VehicleAccidentCreate'
+import VehicleAccidentModal from '@/components/Modal/VehicleAccident'
+import { VehicleAccident } from '@/types/contract'
 
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
@@ -16,11 +17,33 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
   const { useAccidents } = useVehicle()
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const accidentViewRef = useRef<VehicleAccident>()
+
+  const {
+    isOpen: isVehicleAccidentCreateOpen,
+    onOpen: onVehicleAccidentCreateOpen,
+    onClose: onVehicleAccidentCreateClose,
+  } = useDisclosure()
+
+  const {
+    isOpen: isVehicleAccidentViewOpen,
+    onOpen: onVehicleAccidentViewOpen,
+    onClose: onVehicleAccidentViewClose,
+  } = useDisclosure()
+
+  const handleViewAccidentClick = (accident: VehicleAccident) => {
+    accidentViewRef.current = accident
+    onVehicleAccidentViewOpen()
+  }
 
   return (
     <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%" {...rest}>
-      <CreateButton alignSelf="flex-end" mr="4" onClick={onOpen} hideTextOnSmallScreen>
+      <CreateButton
+        alignSelf="flex-end"
+        mr="4"
+        onClick={onVehicleAccidentCreateOpen}
+        hideTextOnSmallScreen
+      >
         Cadastrar sinistro
       </CreateButton>
       <CustomDataTable
@@ -33,7 +56,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
             center: true,
             wrap: true,
             grow: 0.5,
-            cell: (row) => <ButtonEye onClick={undefined} />,
+            cell: (row) => <ButtonEye onClick={() => handleViewAccidentClick(row)} />,
           },
           {
             name: 'Descrição',
@@ -70,7 +93,16 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
         progressPending={isLoadingAccidents}
       />
 
-      <VehicleAccidentCreate isOpen={isOpen} onClose={onClose} onCreate={loadAccidents} />
+      <VehicleAccidentModal
+        isOpen={isVehicleAccidentCreateOpen}
+        onClose={onVehicleAccidentCreateClose}
+        onCreate={loadAccidents}
+      />
+      <VehicleAccidentModal
+        isOpen={isVehicleAccidentViewOpen}
+        onClose={onVehicleAccidentViewClose}
+        vehicleAccident={accidentViewRef.current}
+      />
     </TabPanel>
   )
 }
