@@ -7,20 +7,19 @@ import BadgeStatus from '@/components/BadgeStatus'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import CreateButton from '@/components/CreateButton'
 import CustomDataTable from '@/components/CustomDataTable'
-import { VehicleContract } from '@/types/contract'
-import useVehicleServices from '@/hooks/useVehicleServices'
 import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
-import useOwnerOfToken from '@/hooks/useOwnerOfToken'
+import { useVehicle } from '@/contexts/VehicleContext'
 
-interface ServicesTabProps extends Omit<TabPanelProps, 'children'> {
-  tokenId: string
-  contracts: VehicleContract[]
-  useServices: ReturnType<typeof useVehicleServices>
-}
+interface ServicesTabProps extends Omit<TabPanelProps, 'children'> {}
 
-const ServicesTab = ({ tokenId, contracts, useServices, ...rest }: ServicesTabProps) => {
+const ServicesTab = ({ ...rest }: ServicesTabProps) => {
+  const {
+    tokenId,
+    useContract: { contracts },
+    useServices,
+    useOwner: { isOwner },
+  } = useVehicle()
   const { services, isLoading: isLoadingServices, load: loadServices } = useServices
-  const { isOwner } = useOwnerOfToken(tokenId)
 
   const {
     isOpen: isVehicleServiceModalOpen,

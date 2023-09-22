@@ -18,14 +18,13 @@ import useOwnerOfToken from '@/hooks/useOwnerOfToken'
 import ShareIcon from '@/components/Icons/ShareIcon'
 import HistoryIcon from '@/components/Icons/HistoryIcon'
 import VehicleOwnershipViewModal from '@/components/Modal/VehicleOwnershipView'
+import { useVehicle } from '@/contexts/VehicleContext'
 
-interface Props {
-  tokenId: string
-}
+const VehicleInfo = () => {
+  const { tokenId, useOwner, useMetadata } = useVehicle()
 
-const VehicleInfo = ({ tokenId }: Props) => {
-  const { owner, isLoading: isOwnerLoading } = useOwnerOfToken(tokenId)
-  const { metadata, isLoading: isMetadataLoading } = useVehicleMetadata(tokenId)
+  const { owner, isLoading: isOwnerLoading } = useOwner
+  const { metadata, isLoading: isMetadataLoading } = useMetadata
 
   const {
     isOpen: isOwnershipViewModalOpen,

@@ -1,7 +1,9 @@
+'use client'
+
+import React, { createContext, useContext } from 'react'
 import { Role } from '@/types'
 import { useEthers } from '@usedapp/core'
 import { redirect } from 'next/navigation'
-import React, { createContext, useContext } from 'react'
 
 interface AuthContextData {
   address?: string

@@ -5,16 +5,14 @@ import React from 'react'
 import { TabPanel, TabPanelProps } from '@chakra-ui/react'
 import CreateButton from '@/components/CreateButton'
 import CustomDataTable from '@/components/CustomDataTable'
-import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import { ADDRESS_REGEX } from '@/constants/web3'
 import ButtonEye from '@/components/Buttons/ButtonEye'
+import { useVehicle } from '@/contexts/VehicleContext'
 
-interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {
-  tokenId: string
-  useAccidents: ReturnType<typeof useVehicleAccidents>
-}
+interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
-const AccidentTab = ({ tokenId, useAccidents, ...rest }: AccidentTabProps) => {
+const AccidentTab = ({ ...rest }: AccidentTabProps) => {
+  const { useAccidents } = useVehicle()
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
 
   return (

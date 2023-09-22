@@ -2,21 +2,13 @@
 
 import React from 'react'
 import { Tabs, TabList, Tab, TabPanels, Flex } from '@chakra-ui/react'
-import useVehicleServices from '@/hooks/useVehicleServices'
-import useVehicleAccidents from '@/hooks/useVehicleAccidents'
-import useVehicleContracts from '@/hooks/useVehicleContracts'
 import ContractTab from './ContractTab'
 import ServicesTab from './ServiceTab'
 import AccidentTab from './AccidentTab'
+import { useVehicle } from '@/contexts/VehicleContext'
 
-interface Props {
-  tokenId: string
-}
-
-const VehicleTabs = ({ tokenId }: Props) => {
-  const useServices = useVehicleServices(tokenId)
-  const useAccidents = useVehicleAccidents(tokenId)
-  const useContract = useVehicleContracts(tokenId)
+const VehicleTabs = () => {
+  const { tokenId, useAccidents, useContract } = useVehicle()
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -51,13 +43,9 @@ const VehicleTabs = ({ tokenId }: Props) => {
           borderColor="light-purple"
           borderTop="0"
         >
-          <ServicesTab
-            tokenId={tokenId}
-            contracts={useContract.contracts}
-            useServices={useServices}
-          />
-          <AccidentTab tokenId={tokenId} useAccidents={useAccidents} />
-          <ContractTab tokenId={tokenId} useContract={useContract} />
+          <ServicesTab />
+          <AccidentTab />
+          <ContractTab />
         </TabPanels>
       </Tabs>
     </Flex>

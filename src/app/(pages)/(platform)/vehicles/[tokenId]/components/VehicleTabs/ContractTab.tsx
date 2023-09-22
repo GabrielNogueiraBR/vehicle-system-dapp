@@ -11,15 +11,13 @@ import { ADDRESS_REGEX } from '@/constants/web3'
 import { InsuranceStatus } from '@/types/contract'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
-import useVehicleContracts from '@/hooks/useVehicleContracts'
 import useOwnerOfToken from '@/hooks/useOwnerOfToken'
+import { useVehicle } from '@/contexts/VehicleContext'
 
-interface ContractTabProps extends Omit<TabPanelProps, 'children'> {
-  tokenId: string
-  useContract: ReturnType<typeof useVehicleContracts>
-}
+interface ContractTabProps extends Omit<TabPanelProps, 'children'> {}
 
-const ContractTab = ({ tokenId, useContract, ...rest }: ContractTabProps) => {
+const ContractTab = ({ ...rest }: ContractTabProps) => {
+  const { tokenId, useContract } = useVehicle()
   const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
   const { isOwner } = useOwnerOfToken(tokenId)
 
