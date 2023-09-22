@@ -2,16 +2,12 @@
 
 import React from 'react'
 import Sidebar from '@/components/Sidebar'
-import { useEthers } from '@usedapp/core'
-import { redirect } from 'next/navigation'
 import { Flex } from '@chakra-ui/react'
+import { AuthProvider } from '@/contexts/AuthContext'
 
 const LayoutClientElement = ({ children }: { children: React.ReactNode }) => {
-  const { account, isLoading } = useEthers()
-  if (!account && !isLoading) redirect('/auth')
-
   return (
-    <>
+    <AuthProvider>
       <Sidebar />
       <Flex
         flex="1"
@@ -23,7 +19,7 @@ const LayoutClientElement = ({ children }: { children: React.ReactNode }) => {
       >
         {children}
       </Flex>
-    </>
+    </AuthProvider>
   )
 }
 

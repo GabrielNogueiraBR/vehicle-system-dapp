@@ -8,3 +8,5 @@ export interface VehicleNFT extends OwnedNft {
 }
 
 export type ReturnOfFunction = Awaited<ReturnType<ReturnType<typeof useContractFunction>['send']>>
+
+export type Role = 'user' | 'agent' | 'insurer' | 'admin'
