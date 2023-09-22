@@ -15,21 +15,16 @@ import { ADDRESS_REGEX } from '@/constants/web3'
 import { InsuranceStatus, Status } from '@/types/contract'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 import ContractTab from './ContractTab'
+import ServicesTab from './ServiceTab'
 
 interface Props {
   tokenId: string
 }
 
 const VehicleTabs = ({ tokenId }: Props) => {
-  const {
-    isOpen: isVehicleServiceModalOpen,
-    onOpen: onOpenVehicleServiceModal,
-    onClose: onCloseVehicleServiceModal,
-  } = useDisclosure()
+  const useServices = useVehicleServices(tokenId)
+  const { services, isLoading: isLoadingServices, load: loadServices } = useServices
 
-  const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
-
-  const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
   const {
     accidents,
     isLoading: isLoadingAccidents,
@@ -37,14 +32,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
   } = useVehicleAccidents(tokenId)
   const useContract = useVehicleContracts(tokenId)
   const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
-
-  const vehicleService = useMemo(
-    () =>
-      vehicleServiceViewId !== undefined
-        ? services.find((s) => s.id === vehicleServiceViewId)
-        : undefined,
-    [services, vehicleServiceViewId]
-  )
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -92,88 +79,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
           borderColor="light-purple"
           borderTop="0"
         >
-          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
-            <CreateButton
-              alignSelf="flex-end"
-              onClick={onOpenVehicleServiceModal}
-              mr="4"
-              hideTextOnSmallScreen
-            >
-              Cadastrar serviço
-            </CreateButton>
-            <CustomDataTable
-              defaultSortFieldId="date"
-              defaultSortAsc={false}
-              columns={[
-                {
-                  name: '#',
-                  center: true,
-                  selector: (row) => row.id,
-                  wrap: true,
-                  grow: 0.5,
-                  cell: (row) => (
-                    <ButtonEye
-                      onClick={() => {
-                        setVehicleServiceViewId(row.id)
-                        onOpenVehicleServiceModal()
-                      }}
-                    />
-                  ),
-                },
-                {
-                  name: 'Título',
-                  selector: (row) => row.title,
-                  sortable: true,
-                  wrap: true,
-                  grow: 1,
-                },
-                {
-                  name: 'Preço',
-                  selector: (row) => row.price,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.5,
-                  format: (row) => `${row.price.toFixed(18).replace(/\.?0+$/, '')} ETH`,
-                },
-                {
-                  id: 'date',
-                  name: 'Data',
-                  selector: (row) => row.date,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.8,
-                  format: (row) =>
-                    new Intl.DateTimeFormat('pt-BR', {
-                      timeZone: 'UTC',
-                      month: 'long',
-                      year: 'numeric',
-                      day: '2-digit',
-                    }).format(new Date(row.date * 1000)),
-                },
-                {
-                  name: 'Status',
-                  center: true,
-                  selector: (row) => row.id,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.5,
-                  cell: (row) => {
-                    const isInsured = contracts.some((contract) =>
-                      contract.vehicleServicesIds.some((id) => id === row.id)
-                    )
-
-                    return (
-                      <BadgeStatus theme={isInsured ? 'purple' : 'green'}>
-                        {isInsured ? 'Assegurado' : 'Pago'}
-                      </BadgeStatus>
-                    )
-                  },
-                },
-              ]}
-              data={services}
-              progressPending={isLoadingServices}
-            />
-          </TabPanel>
+          <ServicesTab tokenId={tokenId} contracts={contracts} useServices={useServices} />
           <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
             <CreateButton alignSelf="flex-end" mr="4" hideTextOnSmallScreen>
               Cadastrar sinistro
@@ -226,16 +132,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
           <ContractTab tokenId={tokenId} useContract={useContract} />
         </TabPanels>
       </Tabs>
-      <VehicleServiceCreateModal
-        tokenId={tokenId}
-        vehicleService={vehicleService}
-        isOpen={isVehicleServiceModalOpen}
-        onClose={() => {
-          onCloseVehicleServiceModal()
-          setVehicleServiceViewId(undefined)
-        }}
-        onCreate={loadServices}
-      />
     </Flex>
   )
 }
