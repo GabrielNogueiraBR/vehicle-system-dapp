@@ -19,7 +19,6 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 
 const VehicleOwnershipViewModal = ({ ownership, ...rest }: Props) => {
-  console.log({ ownership })
   return (
     <Modal size="6xl" {...rest}>
       <ModalOverlay />

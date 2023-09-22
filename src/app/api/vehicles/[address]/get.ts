@@ -8,7 +8,6 @@ type Params = { params: { address: string } }
 
 export async function GET(request: NextRequest, { params }: Params) {
   try {
-    console.log(params)
     const { address } = params
 
     if (!address) throw new Error('Invalid data')
