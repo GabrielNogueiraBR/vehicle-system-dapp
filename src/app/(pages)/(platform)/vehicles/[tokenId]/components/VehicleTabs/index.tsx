@@ -13,6 +13,7 @@ import ButtonEye from '@/components/Buttons/ButtonEye'
 import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
 import { ADDRESS_REGEX } from '@/constants/web3'
 import { InsuranceStatus, Status } from '@/types/contract'
+import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 
 interface Props {
   tokenId: string
@@ -29,8 +30,14 @@ const VehicleTabs = ({ tokenId }: Props) => {
     onOpen: onOpenVehicleInsuranceRequestModal,
     onClose: onCloseVehicleInsuranceRequestModal,
   } = useDisclosure()
+  const {
+    isOpen: isVehicleContractViewOpen,
+    onOpen: onVehicleContractViewOpen,
+    onClose: onVehicleContractViewClose,
+  } = useDisclosure()
 
   const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
+  const [vehicleContractViewId, setVehicleContractViewId] = useState<number | undefined>(undefined)
 
   const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
   const {
@@ -50,6 +57,14 @@ const VehicleTabs = ({ tokenId }: Props) => {
         ? services.find((s) => s.id === vehicleServiceViewId)
         : undefined,
     [services, vehicleServiceViewId]
+  )
+
+  const vehicleContract = useMemo(
+    () =>
+      vehicleContractViewId !== undefined
+        ? contracts.find((c) => c.id === vehicleContractViewId)
+        : undefined,
+    [contracts, vehicleContractViewId]
   )
 
   return (
@@ -248,7 +263,14 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   center: true,
                   wrap: true,
                   grow: 0.5,
-                  cell: (row) => <ButtonEye onClick={() => console.log('clicou')} />,
+                  cell: (row) => (
+                    <ButtonEye
+                      onClick={() => {
+                        setVehicleContractViewId(row.id)
+                        onVehicleContractViewOpen()
+                      }}
+                    />
+                  ),
                 },
                 {
                   name: 'Seguradora',
@@ -326,6 +348,17 @@ const VehicleTabs = ({ tokenId }: Props) => {
         isOpen={isVehicleInsuranceRequestModalOpen}
         onClose={onCloseVehicleInsuranceRequestModal}
         onCreate={loadContracts}
+      />
+
+      <VehicleContractInfoModal
+        isOpen={isVehicleContractViewOpen}
+        onClose={onVehicleContractViewClose}
+        tokenId={vehicleContract?.tokenId || 0}
+        insurer={vehicleContract?.insurer || ''}
+        insuranceStartDate={vehicleContract?.insuranceStartDate}
+        insuranceEndDate={vehicleContract?.insuranceEndDate}
+        contractUrl={vehicleContract?.contractUrl}
+        status="contract"
       />
     </Flex>
   )
