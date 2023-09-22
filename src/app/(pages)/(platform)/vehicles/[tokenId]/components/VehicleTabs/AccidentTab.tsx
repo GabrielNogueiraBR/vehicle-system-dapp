@@ -6,6 +6,8 @@ import { TabPanel, TabPanelProps } from '@chakra-ui/react'
 import CreateButton from '@/components/CreateButton'
 import CustomDataTable from '@/components/CustomDataTable'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
+import { ADDRESS_REGEX } from '@/constants/web3'
+import ButtonEye from '@/components/Buttons/ButtonEye'
 
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {
   tokenId: string
@@ -25,15 +27,16 @@ const AccidentTab = ({ tokenId, useAccidents, ...rest }: AccidentTabProps) => {
         defaultSortAsc={false}
         columns={[
           {
-            name: 'ID',
+            name: '#',
             selector: (row) => row.id,
-            sortable: true,
+            center: true,
             wrap: true,
             grow: 0.5,
+            cell: (row) => <ButtonEye onClick={undefined} />,
           },
           {
-            name: 'Dono do veículo',
-            selector: (row) => row.vehicleOwner,
+            name: 'Descrição',
+            selector: (row) => row.description,
             sortable: true,
             wrap: true,
             grow: 3,
@@ -44,21 +47,22 @@ const AccidentTab = ({ tokenId, useAccidents, ...rest }: AccidentTabProps) => {
             sortable: true,
             wrap: true,
             grow: 3,
-          },
-          {
-            name: 'Descrição',
-            selector: (row) => row.description,
-            sortable: true,
-            wrap: true,
-            grow: 1,
+            format: (row) => `${row.insurer.replace(ADDRESS_REGEX, '$1...$2')}`,
           },
           {
             id: 'date',
-            name: 'Data do sinistro',
-            selector: (row) => row.accidentDate,
+            name: 'Data',
+            selector: (row) => row.accidentDate.getTime(),
             sortable: true,
             wrap: true,
-            grow: 0.5,
+            grow: 1,
+            format: (row) =>
+              new Intl.DateTimeFormat('pt-BR', {
+                timeZone: 'UTC',
+                month: 'long',
+                year: 'numeric',
+                day: '2-digit',
+              }).format(row.accidentDate),
           },
         ]}
         data={accidents}

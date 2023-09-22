@@ -47,10 +47,10 @@ const useVehicleAccidents = (tokenId: string) => {
             tokenId: Number(tokenId),
             insuranceId: Number(insuranceId),
             description,
-            accidentDate: Number(accidentDate),
+            accidentDate: new Date(Number(accidentDate) * 1000),
             vehicleServicesIds: vehicleServicesIds.map((id) => Number(id)),
-            createdAt: Number(createdAt),
-            updatedAt: Number(updatedAt),
+            createdAt: new Date(Number(createdAt) * 1000),
+            updatedAt: new Date(Number(updatedAt) * 1000),
           })
         })
       )

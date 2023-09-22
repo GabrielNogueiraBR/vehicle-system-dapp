@@ -57,10 +57,10 @@ export type VehicleAccident = {
   tokenId: number
   insuranceId: number
   description: string
-  accidentDate: number
+  accidentDate: Date
   vehicleServicesIds: number[]
-  createdAt: number
-  updatedAt: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type VehicleInsuranceRequest = {
