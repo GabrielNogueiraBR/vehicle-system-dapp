@@ -12,6 +12,7 @@ import { InsuranceStatus } from '@/types/contract'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
+import useOwnerOfToken from '@/hooks/useOwnerOfToken'
 
 interface ContractTabProps extends Omit<TabPanelProps, 'children'> {
   tokenId: string
@@ -20,6 +21,7 @@ interface ContractTabProps extends Omit<TabPanelProps, 'children'> {
 
 const ContractTab = ({ tokenId, useContract, ...rest }: ContractTabProps) => {
   const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
+  const { isOwner } = useOwnerOfToken(tokenId)
 
   const {
     isOpen: isVehicleInsuranceRequestModalOpen,
@@ -49,6 +51,7 @@ const ContractTab = ({ tokenId, useContract, ...rest }: ContractTabProps) => {
         mr="4"
         onClick={onOpenVehicleInsuranceRequestModal}
         hideTextOnSmallScreen
+        display={!isOwner ? 'none' : undefined}
       >
         Solicitar contrato
       </CreateButton>
