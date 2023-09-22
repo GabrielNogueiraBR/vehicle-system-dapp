@@ -16,6 +16,7 @@ import { InsuranceStatus, Status } from '@/types/contract'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 import ContractTab from './ContractTab'
 import ServicesTab from './ServiceTab'
+import AccidentTab from './AccidentTab'
 
 interface Props {
   tokenId: string
@@ -25,11 +26,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const useServices = useVehicleServices(tokenId)
   const { services, isLoading: isLoadingServices, load: loadServices } = useServices
 
-  const {
-    accidents,
-    isLoading: isLoadingAccidents,
-    load: loadAccidents,
-  } = useVehicleAccidents(tokenId)
+  const useAccidents = useVehicleAccidents(tokenId)
   const useContract = useVehicleContracts(tokenId)
   const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
 
@@ -80,55 +77,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
           borderTop="0"
         >
           <ServicesTab tokenId={tokenId} contracts={contracts} useServices={useServices} />
-          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
-            <CreateButton alignSelf="flex-end" mr="4" hideTextOnSmallScreen>
-              Cadastrar sinistro
-            </CreateButton>
-            <CustomDataTable
-              defaultSortFieldId="date"
-              defaultSortAsc={false}
-              columns={[
-                {
-                  name: 'ID',
-                  selector: (row) => row.id,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.5,
-                },
-                {
-                  name: 'Dono do veículo',
-                  selector: (row) => row.vehicleOwner,
-                  sortable: true,
-                  wrap: true,
-                  grow: 3,
-                },
-                {
-                  name: 'Seguradora',
-                  selector: (row) => row.insurer,
-                  sortable: true,
-                  wrap: true,
-                  grow: 3,
-                },
-                {
-                  name: 'Descrição',
-                  selector: (row) => row.description,
-                  sortable: true,
-                  wrap: true,
-                  grow: 1,
-                },
-                {
-                  id: 'date',
-                  name: 'Data do sinistro',
-                  selector: (row) => row.accidentDate,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.5,
-                },
-              ]}
-              data={accidents}
-              progressPending={isLoadingAccidents}
-            />
-          </TabPanel>
+          <AccidentTab tokenId={tokenId} useAccidents={useAccidents} />
           <ContractTab tokenId={tokenId} useContract={useContract} />
         </TabPanels>
       </Tabs>
