@@ -31,8 +31,16 @@ const VehicleTabs = ({ tokenId }: Props) => {
   const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
 
   const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
-  const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useVehicleAccidents(tokenId)
-  const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useVehicleContracts(tokenId)
+  const {
+    accidents,
+    isLoading: isLoadingAccidents,
+    load: loadAccidents,
+  } = useVehicleAccidents(tokenId)
+  const {
+    contracts,
+    isLoading: isLoadingContracts,
+    load: loadContracts,
+  } = useVehicleContracts(tokenId)
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -121,7 +129,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
                   sortable: true,
                   wrap: true,
                   grow: 0.5,
-                  format: (row) => `${parseFloat(row.price.toFixed(18))} ETH`,
+                  format: (row) => `${row.price.toFixed(18).replace(/\.?0+$/, '')} ETH`,
                 },
                 {
                   id: 'date',
