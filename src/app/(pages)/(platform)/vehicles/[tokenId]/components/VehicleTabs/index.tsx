@@ -1,6 +1,6 @@
 'use client'
 
-import React, {  } from 'react'
+import React from 'react'
 import { Tabs, TabList, Tab, TabPanels, Flex } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
@@ -29,32 +29,19 @@ const VehicleTabs = ({ tokenId }: Props) => {
           border="2px solid"
           borderColor="primary"
           roundedTop="xl"
+          sx={{
+            button: {
+              _selected: { color: 'white', bg: 'primary', borderColor: 'primary' },
+              _active: { bg: 'transparent' },
+              _hover: { color: 'white', bg: 'primary', transform: 'scale(1)' },
+              py: 3,
+              fontWeight: 600,
+            },
+          }}
         >
-          <Tab
-            _selected={{ color: 'white', bg: 'primary' }}
-            _active={{ bg: 'transparent' }}
-            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
-            py={3}
-            fontWeight={600}
-          >
-            Serviços
-          </Tab>
-          <Tab
-            _selected={{ color: 'white', bg: 'primary' }}
-            _active={{ bg: 'transparent' }}
-            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
-            fontWeight={600}
-          >
-            Sinistros
-          </Tab>
-          <Tab
-            _selected={{ color: 'white', bg: 'primary' }}
-            _active={{ bg: 'transparent' }}
-            _hover={{ color: 'white', bg: 'primary', transform: 'scale(1)' }}
-            fontWeight={600}
-          >
-            Contratos
-          </Tab>
+          <Tab>Serviços</Tab>
+          <Tab>Sinistros</Tab>
+          <Tab>Contratos</Tab>
         </TabList>
         <TabPanels
           w="100%"
