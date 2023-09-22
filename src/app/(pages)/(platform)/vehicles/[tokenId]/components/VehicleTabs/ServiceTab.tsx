@@ -10,6 +10,7 @@ import CustomDataTable from '@/components/CustomDataTable'
 import { VehicleContract } from '@/types/contract'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
+import useOwnerOfToken from '@/hooks/useOwnerOfToken'
 
 interface ServicesTabProps extends Omit<TabPanelProps, 'children'> {
   tokenId: string
@@ -19,6 +20,7 @@ interface ServicesTabProps extends Omit<TabPanelProps, 'children'> {
 
 const ServicesTab = ({ tokenId, contracts, useServices, ...rest }: ServicesTabProps) => {
   const { services, isLoading: isLoadingServices, load: loadServices } = useServices
+  const { isOwner } = useOwnerOfToken(tokenId)
 
   const {
     isOpen: isVehicleServiceModalOpen,
@@ -43,6 +45,7 @@ const ServicesTab = ({ tokenId, contracts, useServices, ...rest }: ServicesTabPr
         onClick={onOpenVehicleServiceModal}
         mr="4"
         hideTextOnSmallScreen
+        display={!isOwner ? 'none' : undefined}
       >
         Cadastrar serviço
       </CreateButton>
