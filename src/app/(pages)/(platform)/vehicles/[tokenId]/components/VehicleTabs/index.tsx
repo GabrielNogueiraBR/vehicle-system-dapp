@@ -11,6 +11,8 @@ import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
 import BadgeStatus from '@/components/BadgeStatus'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
+import { ADDRESS_REGEX } from '@/constants/web3'
+import { InsuranceStatus, Status } from '@/types/contract'
 
 interface Props {
   tokenId: string
@@ -233,47 +235,65 @@ const VehicleTabs = ({ tokenId }: Props) => {
               defaultSortAsc={false}
               columns={[
                 {
-                  name: 'ID',
+                  name: '#',
                   selector: (row) => row.id,
-                  sortable: true,
+                  center: true,
                   wrap: true,
                   grow: 0.5,
-                },
-                {
-                  name: 'Requisitado por',
-                  selector: (row) => row.requester,
-                  sortable: true,
-                  wrap: true,
-                  grow: 3,
+                  cell: (row) => <ButtonEye onClick={() => console.log('clicou')} />,
                 },
                 {
                   name: 'Seguradora',
                   selector: (row) => row.insurer,
                   sortable: true,
                   wrap: true,
-                  grow: 3,
+                  grow: 1,
+                  format: (row) => `${row.insurer.replace(ADDRESS_REGEX, '$1...$2')}`,
                 },
                 {
-                  name: 'Início em',
+                  name: 'Data início',
                   selector: (row) => row.insuranceStartDate.getTime(),
                   sortable: true,
                   wrap: true,
                   grow: 1,
+                  format: (row) =>
+                    new Intl.DateTimeFormat('pt-BR', {
+                      timeZone: 'UTC',
+                      month: 'long',
+                      year: 'numeric',
+                      day: '2-digit',
+                    }).format(row.insuranceStartDate),
                 },
                 {
                   id: 'final_date',
-                  name: 'Final em',
+                  name: 'Data fim',
                   selector: (row) => row.insuranceEndDate.getTime(),
                   sortable: true,
                   wrap: true,
                   grow: 1,
+                  format: (row) =>
+                    new Intl.DateTimeFormat('pt-BR', {
+                      timeZone: 'UTC',
+                      month: 'long',
+                      year: 'numeric',
+                      day: '2-digit',
+                    }).format(row.insuranceEndDate),
                 },
                 {
-                  name: 'Contrato (link)',
-                  selector: (row) => row.contractUrl,
+                  name: 'Status',
+                  selector: (row) => row.status,
                   sortable: true,
                   wrap: true,
                   grow: 0.5,
+                  cell: (row) => {
+                    const isExpired = row.status === InsuranceStatus.EXPIRED
+
+                    return (
+                      <BadgeStatus theme={isExpired ? 'purple' : 'green'}>
+                        {isExpired ? 'Inativo' : 'Ativo'}
+                      </BadgeStatus>
+                    )
+                  },
                 },
               ]}
               data={contracts}
