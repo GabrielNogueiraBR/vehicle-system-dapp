@@ -1,19 +1,10 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, useDisclosure } from '@chakra-ui/react'
+import React, {  } from 'react'
+import { Tabs, TabList, Tab, TabPanels, Flex } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
 import useVehicleContracts from '@/hooks/useVehicleContracts'
-import CustomDataTable from '@/components/CustomDataTable'
-import CreateButton from '@/components/CreateButton'
-import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
-import BadgeStatus from '@/components/BadgeStatus'
-import ButtonEye from '@/components/Buttons/ButtonEye'
-import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
-import { ADDRESS_REGEX } from '@/constants/web3'
-import { InsuranceStatus, Status } from '@/types/contract'
-import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 import ContractTab from './ContractTab'
 import ServicesTab from './ServiceTab'
 import AccidentTab from './AccidentTab'
@@ -24,11 +15,8 @@ interface Props {
 
 const VehicleTabs = ({ tokenId }: Props) => {
   const useServices = useVehicleServices(tokenId)
-  const { services, isLoading: isLoadingServices, load: loadServices } = useServices
-
   const useAccidents = useVehicleAccidents(tokenId)
   const useContract = useVehicleContracts(tokenId)
-  const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -76,7 +64,11 @@ const VehicleTabs = ({ tokenId }: Props) => {
           borderColor="light-purple"
           borderTop="0"
         >
-          <ServicesTab tokenId={tokenId} contracts={contracts} useServices={useServices} />
+          <ServicesTab
+            tokenId={tokenId}
+            contracts={useContract.contracts}
+            useServices={useServices}
+          />
           <AccidentTab tokenId={tokenId} useAccidents={useAccidents} />
           <ContractTab tokenId={tokenId} useContract={useContract} />
         </TabPanels>

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useMemo, useState } from 'react'
 
 import { TabPanel, TabPanelProps, useDisclosure } from '@chakra-ui/react'

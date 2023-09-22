@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useMemo, useState } from 'react'
 
 import { TabPanel, TabPanelProps, useDisclosure } from '@chakra-ui/react'
@@ -5,11 +7,7 @@ import BadgeStatus from '@/components/BadgeStatus'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import CreateButton from '@/components/CreateButton'
 import CustomDataTable from '@/components/CustomDataTable'
-import { ADDRESS_REGEX } from '@/constants/web3'
-import { InsuranceStatus, VehicleContract } from '@/types/contract'
-import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
-import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContractRequestCreate'
-import useVehicleContracts from '@/hooks/useVehicleContracts'
+import { VehicleContract } from '@/types/contract'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import VehicleServiceCreateModal from '@/components/Modal/VehicleServiceCreate'
 
@@ -39,7 +37,7 @@ const ServicesTab = ({ tokenId, contracts, useServices, ...rest }: ServicesTabPr
   )
 
   return (
-    <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
+    <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%" {...rest}>
       <CreateButton
         alignSelf="flex-end"
         onClick={onOpenVehicleServiceModal}
