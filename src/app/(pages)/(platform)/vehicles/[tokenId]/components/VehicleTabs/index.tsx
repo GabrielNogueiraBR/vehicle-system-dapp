@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Tabs, TabList, Tab, TabPanels, TabPanel, Flex, useDisclosure } from '@chakra-ui/react'
 import useVehicleServices from '@/hooks/useVehicleServices'
 import useVehicleAccidents from '@/hooks/useVehicleAccidents'
@@ -43,6 +43,14 @@ const VehicleTabs = ({ tokenId }: Props) => {
     isLoading: isLoadingContracts,
     load: loadContracts,
   } = useVehicleContracts(tokenId)
+
+  const vehicleService = useMemo(
+    () =>
+      vehicleServiceViewId !== undefined
+        ? services.find((s) => s.id === vehicleServiceViewId)
+        : undefined,
+    [services, vehicleServiceViewId]
+  )
 
   return (
     <Flex w="100%" maxW="100%" rounded="xl" bg="white" shadow="sm" overflow="hidden">
@@ -304,11 +312,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
       </Tabs>
       <VehicleServiceCreateModal
         tokenId={tokenId}
-        vehicleService={
-          vehicleServiceViewId !== undefined
-            ? services.find((s) => s.id === vehicleServiceViewId)
-            : undefined
-        }
+        vehicleService={vehicleService}
         isOpen={isVehicleServiceModalOpen}
         onClose={() => {
           onCloseVehicleServiceModal()
