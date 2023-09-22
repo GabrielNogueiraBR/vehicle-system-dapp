@@ -14,7 +14,7 @@ import { VehicleAccident } from '@/types/contract'
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
 const AccidentTab = ({ ...rest }: AccidentTabProps) => {
-  const { useAccidents } = useVehicle()
+  const { useAccidents, isInsurer } = useVehicle()
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
 
   const accidentViewRef = useRef<VehicleAccident>()
@@ -43,6 +43,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
         mr="4"
         onClick={onVehicleAccidentCreateOpen}
         hideTextOnSmallScreen
+        display={!isInsurer ? 'none' : undefined}
       >
         Cadastrar sinistro
       </CreateButton>
