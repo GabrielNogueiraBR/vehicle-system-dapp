@@ -11,9 +11,11 @@ import HomeRounded from '../Icons/HomeRounded'
 import { usePathname } from 'next/navigation'
 import VehicleRequest from '../Assets/VehicleRequest'
 import VehicleDocument from '../Icons/VehicleDocument'
+import { useAuth } from '@/contexts/AuthContext'
+import { Role } from '@/types'
 
 type LinkInfo = {
-  role: 'user' | 'agent' | 'insurer'
+  role: Role
   title: string
   icon: React.ElementType
   href: string
@@ -27,6 +29,7 @@ interface SidebarContentProps {
 }
 
 const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) => {
+  const { roles } = useAuth()
   const pathname = usePathname()
 
   const links: LinkInfo[] = useMemo(
@@ -56,7 +59,8 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
     []
   )
 
-  const indexActive = links.findIndex((lnk) => pathname.startsWith(String(lnk.href)))
+  const userLinks = useMemo(() => links.filter((lnk) => roles.includes(lnk.role)), [roles, links])
+  const indexActive = userLinks.findIndex((lnk) => pathname.startsWith(String(lnk.href)))
 
   return (
     <VStack
@@ -76,7 +80,7 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
         transform={`translate(0,${indexActive * 35 + indexActive * 40}px)`}
         transition="all 250ms"
       />
-      {links.map((lnk) => (
+      {userLinks.map((lnk) => (
         <NavLink key={lnk.href} href={lnk.href} icon={lnk.icon} onClick={onNavClick}>
           {isExpanded ? lnk.title : undefined}
         </NavLink>

@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //TODO: Adicionar aqui a lógica de roles -> para pegar da blockchain
 
   return (
-    <AuthContext.Provider value={{ address: account, roles: ['user'] }}>
+    <AuthContext.Provider value={{ address: account, roles: ['user', 'agent', 'insurer'] }}>
       {children}
     </AuthContext.Provider>
   )
