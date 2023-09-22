@@ -14,6 +14,7 @@ import VehicleContractRequestCreateModal from '@/components/Modal/VehicleContrac
 import { ADDRESS_REGEX } from '@/constants/web3'
 import { InsuranceStatus, Status } from '@/types/contract'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
+import ContractTab from './ContractTab'
 
 interface Props {
   tokenId: string
@@ -25,19 +26,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
     onOpen: onOpenVehicleServiceModal,
     onClose: onCloseVehicleServiceModal,
   } = useDisclosure()
-  const {
-    isOpen: isVehicleInsuranceRequestModalOpen,
-    onOpen: onOpenVehicleInsuranceRequestModal,
-    onClose: onCloseVehicleInsuranceRequestModal,
-  } = useDisclosure()
-  const {
-    isOpen: isVehicleContractViewOpen,
-    onOpen: onVehicleContractViewOpen,
-    onClose: onVehicleContractViewClose,
-  } = useDisclosure()
 
   const [vehicleServiceViewId, setVehicleServiceViewId] = useState<number | undefined>(undefined)
-  const [vehicleContractViewId, setVehicleContractViewId] = useState<number | undefined>(undefined)
 
   const { services, isLoading: isLoadingServices, load: loadServices } = useVehicleServices(tokenId)
   const {
@@ -45,11 +35,8 @@ const VehicleTabs = ({ tokenId }: Props) => {
     isLoading: isLoadingAccidents,
     load: loadAccidents,
   } = useVehicleAccidents(tokenId)
-  const {
-    contracts,
-    isLoading: isLoadingContracts,
-    load: loadContracts,
-  } = useVehicleContracts(tokenId)
+  const useContract = useVehicleContracts(tokenId)
+  const { contracts, isLoading: isLoadingContracts, load: loadContracts } = useContract
 
   const vehicleService = useMemo(
     () =>
@@ -57,14 +44,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
         ? services.find((s) => s.id === vehicleServiceViewId)
         : undefined,
     [services, vehicleServiceViewId]
-  )
-
-  const vehicleContract = useMemo(
-    () =>
-      vehicleContractViewId !== undefined
-        ? contracts.find((c) => c.id === vehicleContractViewId)
-        : undefined,
-    [contracts, vehicleContractViewId]
   )
 
   return (
@@ -244,92 +223,7 @@ const VehicleTabs = ({ tokenId }: Props) => {
               progressPending={isLoadingAccidents}
             />
           </TabPanel>
-          <TabPanel display="flex" flexDirection="column" pt="8" p="6" gap="4" w="100%">
-            <CreateButton
-              alignSelf="flex-end"
-              mr="4"
-              onClick={onOpenVehicleInsuranceRequestModal}
-              hideTextOnSmallScreen
-            >
-              Solicitar contrato
-            </CreateButton>
-            <CustomDataTable
-              defaultSortFieldId="final_date"
-              defaultSortAsc={false}
-              columns={[
-                {
-                  name: '#',
-                  selector: (row) => row.id,
-                  center: true,
-                  wrap: true,
-                  grow: 0.5,
-                  cell: (row) => (
-                    <ButtonEye
-                      onClick={() => {
-                        setVehicleContractViewId(row.id)
-                        onVehicleContractViewOpen()
-                      }}
-                    />
-                  ),
-                },
-                {
-                  name: 'Seguradora',
-                  selector: (row) => row.insurer,
-                  sortable: true,
-                  wrap: true,
-                  grow: 1,
-                  format: (row) => `${row.insurer.replace(ADDRESS_REGEX, '$1...$2')}`,
-                },
-                {
-                  name: 'Data início',
-                  selector: (row) => row.insuranceStartDate.getTime(),
-                  sortable: true,
-                  wrap: true,
-                  grow: 1,
-                  format: (row) =>
-                    new Intl.DateTimeFormat('pt-BR', {
-                      timeZone: 'UTC',
-                      month: 'long',
-                      year: 'numeric',
-                      day: '2-digit',
-                    }).format(row.insuranceStartDate),
-                },
-                {
-                  id: 'final_date',
-                  name: 'Data fim',
-                  selector: (row) => row.insuranceEndDate.getTime(),
-                  sortable: true,
-                  wrap: true,
-                  grow: 1,
-                  format: (row) =>
-                    new Intl.DateTimeFormat('pt-BR', {
-                      timeZone: 'UTC',
-                      month: 'long',
-                      year: 'numeric',
-                      day: '2-digit',
-                    }).format(row.insuranceEndDate),
-                },
-                {
-                  name: 'Status',
-                  selector: (row) => row.status,
-                  sortable: true,
-                  wrap: true,
-                  grow: 0.5,
-                  cell: (row) => {
-                    const isExpired = row.status === InsuranceStatus.EXPIRED
-
-                    return (
-                      <BadgeStatus theme={isExpired ? 'purple' : 'green'}>
-                        {isExpired ? 'Inativo' : 'Ativo'}
-                      </BadgeStatus>
-                    )
-                  },
-                },
-              ]}
-              data={contracts}
-              progressPending={isLoadingContracts}
-            />
-          </TabPanel>
+          <ContractTab tokenId={tokenId} useContract={useContract} />
         </TabPanels>
       </Tabs>
       <VehicleServiceCreateModal
@@ -341,24 +235,6 @@ const VehicleTabs = ({ tokenId }: Props) => {
           setVehicleServiceViewId(undefined)
         }}
         onCreate={loadServices}
-      />
-
-      <VehicleContractRequestCreateModal
-        tokenId={tokenId}
-        isOpen={isVehicleInsuranceRequestModalOpen}
-        onClose={onCloseVehicleInsuranceRequestModal}
-        onCreate={loadContracts}
-      />
-
-      <VehicleContractInfoModal
-        isOpen={isVehicleContractViewOpen}
-        onClose={onVehicleContractViewClose}
-        tokenId={vehicleContract?.tokenId || 0}
-        insurer={vehicleContract?.insurer || ''}
-        insuranceStartDate={vehicleContract?.insuranceStartDate}
-        insuranceEndDate={vehicleContract?.insuranceEndDate}
-        contractUrl={vehicleContract?.contractUrl}
-        status="contract"
       />
     </Flex>
   )
