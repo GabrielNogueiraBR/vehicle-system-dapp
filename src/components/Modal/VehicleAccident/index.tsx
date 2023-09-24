@@ -150,7 +150,9 @@ const VehicleAccidentModal = ({ vehicleAccident, onCreate, ...rest }: Props) => 
                     isReadOnly={isSubmitted}
                   >
                     {contracts
-                      ?.filter((contract) => contract.status !== InsuranceStatus.EXPIRED)
+                      ?.filter((contract) =>
+                        isSubmitted ? true : contract.status !== InsuranceStatus.EXPIRED
+                      )
                       .map((contract) => (
                         <option key={String(contract.id)} value={contract.id}>
                           {`Início: ${new Intl.DateTimeFormat('pt-BR').format(
