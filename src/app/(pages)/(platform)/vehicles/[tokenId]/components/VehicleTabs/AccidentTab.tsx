@@ -11,11 +11,12 @@ import { useVehicle } from '@/contexts/VehicleContext'
 import VehicleAccidentModal from '@/components/Modal/VehicleAccident'
 import { VehicleAccident } from '@/types/contract'
 import ButtonIconGear from '@/components/Buttons/ButtonIconGear'
+import VehicleAccidentServiceCreate from '@/components/Modal/VehicleServiceCreate/VehicleAccidentServiceCreate'
 
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
 const AccidentTab = ({ ...rest }: AccidentTabProps) => {
-  const { useAccidents, isInsurer } = useVehicle()
+  const { tokenId, useAccidents, isInsurer, useServices } = useVehicle()
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
 
   const accidentViewRef = useRef<VehicleAccident>()
@@ -32,9 +33,20 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
     onClose: onVehicleAccidentViewClose,
   } = useDisclosure()
 
+  const {
+    isOpen: isVehicleAccidentServiceOpen,
+    onOpen: onVehicleAccidentServiceOpen,
+    onClose: onVehicleAccidentServiceClose,
+  } = useDisclosure()
+
   const handleViewAccidentClick = (accident: VehicleAccident) => {
     accidentViewRef.current = accident
     onVehicleAccidentViewOpen()
+  }
+
+  const handleAddVehicleServiceClick = (accident: VehicleAccident) => {
+    accidentViewRef.current = accident
+    onVehicleAccidentServiceOpen()
   }
 
   return (
@@ -93,7 +105,12 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
           {
             center: true,
             wrap: true,
-            cell: (row) => <ButtonIconGear display={isInsurer ? 'flex' : 'none'} />,
+            cell: (row) => (
+              <ButtonIconGear
+                onClick={() => handleAddVehicleServiceClick(row)}
+                display={isInsurer ? 'flex' : 'none'}
+              />
+            ),
           },
         ]}
         data={accidents}
@@ -109,6 +126,18 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
         isOpen={isVehicleAccidentViewOpen}
         onClose={onVehicleAccidentViewClose}
         vehicleAccident={accidentViewRef.current}
+      />
+
+      <VehicleAccidentServiceCreate
+        isOpen={isVehicleAccidentServiceOpen}
+        onClose={onVehicleAccidentServiceClose}
+        tokenId={tokenId}
+        accidentId={accidentViewRef.current?.id}
+        insuranceId={accidentViewRef.current?.insuranceId}
+        onCreate={() => {
+          loadAccidents()
+          useServices.load()
+        }}
       />
     </TabPanel>
   )
