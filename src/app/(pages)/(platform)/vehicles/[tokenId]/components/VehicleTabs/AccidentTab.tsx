@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 
 import { TabPanel, TabPanelProps, useDisclosure } from '@chakra-ui/react'
 import CreateButton from '@/components/CreateButton'
@@ -10,6 +10,7 @@ import ButtonEye from '@/components/Buttons/ButtonEye'
 import { useVehicle } from '@/contexts/VehicleContext'
 import VehicleAccidentModal from '@/components/Modal/VehicleAccident'
 import { VehicleAccident } from '@/types/contract'
+import ButtonIconGear from '@/components/Buttons/ButtonIconGear'
 
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
@@ -88,6 +89,11 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
                 year: 'numeric',
                 day: '2-digit',
               }).format(row.accidentDate),
+          },
+          {
+            center: true,
+            wrap: true,
+            cell: (row) => <ButtonIconGear display={isInsurer ? 'flex' : 'none'} />,
           },
         ]}
         data={accidents}
