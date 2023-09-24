@@ -10,21 +10,42 @@ import { BLOCK_EXPLORER } from '@/constants/web3'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
+  accidentId?: number
+  insuranceId?: number
   vehicleService?: VehicleService
   onCreate?: () => void
 }
 
-const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest }: Props) => {
-  const { addVehicleServiceRecord } = useWeb3()
+const VehicleAccidentServiceCreate = ({
+  tokenId,
+  accidentId,
+  insuranceId,
+  vehicleService,
+  onCreate,
+  ...rest
+}: Props) => {
+  const { insurerAddVehicleServiceRecord } = useWeb3()
   const toast = useToast()
+
+  console.log({ accidentId, insuranceId })
 
   const onSubmit = async (data: FormValue) => {
     try {
+      if (accidentId === undefined || insuranceId === undefined)
+        throw new Error('Invalid data on create accident service')
       const { title, description } = data
       const price = ethers.utils.parseUnits(String(data.price), 'ether')
       const date = new Date(data.date).getTime() / 1000
 
-      const receipt = await addVehicleServiceRecord.send(tokenId, title, description, price, date)
+      const receipt = await insurerAddVehicleServiceRecord.send(
+        tokenId,
+        insuranceId,
+        accidentId,
+        title,
+        description,
+        price,
+        date
+      )
 
       if (receipt?.status !== 1) throw new Error('Erro ao cadastrar serviço de manutenção')
       const href = `${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`
@@ -59,5 +80,4 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
   return <FormModal onSubmit={onSubmit} vehicleService={vehicleService} {...rest} />
 }
 
-export default VehicleServiceCreateModal
-
+export default VehicleAccidentServiceCreate
