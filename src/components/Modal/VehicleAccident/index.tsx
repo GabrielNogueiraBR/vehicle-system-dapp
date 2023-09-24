@@ -21,7 +21,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import { InsuranceStatus, VehicleAccident as VehicleAccidentModal } from '@/types/contract'
+import { InsuranceStatus, VehicleAccident } from '@/types/contract'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 import { ReturnOfFunction } from '@/types'
@@ -35,7 +35,7 @@ export type FormValue = {
 }
 
 interface Props extends Omit<ModalProps, 'children'> {
-  vehicleAccident?: VehicleAccidentModal
+  vehicleAccident?: VehicleAccident
   onCreate?: () => void
 }
 
