@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 
 import { TabPanel, TabPanelProps, useDisclosure } from '@chakra-ui/react'
 import CreateButton from '@/components/CreateButton'
@@ -9,15 +9,18 @@ import { ADDRESS_REGEX } from '@/constants/web3'
 import ButtonEye from '@/components/Buttons/ButtonEye'
 import { useVehicle } from '@/contexts/VehicleContext'
 import VehicleAccidentModal from '@/components/Modal/VehicleAccident'
-import { VehicleAccident } from '@/types/contract'
+import { InsuranceStatus, VehicleAccident } from '@/types/contract'
 import ButtonIconGear from '@/components/Buttons/ButtonIconGear'
 import VehicleAccidentServiceCreate from '@/components/Modal/VehicleServiceCreate/VehicleAccidentServiceCreate'
 
 interface AccidentTabProps extends Omit<TabPanelProps, 'children'> {}
 
 const AccidentTab = ({ ...rest }: AccidentTabProps) => {
-  const { tokenId, useAccidents, isInsurer, useServices } = useVehicle()
+  const { tokenId, useAccidents, useServices, useContract, isInsurer } = useVehicle()
+
+  const { load: loadServices } = useServices
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
+  const { contracts } = useContract
 
   const accidentViewRef = useRef<VehicleAccident>()
 
@@ -38,6 +41,15 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
     onOpen: onVehicleAccidentServiceOpen,
     onClose: onVehicleAccidentServiceClose,
   } = useDisclosure()
+
+  const isInsuranceActive = useCallback(
+    (insuranceId: number) => {
+      return (
+        contracts.find((contract) => contract.id === insuranceId)?.status === InsuranceStatus.ACTIVE
+      )
+    },
+    [contracts]
+  )
 
   const handleViewAccidentClick = (accident: VehicleAccident) => {
     accidentViewRef.current = accident
@@ -108,7 +120,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
             cell: (row) => (
               <ButtonIconGear
                 onClick={() => handleAddVehicleServiceClick(row)}
-                display={isInsurer ? 'flex' : 'none'}
+                display={isInsurer && isInsuranceActive(row.insuranceId) ? 'flex' : 'none'}
               />
             ),
           },
@@ -136,7 +148,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
         insuranceId={accidentViewRef.current?.insuranceId}
         onCreate={() => {
           loadAccidents()
-          useServices.load()
+          loadServices()
         }}
       />
     </TabPanel>
