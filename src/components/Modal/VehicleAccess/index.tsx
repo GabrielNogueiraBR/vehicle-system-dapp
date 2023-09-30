@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import CustomDataTable from '@/components/CustomDataTable'
 import useVehicleAccesses from '@/hooks/useVehicleAccesses'
+import { ADDRESS_REGEX } from '@/constants/web3'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
@@ -22,7 +23,7 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
   const { accesses, isLoading, load } = useVehicleAccesses(tokenId)
 
   return (
-    <Modal size="4xl" {...rest}>
+    <Modal size="5xl" {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Acesso ao veículo</ModalHeader>
@@ -36,8 +37,7 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                 name: 'Usuário',
                 selector: (row) => row.address,
                 wrap: true,
-                grow: 0.5,
-                format: (row) => row.address || '-',
+                format: (row) => row.address.replace(ADDRESS_REGEX, '$1...$2'),
               },
               {
                 id: 'startDate',
@@ -45,7 +45,6 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                 selector: (row) => row.createdAt.getTime(),
                 sortable: true,
                 wrap: true,
-                grow: 1,
                 format: (row) =>
                   new Intl.DateTimeFormat('pt-BR', {
                     timeZone: 'UTC',
@@ -60,7 +59,6 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                 selector: (row) => row.expirationDate.getTime(),
                 sortable: true,
                 wrap: true,
-                grow: 1,
                 format: (row) =>
                   new Intl.DateTimeFormat('pt-BR', {
                     timeZone: 'UTC',
