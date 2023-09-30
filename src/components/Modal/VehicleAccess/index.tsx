@@ -10,10 +10,14 @@ import {
   ModalBody,
   Button,
   ModalFooter,
+  Icon,
+  ButtonGroup,
 } from '@chakra-ui/react'
 import CustomDataTable from '@/components/CustomDataTable'
 import useVehicleAccesses from '@/hooks/useVehicleAccesses'
 import { ADDRESS_REGEX } from '@/constants/web3'
+import BadgeStatus from '@/components/BadgeStatus'
+import { BiEdit, BiSolidXCircle } from 'react-icons/bi'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
@@ -72,14 +76,48 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                 sortable: true,
                 wrap: true,
                 grow: 0.5,
-                cell: (row) => 'teste',
+                cell: (row) => {
+                  const isExpired = row.expirationDate.getTime() < Date.now()
+                  return (
+                    <BadgeStatus theme={isExpired ? 'purple' : 'green'}>
+                      {isExpired ? 'Inativo' : 'Ativo'}
+                    </BadgeStatus>
+                  )
+                },
               },
               {
-                name: 'Ações',
-                wrap: true,
-                center: true,
-                grow: 0.5,
-                cell: (row) => 'acoes',
+                selector: (row) => row.address,
+                grow: 0.2,
+                cell: (row) => {
+                  return (
+                    <ButtonGroup>
+                      <Button
+                        colorScheme="none"
+                        p={0}
+                        m={0}
+                        w="fit-content"
+                        h="fit-content"
+                        minW={0}
+                        minH={0}
+                        aspectRatio={1}
+                      >
+                        <Icon as={BiEdit} bg="transparent" color="dark-green" rounded="md" fontSize="2xl" />
+                      </Button>
+                      <Button
+                        colorScheme="none"
+                        p={0}
+                        m={0}
+                        w="fit-content"
+                        h="fit-content"
+                        minW={0}
+                        minH={0}
+                        aspectRatio={1}
+                      >
+                        <Icon as={BiSolidXCircle} bg="transparent" color="dark-purple" rounded="md" fontSize="2xl" />
+                      </Button>
+                    </ButtonGroup>
+                  )
+                },
               },
             ]}
             data={accesses}
