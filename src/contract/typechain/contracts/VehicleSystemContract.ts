@@ -57,6 +57,25 @@ export declare namespace IBaseContract {
     endDate: BigNumber;
   };
 
+  export type AccessStruct = {
+    tokenId: PromiseOrValue<BigNumberish>;
+    expirationDate: PromiseOrValue<BigNumberish>;
+    updatedAt: PromiseOrValue<BigNumberish>;
+    createdAt: PromiseOrValue<BigNumberish>;
+  };
+
+  export type AccessStructOutput = [
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    tokenId: BigNumber;
+    expirationDate: BigNumber;
+    updatedAt: BigNumber;
+    createdAt: BigNumber;
+  };
+
   export type VehicleRequestDataStruct = {
     carBrand: PromiseOrValue<string>;
     carModel: PromiseOrValue<string>;
@@ -302,6 +321,7 @@ export interface VehicleSystemContractInterface extends utils.Interface {
     "createVehicleRequest(address,string)": FunctionFragment;
     "defineDriverLicenseCode(string)": FunctionFragment;
     "driverLicenseCodeOf(address)": FunctionFragment;
+    "getAccessByTokenId(uint256,address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getDriverLicenseCode()": FunctionFragment;
     "getTokenIdsByOwner()": FunctionFragment;
@@ -365,6 +385,7 @@ export interface VehicleSystemContractInterface extends utils.Interface {
       | "createVehicleRequest"
       | "defineDriverLicenseCode"
       | "driverLicenseCodeOf"
+      | "getAccessByTokenId"
       | "getApproved"
       | "getDriverLicenseCode"
       | "getTokenIdsByOwner"
@@ -482,6 +503,10 @@ export interface VehicleSystemContractInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "driverLicenseCodeOf",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAccessByTokenId",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -733,6 +758,10 @@ export interface VehicleSystemContractInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "driverLicenseCodeOf",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAccessByTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1070,6 +1099,12 @@ export interface VehicleSystemContract extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[IBaseContract.AccessStructOutput]>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1373,6 +1408,12 @@ export interface VehicleSystemContract extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getAccessByTokenId(
+    tokenId: PromiseOrValue<BigNumberish>,
+    fromAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<IBaseContract.AccessStructOutput>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -1671,6 +1712,12 @@ export interface VehicleSystemContract extends BaseContract {
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<IBaseContract.AccessStructOutput>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -2014,6 +2061,12 @@ export interface VehicleSystemContract extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -2311,6 +2364,12 @@ export interface VehicleSystemContract extends BaseContract {
 
     driverLicenseCodeOf(
       user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

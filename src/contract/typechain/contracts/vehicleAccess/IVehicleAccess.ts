@@ -53,6 +53,25 @@ export declare namespace IBaseContract {
     endDate: BigNumber;
   };
 
+  export type AccessStruct = {
+    tokenId: PromiseOrValue<BigNumberish>;
+    expirationDate: PromiseOrValue<BigNumberish>;
+    updatedAt: PromiseOrValue<BigNumberish>;
+    createdAt: PromiseOrValue<BigNumberish>;
+  };
+
+  export type AccessStructOutput = [
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    tokenId: BigNumber;
+    expirationDate: BigNumber;
+    updatedAt: BigNumber;
+    createdAt: BigNumber;
+  };
+
   export type VehicleRequestDataStruct = {
     carBrand: PromiseOrValue<string>;
     carModel: PromiseOrValue<string>;
@@ -296,6 +315,7 @@ export interface IVehicleAccessInterface extends utils.Interface {
     "createVehicleRequest(address,string)": FunctionFragment;
     "defineDriverLicenseCode(string)": FunctionFragment;
     "driverLicenseCodeOf(address)": FunctionFragment;
+    "getAccessByTokenId(uint256,address)": FunctionFragment;
     "getDriverLicenseCode()": FunctionFragment;
     "getUserVehicleRequestById(uint256)": FunctionFragment;
     "getVehicleAccidentRecordById(uint256)": FunctionFragment;
@@ -342,6 +362,7 @@ export interface IVehicleAccessInterface extends utils.Interface {
       | "createVehicleRequest"
       | "defineDriverLicenseCode"
       | "driverLicenseCodeOf"
+      | "getAccessByTokenId"
       | "getDriverLicenseCode"
       | "getUserVehicleRequestById"
       | "getVehicleAccidentRecordById"
@@ -436,6 +457,10 @@ export interface IVehicleAccessInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "driverLicenseCodeOf",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAccessByTokenId",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getDriverLicenseCode",
@@ -621,6 +646,10 @@ export interface IVehicleAccessInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "driverLicenseCodeOf",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAccessByTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -844,6 +873,12 @@ export interface IVehicleAccess extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { driverLicenseCode: string }>;
 
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[IBaseContract.AccessStructOutput]>;
+
     getDriverLicenseCode(
       overrides?: CallOverrides
     ): Promise<[string] & { driverLicenseCode: string }>;
@@ -1065,6 +1100,12 @@ export interface IVehicleAccess extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getAccessByTokenId(
+    tokenId: PromiseOrValue<BigNumberish>,
+    fromAddress: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<IBaseContract.AccessStructOutput>;
+
   getDriverLicenseCode(overrides?: CallOverrides): Promise<string>;
 
   getUserVehicleRequestById(
@@ -1281,6 +1322,12 @@ export interface IVehicleAccess extends BaseContract {
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<IBaseContract.AccessStructOutput>;
 
     getDriverLicenseCode(overrides?: CallOverrides): Promise<string>;
 
@@ -1502,6 +1549,12 @@ export interface IVehicleAccess extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getDriverLicenseCode(overrides?: CallOverrides): Promise<BigNumber>;
 
     getUserVehicleRequestById(
@@ -1717,6 +1770,12 @@ export interface IVehicleAccess extends BaseContract {
 
     driverLicenseCodeOf(
       user: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAccessByTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      fromAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
