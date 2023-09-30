@@ -10,6 +10,14 @@ export enum InsuranceStatus {
   EXPIRED = 'EXPIRED',
 }
 
+export type Access = {
+  address: string
+  tokenId: number
+  expirationDate: Date
+  updatedAt: Date
+  createdAt: Date
+}
+
 export type VehicleOwnershipRecord = {
   driverLicenseCode: string
   federalUnit: string

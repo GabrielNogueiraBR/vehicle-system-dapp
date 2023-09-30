@@ -12,34 +12,37 @@ import {
   ModalFooter,
 } from '@chakra-ui/react'
 import CustomDataTable from '@/components/CustomDataTable'
+import useVehicleAccesses from '@/hooks/useVehicleAccesses'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
 }
 
 const VehicleAccess = ({ tokenId, ...rest }: Props) => {
+  const { accesses, isLoading, load } = useVehicleAccesses(tokenId)
+
   return (
     <Modal size="4xl" {...rest}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Acesso ao veículo</ModalHeader>
         <ModalBody>
-          {/* <CustomDataTable
+          <CustomDataTable
             pagination={false}
             defaultSortFieldId="endDate"
             defaultSortAsc={false}
             columns={[
               {
                 name: 'Usuário',
-                selector: (row) => row.driverLicenseCode,
+                selector: (row) => row.address,
                 wrap: true,
                 grow: 0.5,
-                format: (row) => row.driverLicenseCode || '-',
+                format: (row) => row.address || '-',
               },
               {
                 id: 'startDate',
                 name: 'Data início',
-                selector: (row) => row.startDate.getTime(),
+                selector: (row) => row.createdAt.getTime(),
                 sortable: true,
                 wrap: true,
                 grow: 1,
@@ -49,12 +52,12 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                     month: 'long',
                     year: 'numeric',
                     day: '2-digit',
-                  }).format(row.startDate),
+                  }).format(row.createdAt),
               },
               {
                 id: 'endDate',
                 name: 'Data fim',
-                selector: (row) => row.endDate.getTime(),
+                selector: (row) => row.expirationDate.getTime(),
                 sortable: true,
                 wrap: true,
                 grow: 1,
@@ -64,26 +67,26 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                     month: 'long',
                     year: 'numeric',
                     day: '2-digit',
-                  }).format(row.endDate),
+                  }).format(row.expirationDate),
               },
               {
                 name: 'Status',
-                selector: (row) => row.federalUnit,
                 sortable: true,
                 wrap: true,
                 grow: 0.5,
-                format: (row) => row.federalUnit || '-',
+                cell: (row) => 'teste',
               },
               {
                 name: 'Ações',
-                selector: (row) => row.federalUnit,
                 wrap: true,
                 center: true,
                 grow: 0.5,
+                cell: (row) => 'acoes',
               },
             ]}
-            data={[{}]}
-          /> */}
+            data={accesses}
+            progressPending={isLoading}
+          />
         </ModalBody>
         <ModalFooter>
           <Button onClick={rest.onClose} variant="outline" colorScheme="purple" px="12">
