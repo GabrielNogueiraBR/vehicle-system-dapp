@@ -19,6 +19,7 @@ import ShareIcon from '@/components/Icons/ShareIcon'
 import HistoryIcon from '@/components/Icons/HistoryIcon'
 import VehicleOwnershipViewModal from '@/components/Modal/VehicleOwnershipView'
 import { useVehicle } from '@/contexts/VehicleContext'
+import VehicleAccess from '@/components/Modal/VehicleAccess'
 
 const VehicleInfo = () => {
   const { tokenId, useOwner, useMetadata } = useVehicle()
@@ -30,6 +31,12 @@ const VehicleInfo = () => {
     isOpen: isOwnershipViewModalOpen,
     onOpen: onOwnershipViewModalOpen,
     onClose: onOwnershipViewModalClose,
+  } = useDisclosure()
+
+  const {
+    isOpen: isVehicleAccessModalOpen,
+    onOpen: onVehicleAccessModalOpen,
+    onClose: onVehicleAccessModalClose,
   } = useDisclosure()
 
   const isLoading = isOwnerLoading || isMetadataLoading
@@ -126,6 +133,7 @@ const VehicleInfo = () => {
                 h="fit-content"
                 py="2"
                 px="3"
+                onClick={onVehicleAccessModalOpen}
               >
                 <Icon as={ShareIcon} fontSize="4xl" color="secondary" />
               </Button>
@@ -152,6 +160,11 @@ const VehicleInfo = () => {
         ownership={metadata?.vehicleOwnershipRecords || []}
         isOpen={isOwnershipViewModalOpen}
         onClose={onOwnershipViewModalClose}
+      />
+      <VehicleAccess
+        tokenId={tokenId}
+        isOpen={isVehicleAccessModalOpen}
+        onClose={onVehicleAccessModalClose}
       />
     </>
   )
