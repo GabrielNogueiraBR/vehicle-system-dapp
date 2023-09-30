@@ -22,39 +22,26 @@ const useVehicleAccesses = (tokenId: string) => {
 
       const data: Access[] = []
 
-      // await Promise.all(
-      //   addresses.map(async (address) => {
-      //     const tx = contract.connect(signer).getAccessByTokenId(tokenId, address)
-      //     const value = await tx
+      await Promise.all(
+        addresses.map(async (address) => {
+          const tx = contract.connect(signer).getAccessByTokenId(tokenId, address)
+          const value = await tx
 
-      //     const {
-      //       vehicleOwner,
-      //       insurer,
-      //       tokenId,
-      //       insuranceId,
-      //       description,
-      //       accidentDate,
-      //       vehicleServicesIds,
-      //       createdAt,
-      //       updatedAt,
-      //     } = value
+          const { expirationDate, updatedAt, createdAt } = value
 
-      //     data.push({
-      //       id,
-      //       vehicleOwner,
-      //       insurer,
-      //       tokenId: Number(tokenId),
-      //       insuranceId: Number(insuranceId),
-      //       description,
-      //       accidentDate: new Date(Number(accidentDate) * 1000),
-      //       vehicleServicesIds: vehicleServicesIds.map((id) => Number(id)),
-      //       createdAt: new Date(Number(createdAt) * 1000),
-      //       updatedAt: new Date(Number(updatedAt) * 1000),
-      //     })
-      //   })
-      // )
+          const access: Access = {
+            tokenId: Number(tokenId),
+            address,
+            expirationDate: new Date(Number(expirationDate) * 1000),
+            createdAt: new Date(Number(createdAt) * 1000),
+            updatedAt: new Date(Number(updatedAt) * 1000),
+          }
 
-      setAccesses([])
+          data.push(access)
+        })
+      )
+
+      setAccesses(data)
     } catch (e) {
       console.error(e)
     } finally {
