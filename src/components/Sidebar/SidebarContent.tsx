@@ -79,6 +79,7 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
         top={0}
         transform={`translate(0,${indexActive * 35 + indexActive * 40}px)`}
         transition="all 250ms"
+        display={indexActive < 0 ? 'none' : undefined}
       />
       {userLinks.map((lnk) => (
         <NavLink key={lnk.href} href={lnk.href} icon={lnk.icon} onClick={onNavClick}>
