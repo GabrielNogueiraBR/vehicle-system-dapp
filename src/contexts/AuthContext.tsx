@@ -32,6 +32,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { data: CNH, isLoading: isLoadingCNH, load: loadCNH } = getDriverLicenseCode
 
   const isLoading = isLoadingAuth || isLoadingAgents || isLoadingInsurers
+  const isLoadingAccess = isLoading || isLoadingRoles || isLoadingCNH
+  const mustOpenUserRegistrationModal =
+    !isLoading && !isLoadingRoles && !isLoadingCNH && !CNH && userRoles.includes('user')
 
   const checkRole = (address: string) => {
     const roles: Role[] = []
@@ -63,8 +66,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider value={{ address: account, roles: userRoles }}>
-      <LoadingModalAccess isOpen={isLoading || isLoadingRoles || isLoadingCNH} />
-      <UserRegistrationModal isOpen={!isLoading && !isLoadingRoles && !isLoadingCNH && !CNH} onCreate={loadCNH} />
+      <LoadingModalAccess isOpen={isLoadingAccess} />
+      <UserRegistrationModal isOpen={mustOpenUserRegistrationModal} onCreate={loadCNH} />
       {children}
     </AuthContext.Provider>
   )
