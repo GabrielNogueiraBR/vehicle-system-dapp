@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Role } from '@/types'
 import { useEthers } from '@usedapp/core'
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
 import { useWeb3 } from './Web3Context'
 import UserRegistrationModal from '@/components/Modal/UserRegistration'
 import LoadingModalAccess from '@/components/Modal/Loading'
@@ -20,11 +20,13 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const pathname = usePathname()
+
   const [userRoles, setUserRoles] = useState<Role[]>([])
   const [isLoadingRoles, setIsLoadingRoles] = useState(true)
 
   const { account, isLoading: isLoadingAuth } = useEthers()
-  if (!account && !isLoadingAuth) redirect('/auth')
+  if (!account && !isLoadingAuth) redirect(`/auth?callbackUrl=${encodeURIComponent(pathname)}`)
 
   const { listAgents, listInsurers, getDriverLicenseCode } = useWeb3()
   const { data: agents, isLoading: isLoadingAgents } = listAgents

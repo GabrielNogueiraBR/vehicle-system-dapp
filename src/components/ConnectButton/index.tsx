@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, ButtonProps } from '@chakra-ui/react'
+import { Button, ButtonProps} from '@chakra-ui/react'
 import { useEthers } from '@usedapp/core'
 import React, { useCallback } from 'react'
 
@@ -27,7 +27,7 @@ const ConnectButton = ({ ...rest }: Props) => {
       onClick={handleConnectClick}
       {...rest}
     >
-      Connect- {chainId}
+      Conectar
     </Button>
   )
 }
