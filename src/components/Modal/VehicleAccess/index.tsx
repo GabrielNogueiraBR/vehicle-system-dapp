@@ -23,6 +23,8 @@ import { BiEdit, BiSolidXCircle } from 'react-icons/bi'
 import DeleteAlert from './DeleteAlert'
 import CreateButton from '@/components/CreateButton'
 import CreateAccess from './CreateAccess'
+import UpdateAccess from './UpdateAccess'
+import { Access } from '@/types/contract'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
@@ -31,7 +33,7 @@ interface Props extends Omit<ModalProps, 'children'> {
 const VehicleAccess = ({ tokenId, ...rest }: Props) => {
   const { accesses, isLoading, load: loadAccess, revoke, giveAccess } = useVehicleAccesses(tokenId)
 
-  const [selectedAddress, setSelectedAddress] = useState<string>('')
+  const [selectedAccess, setSelectedAccess] = useState<Access>()
 
   const {
     isOpen: isAlertDeleteOpen,
@@ -45,13 +47,20 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
     onClose: onCreateVehicleAccessClose,
   } = useDisclosure()
 
-  const handleRevokeAccessClick = (address: string) => {
-    setSelectedAddress(address)
+  const {
+    isOpen: isUpdateVehicleAccessOpen,
+    onOpen: onUpdateVehicleAccessOpen,
+    onClose: onUpdateVehicleAccessClose,
+  } = useDisclosure()
+
+  const handleRevokeAccessClick = (access: Access) => {
+    setSelectedAccess(access)
     onAlertDeleteOpen()
   }
 
-  const handleEditAccessClick = (address: string) => {
-    setSelectedAddress(address)
+  const handleEditAccessClick = (access: Access) => {
+    setSelectedAccess(access)
+    onUpdateVehicleAccessOpen()
   }
 
   return (
@@ -140,7 +149,7 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                             minW={0}
                             minH={0}
                             aspectRatio={1}
-                            onClick={() => handleEditAccessClick(row.address)}
+                            onClick={() => handleEditAccessClick(row)}
                           >
                             <Icon
                               as={BiEdit}
@@ -161,7 +170,7 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
                             minW={0}
                             minH={0}
                             aspectRatio={1}
-                            onClick={() => handleRevokeAccessClick(row.address)}
+                            onClick={() => handleRevokeAccessClick(row)}
                             display={isExpired ? 'none' : undefined}
                           >
                             <Icon
@@ -193,7 +202,7 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
         onConfirm={async (address) => {
           await revoke(address)
         }}
-        address={selectedAddress}
+        address={selectedAccess?.address || ''}
         isOpen={isAlertDeleteOpen}
         onClose={onAlertDeleteClose}
       />
@@ -202,6 +211,13 @@ const VehicleAccess = ({ tokenId, ...rest }: Props) => {
         isOpen={isCreateVehicleAccessOpen}
         onClose={onCreateVehicleAccessClose}
         onCreate={loadAccess}
+      />
+      <UpdateAccess
+        tokenId={tokenId}
+        isOpen={isUpdateVehicleAccessOpen}
+        onClose={onUpdateVehicleAccessClose}
+        vehicleAccess={selectedAccess}
+        onUpdate={loadAccess}
       />
     </>
   )
