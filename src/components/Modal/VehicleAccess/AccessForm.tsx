@@ -106,14 +106,8 @@ const AccessFormModal = ({ onSubmit, vehicleAccess, ...rest }: Props) => {
                     id="date"
                     type="date"
                     placeholder="Insira a data..."
-                    value={
-                      vehicleAccess
-                        ? vehicleAccess.expirationDate.toISOString().slice(0, 10)
-                        : undefined
-                    }
                     {...register('date', { valueAsDate: true, required: 'Campo obrigatório' })}
                     disabled={isSubmitting}
-                    isReadOnly={!!vehicleAccess}
                   />
                   <FormErrorMessage>{errors.date && errors.date.message}</FormErrorMessage>
                 </FormControl>
@@ -126,11 +120,20 @@ const AccessFormModal = ({ onSubmit, vehicleAccess, ...rest }: Props) => {
             <Button
               onClick={rest.onClose}
               variant="outline"
-              colorScheme="purple"
               display={vehicleAccess ? 'flex' : 'none'}
               px="12"
             >
-              OK
+              Fechar
+            </Button>
+            <Button
+              variant="outline"
+              colorScheme="purple"
+              isLoading={isSubmitting}
+              onClick={handleSubmit(onSubmit)}
+              display={vehicleAccess ? 'flex' : 'none'}
+              px="12"
+            >
+              Atualizar
             </Button>
             <Button
               variant="cancel"
@@ -142,6 +145,7 @@ const AccessFormModal = ({ onSubmit, vehicleAccess, ...rest }: Props) => {
             <Button
               colorScheme="purple"
               variant="outline"
+              loadingText="Enviando..."
               isLoading={isSubmitting}
               onClick={handleSubmit(onSubmit)}
               display={vehicleAccess ? 'none' : 'flex'}
