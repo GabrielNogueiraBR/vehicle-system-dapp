@@ -5,6 +5,8 @@ import { Role } from '@/types'
 import { useEthers } from '@usedapp/core'
 import { redirect } from 'next/navigation'
 import { useWeb3 } from './Web3Context'
+import UserRegistrationModal from '@/components/Modal/UserRegistration'
+import LoadingModalAccess from '@/components/Modal/Loading'
 
 interface AuthContextData {
   address?: string
@@ -19,18 +21,21 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userRoles, setUserRoles] = useState<Role[]>([])
+  const [isLoadingRoles, setIsLoadingRoles] = useState(true)
 
   const { account, isLoading: isLoadingAuth } = useEthers()
   if (!account && !isLoadingAuth) redirect('/auth')
 
-  const { listAgents, listInsurers } = useWeb3()
+  const { listAgents, listInsurers, getDriverLicenseCode } = useWeb3()
   const { data: agents, isLoading: isLoadingAgents } = listAgents
   const { data: insurers, isLoading: isLoadingInsurers } = listInsurers
+  const { data: CNH, isLoading: isLoadingCNH, load: loadCNH } = getDriverLicenseCode
 
   const isLoading = isLoadingAuth || isLoadingAgents || isLoadingInsurers
 
   const checkRole = (address: string) => {
     const roles: Role[] = []
+    setIsLoadingRoles(true)
 
     try {
       const isAgent = agents?.some((a) => a.toLowerCase() === address.toLowerCase())
@@ -43,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (e) {
       console.error(e)
     }
-
+    setIsLoadingRoles(false)
     setUserRoles(roles)
   }
 
@@ -52,8 +57,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkRole(account)
   }, [agents, insurers, account, isLoading])
 
+  useEffect(() => {
+    loadCNH()
+  }, [userRoles, account])
+
   return (
     <AuthContext.Provider value={{ address: account, roles: userRoles }}>
+      <LoadingModalAccess isOpen={isLoading || isLoadingRoles || isLoadingCNH} />
+      <UserRegistrationModal isOpen={!isLoading && !isLoadingRoles && !isLoadingCNH && !CNH} onCreate={loadCNH} />
       {children}
     </AuthContext.Provider>
   )
