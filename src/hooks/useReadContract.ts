@@ -31,6 +31,7 @@ function useReadContract<fn extends ContractFunctionName>({ functionName, args }
       setData(value as T<fn>)
     } catch (e) {
       console.error(e)
+      setData(undefined)
     } finally {
       setIsLoading(false)
     }
