@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   AlertDialog,
   AlertDialogOverlay,
@@ -12,26 +12,35 @@ import {
   Button,
   Text,
   AlertDialogProps,
+  ButtonGroup,
 } from '@chakra-ui/react'
 
 interface Props extends Omit<AlertDialogProps, 'children' | 'leastDestructiveRef'> {
   address: string
-  onConfirm?: (address: string) => void
-  onCancel?: (address: string) => void
+  onConfirm?: (address: string) => Promise<void>
+  onCancel?: (address: string) => Promise<void>
 }
 
 const DeleteAlert = ({ address, onConfirm, onCancel, ...rest }: Props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const buttonRef = useRef(null)
 
   const onConfirmParam = onConfirm
-  onConfirm = (address: string) => {
-    if (onConfirmParam) onConfirmParam(address)
-    rest.onClose()
+  onConfirm = async (address: string) => {
+    try {
+      setIsLoading(true)
+      if (onConfirmParam) await onConfirmParam(address)
+      rest.onClose()
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const onCancelParam = onCancel
-  onCancel = (address: string) => {
-    if (onCancelParam) onCancelParam(address)
+  onCancel = async (address: string) => {
+    if (onCancelParam) await onCancelParam(address)
     rest.onClose()
   }
 
@@ -52,12 +61,27 @@ const DeleteAlert = ({ address, onConfirm, onCancel, ...rest }: Props) => {
           </Text>
         </AlertDialogBody>
         <AlertDialogFooter>
-          <Button ref={buttonRef} onClick={() => onCancel && onCancel(address)} px="8">
-            Cancelar
-          </Button>
-          <Button onClick={() => onConfirm && onConfirm(address)} colorScheme="red" ml="3" px="8">
-            Revogar
-          </Button>
+          <ButtonGroup spacing={3}>
+            <Button onClick={rest.onClose} px="8" display={isLoading ? undefined : 'none'}>
+              Fechar
+            </Button>
+            <Button
+              ref={buttonRef}
+              onClick={() => onCancel && onCancel(address)}
+              display={isLoading ? 'none' : undefined}
+            >
+              Cancelar
+            </Button>
+            <Button
+              loadingText="Revogando..."
+              isLoading={isLoading}
+              onClick={() => onConfirm && onConfirm(address)}
+              colorScheme="red"
+              px="8"
+            >
+              Revogar
+            </Button>
+          </ButtonGroup>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
