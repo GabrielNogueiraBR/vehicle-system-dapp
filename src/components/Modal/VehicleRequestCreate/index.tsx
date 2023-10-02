@@ -23,7 +23,6 @@ import {
 import { useWeb3 } from '@/contexts/Web3Context'
 import { useForm } from 'react-hook-form'
 import { BLOCK_EXPLORER } from '@/constants/web3'
-import useReadContract from '@/hooks/useReadContract'
 import { TransactionReceipt } from 'alchemy-sdk'
 
 type FormValue = {
@@ -36,8 +35,8 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 
 const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
-  const { createVehicleRequest } = useWeb3()
-  const { data: agents } = useReadContract({ functionName: 'listAgents', args: [] })
+  const { createVehicleRequest, listAgents } = useWeb3()
+  const { data: agents } = listAgents
 
   const toast = useToast()
 

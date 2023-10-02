@@ -23,7 +23,6 @@ import {
 import { useWeb3 } from '@/contexts/Web3Context'
 import { useForm } from 'react-hook-form'
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
-import useReadContract from '@/hooks/useReadContract'
 import { ReturnOfFunction } from '@/types'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 
@@ -38,9 +37,9 @@ interface Props extends Omit<ModalProps, 'children'> {
 }
 
 const VehicleContractRequestCreateModal = ({ tokenId, onCreate, ...rest }: Props) => {
-  const { createVehicleInsuranceRequest } = useWeb3()
+  const { createVehicleInsuranceRequest, listInsurers } = useWeb3()
   const { vehiclesNfts } = useVehicleNFTs()
-  const { data: insurers } = useReadContract({ functionName: 'listInsurers', args: [] })
+  const { data: insurers } = listInsurers
 
   const toast = useToast()
   const {

@@ -1,8 +1,11 @@
+import useReadContract from '@/hooks/useReadContract'
 import contract from '@/lib/contract'
 import { useContractFunction } from '@usedapp/core'
 import React, { createContext, useContext, useEffect } from 'react'
 
 interface Web3ContextData {
+  listAgents: ReturnType<typeof useReadContract<'listAgents'>>
+  listInsurers: ReturnType<typeof useReadContract<'listInsurers'>>
   userRegistration: ReturnType<typeof useContractFunction>
   defineDriverLicenseCode: ReturnType<typeof useContractFunction>
   addVehicleServiceRecord: ReturnType<typeof useContractFunction>
@@ -25,6 +28,9 @@ interface Web3ProviderProps {
 }
 
 export const Web3Provider = ({ children }: Web3ProviderProps) => {
+  const listAgents = useReadContract({ functionName: 'listAgents', args: [] })
+  const listInsurers = useReadContract({ functionName: 'listInsurers', args: [] })
+
   const userRegistration = useContractFunction(contract, 'userRegistration', {
     transactionName: 'User Registration',
   })
@@ -100,6 +106,8 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
   return (
     <Web3Context.Provider
       value={{
+        listAgents,
+        listInsurers,
         userRegistration,
         defineDriverLicenseCode,
         addVehicleServiceRecord,
