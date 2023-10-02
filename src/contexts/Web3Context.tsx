@@ -6,6 +6,7 @@ import React, { createContext, useContext, useEffect } from 'react'
 interface Web3ContextData {
   listAgents: ReturnType<typeof useReadContract<'listAgents'>>
   listInsurers: ReturnType<typeof useReadContract<'listInsurers'>>
+  getDriverLicenseCode: ReturnType<typeof useReadContract<'getDriverLicenseCode'>>
   userRegistration: ReturnType<typeof useContractFunction>
   defineDriverLicenseCode: ReturnType<typeof useContractFunction>
   addVehicleServiceRecord: ReturnType<typeof useContractFunction>
@@ -30,6 +31,7 @@ interface Web3ProviderProps {
 export const Web3Provider = ({ children }: Web3ProviderProps) => {
   const listAgents = useReadContract({ functionName: 'listAgents', args: [] })
   const listInsurers = useReadContract({ functionName: 'listInsurers', args: [] })
+  const getDriverLicenseCode = useReadContract({ functionName: 'getDriverLicenseCode', args: [] })
 
   const userRegistration = useContractFunction(contract, 'userRegistration', {
     transactionName: 'User Registration',
@@ -108,6 +110,7 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
       value={{
         listAgents,
         listInsurers,
+        getDriverLicenseCode,
         userRegistration,
         defineDriverLicenseCode,
         addVehicleServiceRecord,
