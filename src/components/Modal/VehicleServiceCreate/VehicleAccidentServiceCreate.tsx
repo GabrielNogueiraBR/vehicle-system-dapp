@@ -27,8 +27,6 @@ const VehicleAccidentServiceCreate = ({
   const { insurerAddVehicleServiceRecord } = useWeb3()
   const toast = useToast()
 
-  console.log({ accidentId, insuranceId })
-
   const onSubmit = async (data: FormValue) => {
     try {
       if (accidentId === undefined || insuranceId === undefined)
