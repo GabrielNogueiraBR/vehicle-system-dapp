@@ -14,6 +14,8 @@ interface Web3ContextData {
   contractVehicleInsuranceProposal: ReturnType<typeof useContractFunction>
   registerVehicleAccidentRecord: ReturnType<typeof useContractFunction>
   insurerAddVehicleServiceRecord: ReturnType<typeof useContractFunction>
+  giveVehicleAccessByTokenId: ReturnType<typeof useContractFunction>
+  revokeVehicleAccessByTokenId: ReturnType<typeof useContractFunction>
 }
 
 export const Web3Context = createContext({} as Web3ContextData)
@@ -83,6 +85,18 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
     }
   )
 
+  const giveVehicleAccessByTokenId = useContractFunction(contract, 'giveVehicleAccessByTokenId', {
+    transactionName: 'Give Vehicle Access By Token Id',
+  })
+
+  const revokeVehicleAccessByTokenId = useContractFunction(
+    contract,
+    'revokeVehicleAccessByTokenId',
+    {
+      transactionName: 'Revoke Vehicle Access By Token Id',
+    }
+  )
+
   return (
     <Web3Context.Provider
       value={{
@@ -97,6 +111,8 @@ export const Web3Provider = ({ children }: Web3ProviderProps) => {
         contractVehicleInsuranceProposal,
         registerVehicleAccidentRecord,
         insurerAddVehicleServiceRecord,
+        giveVehicleAccessByTokenId,
+        revokeVehicleAccessByTokenId,
       }}
     >
       {children}
