@@ -14,7 +14,7 @@ const useOwnerOfToken = (tokenId: string) => {
 
   const isOwner = useMemo(
     () => owner?.toLowerCase() === signerAddress?.toLowerCase(),
-    [owner, signer]
+    [owner, signerAddress]
   )
 
   const load = async () => {

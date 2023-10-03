@@ -20,7 +20,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
 
   const { load: loadServices } = useServices
   const { accidents, isLoading: isLoadingAccidents, load: loadAccidents } = useAccidents
-  const { contracts } = useContract
+  const { contracts, load: loadContracts } = useContract
 
   const accidentViewRef = useRef<VehicleAccident>()
 
@@ -146,9 +146,10 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
         tokenId={tokenId}
         accidentId={accidentViewRef.current?.id}
         insuranceId={accidentViewRef.current?.insuranceId}
-        onCreate={() => {
-          loadAccidents()
-          loadServices()
+        onCreate={async () => {
+          await loadAccidents()
+          await loadContracts()
+          await loadServices()
         }}
       />
     </TabPanel>
