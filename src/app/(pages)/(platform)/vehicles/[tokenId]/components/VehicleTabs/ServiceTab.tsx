@@ -57,7 +57,7 @@ const ServicesTab = ({ ...rest }: ServicesTabProps) => {
             center: true,
             selector: (row) => row.id,
             wrap: true,
-            grow: 0.5,
+            width: '5.5rem',
             cell: (row) => (
               <ButtonEye
                 onClick={() => {

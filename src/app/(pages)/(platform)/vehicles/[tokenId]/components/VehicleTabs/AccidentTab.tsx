@@ -81,7 +81,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
             selector: (row) => row.id,
             center: true,
             wrap: true,
-            grow: 0.5,
+            width: '5.5rem',
             cell: (row) => <ButtonEye onClick={() => handleViewAccidentClick(row)} />,
           },
           {
