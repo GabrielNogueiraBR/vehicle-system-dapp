@@ -211,10 +211,7 @@ const VehicleContractInfoModal = ({
                 </Text>
               </Text>
               <Text display={isProposal ? 'block' : 'none'}>
-                Preço:{' '}
-                <Text as="span">
-                  {`${new Decimal(price || 0).toFixed(18).replace(/\.?0+$/, '')}`} ETH
-                </Text>
+                Preço: <Text as="span">{`${new Decimal(price || 0)}`} ETH</Text>
               </Text>
             </Flex>
           </Flex>
