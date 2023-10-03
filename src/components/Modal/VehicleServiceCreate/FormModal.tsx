@@ -91,7 +91,7 @@ const FormModal = ({ onSubmit, vehicleService, ...rest }: Props) => {
                     id="price"
                     type="number"
                     step="0.000000000000000001"
-                    value={vehicleService ? vehicleService.price : undefined}
+                    value={vehicleService ? vehicleService.price.toNumber() : undefined}
                     placeholder="Insira o preço..."
                     {...register('price', {
                       required: 'Campo obrigatório',
