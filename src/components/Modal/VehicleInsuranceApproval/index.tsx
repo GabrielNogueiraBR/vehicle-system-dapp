@@ -243,7 +243,7 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
                       type="number"
                       step="0.000000000000000001"
                       placeholder="Insira o preço..."
-                      value={isSubmitted ? requestData?.price : undefined}
+                      value={isSubmitted ? requestData?.price?.toNumber() : undefined}
                       {...register('price', {
                         required: 'Campo obrigatório',
                         min: 0,

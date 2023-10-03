@@ -3,6 +3,7 @@
 import { VehicleInsuranceProposal, VehicleInsuranceRequest } from '@/types/contract'
 import readContract from '@/utils/readContract'
 import { useEthers, useSigner } from '@usedapp/core'
+import Decimal from 'decimal.js'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 
@@ -57,7 +58,7 @@ const useInsurerContractProposals = () => {
               tokenId: Number(tokenId),
               insuranceStartDate: new Date(Number(insuranceStartDate) * 1000),
               insuranceEndDate: new Date(Number(insuranceEndDate) * 1000),
-              price: Number(ethers.utils.formatEther(price)),
+              price: new Decimal(Number(ethers.utils.formatEther(price))),
               contractUrl,
               status,
               createdAt: new Date(Number(createdAt) * 1000),

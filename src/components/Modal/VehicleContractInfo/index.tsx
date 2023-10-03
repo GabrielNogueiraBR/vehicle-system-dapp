@@ -24,12 +24,13 @@ import { ADDRESS_REGEX, BLOCK_EXPLORER } from '@/constants/web3'
 import { ReturnOfFunction } from '@/types'
 import { HiExternalLink } from 'react-icons/hi'
 import { ethers } from 'ethers'
+import Decimal from 'decimal.js'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: number
   insurer: string
   proposalId?: number
-  price?: number
+  price?: Decimal
   insuranceStartDate?: Date
   insuranceEndDate?: Date
   requestCreatedAt?: Date
@@ -210,7 +211,10 @@ const VehicleContractInfoModal = ({
                 </Text>
               </Text>
               <Text display={isProposal ? 'block' : 'none'}>
-                Preço: <Text as="span">{price?.toString().padStart(3, '0')} ETH</Text>
+                Preço:{' '}
+                <Text as="span">
+                  {`${new Decimal(price || 0).toFixed(18).replace(/\.?0+$/, '')}`} ETH
+                </Text>
               </Text>
             </Flex>
           </Flex>

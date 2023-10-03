@@ -20,12 +20,13 @@ import getContractsByTokenId from '@/utils/getContractsByTokenId'
 import getInsuranceProposalsByTokenId from '@/utils/getInsuranceProposalsByTokenId'
 import ContractCard from '@/components/ContractCard'
 import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
+import Decimal from 'decimal.js'
 
 type ModalViewProps = {
   tokenId: number
   insurer: string
   proposalId?: number
-  price?: number
+  price?: Decimal
   insuranceStartDate?: Date
   insuranceEndDate?: Date
   requestCreatedAt?: Date

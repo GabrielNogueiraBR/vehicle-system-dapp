@@ -90,7 +90,7 @@ export type VehicleInsuranceProposal = {
   tokenId: number
   insuranceStartDate: Date
   insuranceEndDate: Date
-  price: number
+  price: Decimal
   contractUrl: string
   status: Status
   createdAt: Date
