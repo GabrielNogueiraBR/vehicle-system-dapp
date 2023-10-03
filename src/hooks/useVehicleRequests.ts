@@ -19,7 +19,7 @@ const useVehiclesRequests = () => {
 
       const requestsIds = await readContract({
         signer,
-        functionName: 'listVehicleRequestsIds',
+        functionName: 'listUserVehicleRequestsIds',
         args: [],
       })
       if (!requestsIds) throw Error('Error on get vehicle requests')
