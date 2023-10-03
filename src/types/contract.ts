@@ -1,3 +1,5 @@
+import Decimal from "decimal.js"
+
 export enum Status {
   PENDING,
   APPROVED,
@@ -53,7 +55,7 @@ export type VehicleService = {
   tokenId: number
   title: string
   description: string
-  price: number
+  price: Decimal
   date: number
   createdAt: number
 }

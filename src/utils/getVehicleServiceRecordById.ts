@@ -1,6 +1,7 @@
 import contract from '@/lib/contract'
 import { VehicleService } from '@/types/contract'
 import { useSigner } from '@usedapp/core'
+import Decimal from 'decimal.js'
 import { ethers } from 'ethers'
 
 type Params = {
@@ -25,7 +26,7 @@ const getVehicleServiceRecordById = async ({ id, signer }: Params) => {
       tokenId: Number(tokenId),
       title,
       description,
-      price: Number(ethers.utils.formatEther(price)),
+      price: new Decimal(ethers.utils.formatEther(price)),
       date: Number(date),
       createdAt: Number(createdAt),
     }

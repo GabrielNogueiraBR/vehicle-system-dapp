@@ -76,7 +76,7 @@ const ServicesTab = ({ ...rest }: ServicesTabProps) => {
           },
           {
             name: 'Preço',
-            selector: (row) => row.price,
+            selector: (row) => row.price.toNumber(),
             sortable: true,
             wrap: true,
             grow: 0.5,
