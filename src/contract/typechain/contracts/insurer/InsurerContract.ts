@@ -114,6 +114,7 @@ export interface InsurerContractInterface extends utils.Interface {
     "createVehicleInsuranceProposal(uint256,uint256,uint256,uint256,string)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getVehicleInsuranceContractIdsByInsurer()": FunctionFragment;
+    "getVehicleInsuranceContractIdsByInsurerAndTokenId(uint256)": FunctionFragment;
     "getVehicleInsuranceProposalIdsByInsurer()": FunctionFragment;
     "getVehicleInsuranceRequestIdsByInsurer()": FunctionFragment;
     "getVehicleRequestById(uint256)": FunctionFragment;
@@ -149,6 +150,7 @@ export interface InsurerContractInterface extends utils.Interface {
       | "createVehicleInsuranceProposal"
       | "getApproved"
       | "getVehicleInsuranceContractIdsByInsurer"
+      | "getVehicleInsuranceContractIdsByInsurerAndTokenId"
       | "getVehicleInsuranceProposalIdsByInsurer"
       | "getVehicleInsuranceRequestIdsByInsurer"
       | "getVehicleRequestById"
@@ -217,6 +219,10 @@ export interface InsurerContractInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getVehicleInsuranceContractIdsByInsurer",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getVehicleInsuranceContractIdsByInsurerAndTokenId",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getVehicleInsuranceProposalIdsByInsurer",
@@ -352,6 +358,10 @@ export interface InsurerContractInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getVehicleInsuranceContractIdsByInsurer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getVehicleInsuranceContractIdsByInsurerAndTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -565,6 +575,11 @@ export interface InsurerContract extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
+    getVehicleInsuranceContractIdsByInsurerAndTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     getVehicleInsuranceProposalIdsByInsurer(
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
@@ -726,6 +741,11 @@ export interface InsurerContract extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
 
+  getVehicleInsuranceContractIdsByInsurerAndTokenId(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   getVehicleInsuranceProposalIdsByInsurer(
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
@@ -884,6 +904,11 @@ export interface InsurerContract extends BaseContract {
     ): Promise<string>;
 
     getVehicleInsuranceContractIdsByInsurer(
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    getVehicleInsuranceContractIdsByInsurerAndTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
 
@@ -1091,6 +1116,11 @@ export interface InsurerContract extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getVehicleInsuranceContractIdsByInsurerAndTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getVehicleInsuranceProposalIdsByInsurer(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1250,6 +1280,11 @@ export interface InsurerContract extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getVehicleInsuranceContractIdsByInsurer(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getVehicleInsuranceContractIdsByInsurerAndTokenId(
+      tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
