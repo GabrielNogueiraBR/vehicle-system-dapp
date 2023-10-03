@@ -18,7 +18,13 @@ const useVehicleContracts = (tokenId: string) => {
     try {
       setIsLoading(true)
 
-      const data = await getContractsByTokenId({ tokenId, signer })
+      const userContracts = await getContractsByTokenId({ tokenId, signer })
+      const insurerContracts = await getContractsByTokenId({ tokenId, isInsurer: true, signer })
+
+      // unique contracts
+      const data = [...userContracts, ...insurerContracts].filter(
+        (value, index, array) => array.indexOf(value) === index
+      )
 
       setContracts(data)
     } catch (e) {

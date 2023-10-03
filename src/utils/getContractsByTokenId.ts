@@ -4,14 +4,16 @@ import { useSigner } from '@usedapp/core'
 
 type Params = {
   tokenId: string
+  isInsurer?: boolean
   signer: ReturnType<typeof useSigner>
 }
 
-const getContractsByTokenId = async ({ tokenId, signer }: Params) => {
+const getContractsByTokenId = async ({ tokenId, isInsurer = false, signer }: Params) => {
   try {
     if (!contract || !signer) throw new Error('Signer or contract invalid')
+    const functionName = isInsurer ? 'getVehicleInsuranceContractIdsByInsurerAndTokenId' : 'getVehicleInsuranceContractIdsByTokenId'
 
-    const tx = contract.connect(signer).getVehicleInsuranceContractIdsByTokenId(tokenId)
+    const tx = contract.connect(signer)[functionName](tokenId)
     const value = await tx
     const ids = value.map((n) => Number(n))
 
