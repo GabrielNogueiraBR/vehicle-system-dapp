@@ -76,7 +76,7 @@ const ClientComponent = () => {
               selector: (row) => row.tokenId,
               center: true,
               wrap: true,
-              grow: 0.5,
+              width: '5.5rem',
               cell: (row) => (
                 <Tooltip label="Visualizar veículo" hasArrow>
                   <Link href={`/vehicles/${row.tokenId}`}>
