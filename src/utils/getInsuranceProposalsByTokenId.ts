@@ -3,6 +3,7 @@ import { Status, VehicleInsuranceProposal, VehicleInsuranceRequest } from '@/typ
 import { useSigner } from '@usedapp/core'
 import readContract from './readContract'
 import { ethers } from 'ethers'
+import Decimal from 'decimal.js'
 
 type Params = {
   tokenId: string
@@ -56,7 +57,7 @@ const getInsuranceProposalsByTokenId = async ({ tokenId, signer }: Params) => {
             tokenId: Number(tokenId),
             insuranceStartDate: new Date(Number(insuranceStartDate) * 1000),
             insuranceEndDate: new Date(Number(insuranceEndDate) * 1000),
-            price: Number(ethers.utils.formatEther(price)),
+            price: new Decimal(ethers.utils.formatEther(price)),
             contractUrl,
             status,
             createdAt: new Date(Number(createdAt) * 1000),
