@@ -98,7 +98,7 @@ const VehicleContractInfoModal = ({
           title: 'Erro ao contratar seguro de veículo, por favor, tente novamente.',
           position: 'top-right',
         },
-        loading: { title: 'Contratando seguro...' },
+        loading: { title: 'Contratando seguro...', position: 'top' },
       })
 
       await promise

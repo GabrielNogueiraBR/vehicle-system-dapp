@@ -84,7 +84,7 @@ const VehicleContractRequestCreateModal = ({ tokenId, onCreate, ...rest }: Props
           title: 'Erro ao criar solicitação de contrato, por favor, tente novamente.',
           position: 'top-right',
         },
-        loading: { title: 'Criando solicitação de contrato...' },
+        loading: { title: 'Criando solicitação de contrato...', position: 'top' },
       })
 
       await promise

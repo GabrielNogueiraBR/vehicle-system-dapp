@@ -124,7 +124,7 @@ const VehicleRequestApprovalModal = ({ vehicleRequest, onApprove, ...rest }: Pro
           title: 'Erro ao aprovar solicitação, por favor, tente novamente.',
           position: 'top-right',
         },
-        loading: { title: 'Aprovando solicitação de veículo...' },
+        loading: { title: 'Aprovando solicitação de veículo...', position: 'top' },
       })
 
       await promise

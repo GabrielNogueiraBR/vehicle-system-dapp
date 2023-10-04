@@ -78,7 +78,7 @@ const VehicleRequestCreateModal = ({ onCreate, ...rest }: Props) => {
           title: 'Erro ao cadastrar solicitação de veículo',
           position: 'top-right',
         },
-        loading: { title: 'Cadastrando veículo...' },
+        loading: { title: 'Cadastrando veículo...', position: 'top' },
       })
 
       await promise

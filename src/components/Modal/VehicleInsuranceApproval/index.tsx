@@ -108,7 +108,7 @@ const VehicleInsuranceApproval = ({ requestData, onApprove, ...rest }: Props) =>
           title: 'Erro ao criar proposta de seguro, por favor, tente novamente.',
           position: 'top-right',
         },
-        loading: { title: 'Enviando proposta de seguro...' },
+        loading: { title: 'Enviando proposta de seguro...', position: 'top' },
       })
 
       await promise

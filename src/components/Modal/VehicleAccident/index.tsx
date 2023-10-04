@@ -98,7 +98,7 @@ const VehicleAccidentModal = ({ vehicleAccident, onCreate, ...rest }: Props) => 
           title: 'Erro ao cadastrar sinistro, por favor, tente novamente.',
           position: 'top-right',
         },
-        loading: { title: 'Cadastrando sinistro...' },
+        loading: { title: 'Cadastrando sinistro...', position: 'top' },
       })
 
       await promise
