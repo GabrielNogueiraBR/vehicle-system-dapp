@@ -156,7 +156,6 @@ const FormModal = ({ onSubmit, vehicleService, ...rest }: Props) => {
               <Button
                 variant="cancel"
                 onClick={rest.onClose}
-                isDisabled={isSubmitting}
                 display={vehicleService ? 'none' : 'flex'}
               >
                 {isSubmitting ? 'Fechar' : 'Cancelar'}

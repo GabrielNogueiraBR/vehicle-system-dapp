@@ -146,7 +146,7 @@ const VehicleContractRequestCreateModal = ({ tokenId, onCreate, ...rest }: Props
         </ModalBody>
         <ModalFooter>
           <ButtonGroup mt={4} justifySelf="flex-end" alignSelf="flex-end" spacing={4}>
-            <Button onClick={rest.onClose} isDisabled={isSubmitting} variant="cancel">
+            <Button onClick={rest.onClose} variant="cancel">
               {isSubmitting ? 'Fechar' : 'Cancelar'}
             </Button>
             <Button
