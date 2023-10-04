@@ -11,6 +11,7 @@ import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByToken
 import { ADDRESS_REGEX } from '@/constants/web3'
 import useInsurerContracts from '@/hooks/useInsurerContracts'
 import SearchInput from '@/components/SearchInput'
+import useSearch from '@/components/SearchInput/hooks/useSearch'
 
 type CustomData = VehicleContract & { metadata: VehicleMetadata }
 
@@ -18,22 +19,9 @@ const ClientComponent = () => {
   const [dataTable, setDataTable] = useState<CustomData[]>([])
   const [isFormating, setFormating] = useState<boolean>(true)
 
-  const [search, setSearch] = useState<string>('')
-  const [isSearching, setIsSearching] = useState<boolean>(false)
-
   const { contracts, isLoading: isLoadingContracts } = useInsurerContracts()
 
-  const filteredDataTable = useMemo(() => {
-    setIsSearching(true)
-
-    const filtered = dataTable.filter((data) => {
-      const stringData = JSON.stringify(data).toLowerCase()
-      return stringData.includes(search.toLowerCase())
-    })
-
-    setIsSearching(false)
-    return filtered
-  }, [dataTable, search])
+  const { isSearching, setSearch, filteredData } = useSearch(dataTable)
 
   const isLoading = isLoadingContracts || isFormating || isSearching
 
@@ -87,7 +75,7 @@ const ClientComponent = () => {
         <CustomDataTable
           defaultSortFieldId="request_data"
           defaultSortAsc={false}
-          data={filteredDataTable}
+          data={filteredData}
           columns={[
             {
               name: '#',
