@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Flex, Heading, Tooltip, Text } from '@chakra-ui/react'
 import { InsuranceStatus, VehicleContract, VehicleMetadata } from '@/types/contract'
 import CustomDataTable from '@/components/CustomDataTable'
@@ -10,6 +10,7 @@ import { useSigner } from '@usedapp/core'
 import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 import { ADDRESS_REGEX } from '@/constants/web3'
 import useInsurerContracts from '@/hooks/useInsurerContracts'
+import SearchInput from '@/components/SearchInput'
 
 type CustomData = VehicleContract & { metadata: VehicleMetadata }
 
@@ -17,9 +18,24 @@ const ClientComponent = () => {
   const [dataTable, setDataTable] = useState<CustomData[]>([])
   const [isFormating, setFormating] = useState<boolean>(true)
 
+  const [search, setSearch] = useState<string>('')
+  const [isSearching, setIsSearching] = useState<boolean>(false)
+
   const { contracts, isLoading: isLoadingContracts } = useInsurerContracts()
 
-  const isLoading = isLoadingContracts || isFormating
+  const filteredDataTable = useMemo(() => {
+    setIsSearching(true)
+
+    const filtered = dataTable.filter((data) => {
+      const stringData = JSON.stringify(data).toLowerCase()
+      return stringData.includes(search.toLowerCase())
+    })
+
+    setIsSearching(false)
+    return filtered
+  }, [dataTable, search])
+
+  const isLoading = isLoadingContracts || isFormating || isSearching
 
   const signer = useSigner()
 
@@ -65,11 +81,13 @@ const ClientComponent = () => {
         border="2px solid"
         borderColor="light-purple"
         bg="white"
+        gap="6"
       >
+        <SearchInput onChange={setSearch} />
         <CustomDataTable
           defaultSortFieldId="request_data"
           defaultSortAsc={false}
-          data={dataTable}
+          data={filteredDataTable}
           columns={[
             {
               name: '#',
