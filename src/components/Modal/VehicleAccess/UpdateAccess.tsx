@@ -42,8 +42,8 @@ const UpdateAccess = ({ tokenId, vehicleAccess, onUpdate, ...rest }: Props) => {
         status: 'success',
       })
 
-      rest.onClose()
       if (onUpdate) onUpdate()
+      return true
     } catch (e) {
       console.error(e)
       toast({
@@ -51,6 +51,7 @@ const UpdateAccess = ({ tokenId, vehicleAccess, onUpdate, ...rest }: Props) => {
         position: 'top-right',
         status: 'error',
       })
+      return false
     }
   }
 

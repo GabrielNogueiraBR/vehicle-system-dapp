@@ -40,8 +40,8 @@ const CreateAccess = ({ tokenId, onCreate, ...rest }: Props) => {
         status: 'success',
       })
 
-      rest.onClose()
       if (onCreate) onCreate()
+      return true
     } catch (e) {
       console.error(e)
       toast({
@@ -49,6 +49,7 @@ const CreateAccess = ({ tokenId, onCreate, ...rest }: Props) => {
         position: 'top-right',
         status: 'error',
       })
+      return false
     }
   }
 

@@ -15,18 +15,9 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  Text,
-  useToast,
-  Link,
-  Select,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
-import { Access, InsuranceStatus, VehicleAccident } from '@/types/contract'
-import { useWeb3 } from '@/contexts/Web3Context'
-import { BLOCK_EXPLORER } from '@/constants/web3'
-import { ReturnOfFunction } from '@/types'
-import { AutoResizeTextarea } from '@/components/AutoResizeTextarea'
-import { useVehicle } from '@/contexts/VehicleContext'
+import { Access } from '@/types/contract'
 
 export type FormValue = {
   address: string
@@ -35,16 +26,20 @@ export type FormValue = {
 
 interface Props extends Omit<ModalProps, 'children'> {
   vehicleAccess?: Access
-  onSubmit: (data: FormValue) => Promise<void>
+  onSubmit: (data: FormValue) => Promise<boolean>
 }
 
-const AccessFormModal = ({ onSubmit, vehicleAccess, ...rest }: Props) => {
+const AccessFormModal = ({ onSubmit: onSubmitParam, vehicleAccess, ...rest }: Props) => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValue>()
+
+  const onSubmit = async (data: FormValue) => {
+    if (await onSubmitParam(data)) rest.onClose()
+  }
 
   const onCloseParam = rest.onClose
   rest.onClose = () => {
