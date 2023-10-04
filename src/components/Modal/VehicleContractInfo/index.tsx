@@ -36,7 +36,7 @@ interface Props extends Omit<ModalProps, 'children'> {
   requestCreatedAt?: Date
   requestUpdatedAt?: Date
   contractUrl?: string
-  status: 'contract' | 'contract' | 'request' | 'proposal'
+  status: 'contract' | 'request' | 'proposal' | 'proposal-view'
   onCreateContract?: () => void
 }
 
@@ -57,6 +57,7 @@ const VehicleContractInfoModal = ({
   const [isContracting, setIsContracting] = useState(false)
   const isRequest = status === 'request'
   const isProposal = status === 'proposal'
+  const isProposalView = status === 'proposal-view'
   const isContract = status === 'contract'
   const isContractExpired = insuranceEndDate ? insuranceEndDate.getTime() < Date.now() : false
 
@@ -203,14 +204,14 @@ const VehicleContractInfoModal = ({
                 <Text as="span">
                   {isRequest
                     ? 'Em aberto'
-                    : isProposal
+                    : isProposal || isProposalView
                     ? 'Aprovado'
                     : isContractExpired
                     ? 'Expirado'
                     : 'Ativo'}
                 </Text>
               </Text>
-              <Text display={isProposal || isContract ? 'block' : 'none'}>
+              <Text display={isProposal || isProposalView ? 'block' : 'none'}>
                 Preço: <Text as="span">{`${new Decimal(price || 0)}`} ETH</Text>
               </Text>
             </Flex>

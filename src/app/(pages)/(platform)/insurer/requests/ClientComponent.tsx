@@ -236,7 +236,7 @@ const ClientComponent = () => {
         insuranceStartDate={requestDataRef.current?.insuranceStartDate}
         insuranceEndDate={requestDataRef.current?.insuranceEndDate}
         contractUrl={requestDataRef.current?.contractUrl}
-        status="contract"
+        status="proposal-view"
       />
     </Flex>
   )
