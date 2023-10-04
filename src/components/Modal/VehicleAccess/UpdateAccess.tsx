@@ -6,6 +6,7 @@ import { ModalProps, useToast, Text, Link } from '@chakra-ui/react'
 import { useWeb3 } from '@/contexts/Web3Context'
 import { BLOCK_EXPLORER } from '@/constants/web3'
 import { Access } from '@/types/contract'
+import { TransactionReceipt } from 'alchemy-sdk'
 
 interface Props extends Omit<ModalProps, 'children'> {
   tokenId: string
@@ -22,35 +23,46 @@ const UpdateAccess = ({ tokenId, vehicleAccess, onUpdate, ...rest }: Props) => {
       const { address } = data
       const date = new Date(data.date).getTime() / 1000
 
-      const receipt = await giveVehicleAccessByTokenId.send(tokenId, address, date)
-
-      if (receipt?.status !== 1) throw new Error('Erro ao atualizar acesso')
-      const href = `${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`
-
-      toast({
-        title: 'Sucesso ao atualizar acesso',
-        description: (
-          <Text>
-            Para consultar a transação{' '}
-            <Link href={href} target="_blank">
-              clique aqui
-            </Link>{' '}
-          </Text>
-        ),
-        duration: 7000,
-        position: 'top-right',
-        status: 'success',
+      const promise = new Promise<TransactionReceipt | undefined>(async (resolve, reject) => {
+        try {
+          const receipt = await giveVehicleAccessByTokenId.send(tokenId, address, date)
+          if (receipt?.status !== 1) reject(receipt)
+          resolve(receipt)
+        } catch (e) {
+          reject(undefined)
+        }
       })
+
+      toast.promise(promise, {
+        success: (receipt) => ({
+          title: 'Sucesso ao atualizar acesso',
+          description: (
+            <Text>
+              Para consultar a transação{' '}
+              <Link
+                href={`${BLOCK_EXPLORER}/tx/${String(receipt?.transactionHash)}`}
+                target="_blank"
+              >
+                clique aqui
+              </Link>{' '}
+            </Text>
+          ),
+          duration: 7000,
+          position: 'top-right',
+        }),
+        error: {
+          title: 'Erro ao atualizar acesso',
+          position: 'top-right',
+        },
+        loading: { title: 'Atualizando acesso...', position: 'top' },
+      })
+
+      await promise
 
       if (onUpdate) onUpdate()
       return true
     } catch (e) {
       console.error(e)
-      toast({
-        title: 'Erro ao atualizar acesso',
-        position: 'top-right',
-        status: 'error',
-      })
       return false
     }
   }
