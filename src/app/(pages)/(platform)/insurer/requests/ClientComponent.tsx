@@ -20,6 +20,8 @@ import useInsurerContractProposals from '@/hooks/useInsurerContractProposals'
 import { useSigner } from '@usedapp/core'
 import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByTokenId'
 import { ADDRESS_REGEX } from '@/constants/web3'
+import SearchInput from '@/components/SearchInput'
+import useSearch from '@/components/SearchInput/hooks/useSearch'
 
 type CustomData = VehicleInsuranceRequest &
   Partial<VehicleInsuranceProposal> & { metadata: VehicleMetadata }
@@ -28,7 +30,8 @@ const ClientComponent = () => {
   const [dataTable, setDataTable] = useState<CustomData[]>([])
   const [isFormating, setFormating] = useState<boolean>(true)
 
-  //TODO: ADICIONAR FILTRO SIMPLES: STRINGFY E VERIFICAR SE SEARCH INCLUDE NESSA STRING
+  const { filteredData, setSearch, isSearching } = useSearch(dataTable)
+
   //TODO: MODIFICAR O MODAL DE VISUALIZAÇÃO -> SEGUIR FIGMA (DIFERENTE DO DE CRIAÇÃO)
   const requestDataRef = useRef<CustomData | undefined>(undefined)
 
@@ -43,7 +46,8 @@ const ClientComponent = () => {
     load: loadContractProposals,
   } = useInsurerContractProposals()
 
-  const isLoading = isLoadingContractRequests || isLoadingContractProposals || isFormating
+  const isLoading =
+    isLoadingContractRequests || isLoadingContractProposals || isFormating || isSearching
 
   const signer = useSigner()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -99,11 +103,13 @@ const ClientComponent = () => {
         border="2px solid"
         borderColor="light-purple"
         bg="white"
+        gap="6"
       >
+        <SearchInput onChange={setSearch} />
         <CustomDataTable
           defaultSortFieldId="request_data"
           defaultSortAsc={false}
-          data={dataTable}
+          data={filteredData}
           columns={[
             {
               name: '#',
