@@ -31,16 +31,20 @@ export type FormValue = {
 
 interface Props extends Omit<ModalProps, 'children'> {
   vehicleService?: VehicleService
-  onSubmit: (data: FormValue) => Promise<void>
+  onSubmit: (data: FormValue) => Promise<boolean>
 }
 
-const FormModal = ({ onSubmit, vehicleService, ...rest }: Props) => {
+const FormModal = ({ onSubmit: onSubmitParam, vehicleService, ...rest }: Props) => {
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<FormValue>()
+
+  const onSubmit = async (data: FormValue) => {
+    if (await onSubmitParam(data)) rest.onClose()
+  }
 
   const onCloseParam = rest.onClose
   rest.onClose = () => {

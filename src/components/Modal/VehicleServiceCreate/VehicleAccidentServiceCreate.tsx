@@ -63,8 +63,8 @@ const VehicleAccidentServiceCreate = ({
         status: 'success',
       })
 
-      rest.onClose()
       if (onCreate) onCreate()
+      return true
     } catch (e) {
       console.error(e)
       toast({
@@ -72,6 +72,7 @@ const VehicleAccidentServiceCreate = ({
         position: 'top-right',
         status: 'error',
       })
+      return false
     }
   }
 

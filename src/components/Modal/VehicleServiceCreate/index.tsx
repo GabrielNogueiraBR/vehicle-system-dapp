@@ -44,8 +44,8 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
         status: 'success',
       })
 
-      rest.onClose()
       if (onCreate) onCreate()
+      return true
     } catch (e) {
       console.error(e)
       toast({
@@ -53,6 +53,7 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
         position: 'top-right',
         status: 'error',
       })
+      return false
     }
   }
 
@@ -60,4 +61,3 @@ const VehicleServiceCreateModal = ({ tokenId, vehicleService, onCreate, ...rest 
 }
 
 export default VehicleServiceCreateModal
-
