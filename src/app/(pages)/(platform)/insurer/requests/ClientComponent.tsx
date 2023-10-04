@@ -22,6 +22,7 @@ import getVehicleNFTMetadataByTokenId from '@/utils/getVehicleNFTMetadataByToken
 import { ADDRESS_REGEX } from '@/constants/web3'
 import SearchInput from '@/components/SearchInput'
 import useSearch from '@/components/SearchInput/hooks/useSearch'
+import VehicleContractInfoModal from '@/components/Modal/VehicleContractInfo'
 
 type CustomData = VehicleInsuranceRequest &
   Partial<VehicleInsuranceProposal> & { metadata: VehicleMetadata }
@@ -32,7 +33,6 @@ const ClientComponent = () => {
 
   const { filteredData, setSearch, isSearching } = useSearch(dataTable)
 
-  //TODO: MODIFICAR O MODAL DE VISUALIZAÇÃO -> SEGUIR FIGMA (DIFERENTE DO DE CRIAÇÃO)
   const requestDataRef = useRef<CustomData | undefined>(undefined)
 
   const {
@@ -51,10 +51,19 @@ const ClientComponent = () => {
 
   const signer = useSigner()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isProposalViewOpen,
+    onOpen: onProposalViewOpen,
+    onClose: onProposalViewClose,
+  } = useDisclosure()
 
   const handleClickContractRequest = (data: CustomData) => {
+    const isSubmitted = data?.insuranceStartDate !== undefined
+
     requestDataRef.current = data
-    onOpen()
+
+    if (isSubmitted) onProposalViewOpen()
+    else onOpen()
   }
 
   const handleApproveContractRequest = () => {
@@ -215,6 +224,19 @@ const ClientComponent = () => {
         onClose={onClose}
         requestData={requestDataRef.current}
         onApprove={handleApproveContractRequest}
+      />
+
+      <VehicleContractInfoModal
+        isOpen={isProposalViewOpen}
+        onClose={onProposalViewClose}
+        tokenId={requestDataRef.current?.tokenId || 0}
+        insurer={requestDataRef.current?.insurer || ''}
+        proposalId={requestDataRef.current?.id}
+        price={requestDataRef.current?.price}
+        insuranceStartDate={requestDataRef.current?.insuranceStartDate}
+        insuranceEndDate={requestDataRef.current?.insuranceEndDate}
+        contractUrl={requestDataRef.current?.contractUrl}
+        status="contract"
       />
     </Flex>
   )
