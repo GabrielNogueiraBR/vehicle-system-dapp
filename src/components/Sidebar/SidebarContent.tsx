@@ -35,6 +35,9 @@ const SidebarContent = ({ isExpanded = true, onNavClick }: SidebarContentProps) 
   const links: LinkInfo[] = useMemo(
     () => [
       { title: 'Início', icon: HomeRounded, href: '/home', role: 'user' },
+      { title: 'Início', icon: HomeRounded, href: '/home', role: 'agent' },
+      { title: 'Início', icon: HomeRounded, href: '/home', role: 'insurer' },
+      { title: 'Início', icon: HomeRounded, href: '/home', role: 'admin' },
       { title: 'Meus Veículos', icon: VehicleOcta, href: '/vehicles', role: 'user' },
       { title: 'Meus Contratos', icon: RiShakeHandsLine, href: '/user/contracts', role: 'user' },
       {
