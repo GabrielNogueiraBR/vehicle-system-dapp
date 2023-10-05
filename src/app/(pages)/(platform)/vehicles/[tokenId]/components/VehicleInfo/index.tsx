@@ -44,10 +44,9 @@ const VehicleInfo = () => {
   return (
     <>
       <Flex
-        direction={{ base: 'column', md: 'row' }}
+        direction={{ base: 'column', lg: 'row' }}
         justify="flex-start"
         align="flex-start"
-        gap="4"
         rounded="xl"
         bg="white"
         shadow="sm"
@@ -55,28 +54,30 @@ const VehicleInfo = () => {
         border="2px solid"
         borderColor="secondary"
         overflow="hidden"
+        py={{ base: 4, md: 5, '2xl': 10 }}
+        px={{ base: 4, md: 5, '2xl': 14 }}
+        gap={{ base: 4, lg: 6, '2xl': 16 }}
       >
         <Box
-          w="auto"
-          h="18.5625rem"
+          w={{ base: '100%', lg: 'auto' }}
+          h={{ base: '22rem', '2xl': '13.5625rem' }}
           rounded="xl"
           aspectRatio={1}
-          py={{ base: 0, sm: 0, md: 10 }}
-          px={{ base: 0, md: 14 }}
-          mt={{ base: 10, sm: 10, md: 0 }}
-          alignSelf="center"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
           <Img w="auto" h="100%" src="/vehicle-nft.png" alt="vehicle nft" />
         </Box>
         <Flex
           flex="1"
+          w="100%"
           direction="column"
           gap="5"
           justify="center"
           alignItems="flex-start"
-          mt="12"
-          mr="12"
-          p={{ base: 4, md: 0 }}
+          px={{ base: 4, lg: 0 }}
+          py={{ base: 4, '2xl': 0 }}
         >
           <HStack w="100%" justify="flex-start" align="center">
             <Heading
@@ -89,14 +90,15 @@ const VehicleInfo = () => {
             </Heading>
           </HStack>
           <Flex
-            direction={{ base: 'column', md: 'row' }}
             w="100%"
+            direction={{ base: 'column', '2xl': 'row' }}
             justify="flex-start"
-            align={{ base: 'flex-start', md: 'center' }}
+            align={{ base: 'flex-start', lg: 'center' }}
             rowGap={3}
+            columnGap={3}
           >
-            <Flex direction="row" flex="1">
-              <VStack flex="1" justify="center" align="flex-start" spacing="3">
+            <Flex flex="1" w="100%" direction="row">
+              <VStack flex="1" w="100%" justify="center" align="flex-start" spacing="3">
                 <Detail title="Modelo:" value={metadata?.carModel} isLoading={isLoading} />
                 <Detail title="Marca:" value={metadata?.carBrand} isLoading={isLoading} />
                 <Detail
@@ -106,8 +108,8 @@ const VehicleInfo = () => {
                 />
               </VStack>
             </Flex>
-            <Flex direction="row" flex="1">
-              <VStack flex="1" justify="center" align="flex-start" spacing="3">
+            <Flex flex="1" w="100%" direction="row">
+              <VStack flex="1" w="100%" justify="center" align="flex-start" spacing="3">
                 <Detail title="Dono:" value={owner} isLoading={isLoading} />
                 <Detail
                   title="Renavam:"
@@ -117,8 +119,9 @@ const VehicleInfo = () => {
               </VStack>
             </Flex>
             <Flex
-              direction={{ base: 'row', md: 'column' }}
-              justify="center"
+              w={{ base: '100%', '2xl': 'fit-content' }}
+              direction={{ base: 'row', '2xl': 'column' }}
+              justify="flex-start"
               align="flex-start"
               gap="3"
             >
