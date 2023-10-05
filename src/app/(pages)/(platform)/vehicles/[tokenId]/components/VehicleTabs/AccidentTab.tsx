@@ -89,14 +89,12 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
             selector: (row) => row.description,
             sortable: true,
             wrap: true,
-            grow: 3,
           },
           {
             name: 'Seguradora',
             selector: (row) => row.insurer,
             sortable: true,
             wrap: true,
-            grow: 3,
             format: (row) => `${row.insurer.replace(ADDRESS_REGEX, '$1...$2')}`,
           },
           {
@@ -105,7 +103,6 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
             selector: (row) => row.accidentDate.getTime(),
             sortable: true,
             wrap: true,
-            grow: 1,
             format: (row) =>
               new Intl.DateTimeFormat('pt-BR', {
                 timeZone: 'UTC',
@@ -115,6 +112,7 @@ const AccidentTab = ({ ...rest }: AccidentTabProps) => {
               }).format(row.accidentDate),
           },
           {
+            omit: !isInsurer,
             center: true,
             wrap: true,
             cell: (row) => (
