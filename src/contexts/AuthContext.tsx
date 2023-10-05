@@ -46,10 +46,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const isAgent = agents?.some((a) => a.toLowerCase() === address.toLowerCase())
       const isInsuerer = insurers?.some((i) => i.toLowerCase() === address.toLowerCase())
 
-      if (isAgent || isInsuerer) {
-        if (isAgent) roles.push('agent')
-        if (isInsuerer) roles.push('insurer')
-      } else roles.push('user')
+      if (isInsuerer) roles.push('insurer')
+      else if (isAgent) roles.push('agent')
+      else roles.push('user')
     } catch (e) {
       console.error(e)
     }
