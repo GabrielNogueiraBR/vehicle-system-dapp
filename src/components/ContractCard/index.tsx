@@ -58,6 +58,7 @@ const ContractCard = ({
         borderColor="dark"
         shadow="xl"
         cursor="pointer"
+        bg='white'
         userSelect={'none'}
         {...rest}
       >
