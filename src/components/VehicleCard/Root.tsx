@@ -5,7 +5,7 @@ import { Flex, FlexProps, LinkBox, LinkOverlay } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import FramerMotionBox from '../FramerMotionBox'
 
-export type VehicleCardTheme = 'NFT' | 'request-pending' | 'request-approved'
+export type VehicleCardTheme = 'NFT' | 'request-pending' | 'request-approved' | 'shared'
 
 interface Props extends FlexProps {
   tokenId?: string

@@ -7,6 +7,11 @@ export interface VehicleNFT extends OwnedNft {
   contracts: VehicleContract[]
 }
 
+export interface SharedVehicleNFT {
+  tokenId: string
+  vehicleMetadata?: VehicleMetadata
+}
+
 export type ReturnOfFunction = Awaited<ReturnType<ReturnType<typeof useContractFunction>['send']>>
 
 export type Role = 'user' | 'agent' | 'insurer' | 'admin'

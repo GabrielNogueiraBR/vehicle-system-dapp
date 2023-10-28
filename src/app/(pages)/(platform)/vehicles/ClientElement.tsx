@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useRef } from 'react'
-import { Center, Flex, Heading, Text, useDisclosure } from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
+import { Button, Center, Flex, Heading, Icon, Spacer, Text, useDisclosure } from '@chakra-ui/react'
 import LoadingPage from '@/components/LoadingPage'
 import CreateButton from '@/components/CreateButton'
 import VehicleRequestCreateModal from '@/components/Modal/VehicleRequestCreate'
@@ -12,12 +12,15 @@ import { InsuranceStatus, Status, VehicleRequest } from '@/types/contract'
 import useVehicleNFTs from '@/hooks/useVehicleNFTs'
 import useVehiclesRequests from '@/hooks/useVehicleRequests'
 import VehicleRequestModal from '@/components/Modal/VehicleRequest'
+import ShareIcon from '@/components/Icons/ShareIcon'
 
 const ClientElement = () => {
+  const [showSharedVehicles, setShowSharedVehicles] = useState(false)
   const vehicleRequestRef = useRef<VehicleRequest | undefined>(undefined)
 
   const {
     vehiclesNfts,
+    sharedVehiclesNfts,
     isLoading: isLoadingVehiclesNFTs,
     load: loadVehiclesNFTs,
   } = useVehicleNFTs()
@@ -55,13 +58,32 @@ const ClientElement = () => {
 
   return (
     <Flex flex="1" direction="column" justify="flex-start" alignItems="flex-start" gap="4" mt="25">
-      <CreateButton
-        alignSelf="flex-end"
-        onClick={onVehicleRequestCreateModalOpen}
-        isDisabled={isLoading}
-      >
-        Novo veículo
-      </CreateButton>
+      <Flex w="100%" direction="row" justify="center" align="center">
+        <Button
+          rounded="full"
+          shadow="lg"
+          w="fit-content"
+          colorScheme="none"
+          variant="outline"
+          border="2px solid"
+          borderColor="secondary"
+          h="fit-content"
+          py="1"
+          px="3"
+          gap="2"
+          bg={showSharedVehicles ? 'secondary' : 'white'}
+          color={showSharedVehicles ? 'white' : 'secondary'}
+          onClick={() => setShowSharedVehicles((value) => !value)}
+          isDisabled={isLoading}
+        >
+          <Icon as={ShareIcon} fontSize="3xl" />
+          <Text fontSize="md">Veículos compartilhados</Text>
+        </Button>
+        <Spacer />
+        <CreateButton onClick={onVehicleRequestCreateModalOpen} isDisabled={isLoading}>
+          Novo veículo
+        </CreateButton>
+      </Flex>
       <Flex flexFlow="row wrap" gap="8" display={hasContent ? 'flex' : 'none'}>
         {vehiclesRequests.map((request) => {
           const theme = request.status === Status.PENDING ? 'request-pending' : 'request-approved'
@@ -108,6 +130,22 @@ const ClientElement = () => {
             </VehicleCard.Info.Root>
           </VehicleCard.Root>
         ))}
+
+        {showSharedVehicles &&
+          vehiclesNfts.map((nft) => (
+            <VehicleCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
+              <VehicleCard.Icon theme="shared" />
+              <VehicleCard.Info.Root>
+                <VehicleCard.Info.Title>
+                  Token #{nft.tokenId.toString().padStart(3, '0')}
+                </VehicleCard.Info.Title>
+                <VehicleCard.Info.SubTitle>
+                  <Text>{nft.vehicleMetadata?.carModel}</Text>
+                  <Text>{nft.vehicleMetadata?.carBrand}</Text>
+                </VehicleCard.Info.SubTitle>
+              </VehicleCard.Info.Root>
+            </VehicleCard.Root>
+          ))}
       </Flex>
 
       <LoadingPage display={isLoading ? 'flex' : 'none'} />

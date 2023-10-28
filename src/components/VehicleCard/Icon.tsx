@@ -12,6 +12,7 @@ const Icon = ({ theme = 'NFT' }: Props) => {
   const src = useMemo(() => {
     if (theme === 'request-pending') return '/vehicle-request.png'
     if (theme === 'request-approved') return '/vehicle-request-approved.png'
+    if (theme === 'shared') return '/vehicle-shared.png'
     return '/vehicle-nft.png'
   }, [theme])
 
