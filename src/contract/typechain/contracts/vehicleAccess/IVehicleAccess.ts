@@ -343,6 +343,7 @@ export interface IVehicleAccessInterface extends utils.Interface {
     "listAgents()": FunctionFragment;
     "listApprovalsIds()": FunctionFragment;
     "listInsurers()": FunctionFragment;
+    "listTokenIdsWithAccess()": FunctionFragment;
     "listUserVehicleRequestsIds()": FunctionFragment;
     "listVehicleRequestsIds()": FunctionFragment;
     "registerVehicleAccidentRecord(uint256,uint256,string,uint256)": FunctionFragment;
@@ -391,6 +392,7 @@ export interface IVehicleAccessInterface extends utils.Interface {
       | "listAgents"
       | "listApprovalsIds"
       | "listInsurers"
+      | "listTokenIdsWithAccess"
       | "listUserVehicleRequestsIds"
       | "listVehicleRequestsIds"
       | "registerVehicleAccidentRecord"
@@ -585,6 +587,10 @@ export interface IVehicleAccessInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "listTokenIdsWithAccess",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "listUserVehicleRequestsIds",
     values?: undefined
   ): string;
@@ -761,6 +767,10 @@ export interface IVehicleAccessInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "listInsurers",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "listTokenIdsWithAccess",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1020,6 +1030,8 @@ export interface IVehicleAccess extends BaseContract {
 
     listInsurers(overrides?: CallOverrides): Promise<[string[]]>;
 
+    listTokenIdsWithAccess(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
     listUserVehicleRequestsIds(
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
@@ -1250,6 +1262,8 @@ export interface IVehicleAccess extends BaseContract {
 
   listInsurers(overrides?: CallOverrides): Promise<string[]>;
 
+  listTokenIdsWithAccess(overrides?: CallOverrides): Promise<BigNumber[]>;
+
   listUserVehicleRequestsIds(overrides?: CallOverrides): Promise<BigNumber[]>;
 
   listVehicleRequestsIds(overrides?: CallOverrides): Promise<BigNumber[]>;
@@ -1477,6 +1491,8 @@ export interface IVehicleAccess extends BaseContract {
     listApprovalsIds(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     listInsurers(overrides?: CallOverrides): Promise<string[]>;
+
+    listTokenIdsWithAccess(overrides?: CallOverrides): Promise<BigNumber[]>;
 
     listUserVehicleRequestsIds(overrides?: CallOverrides): Promise<BigNumber[]>;
 
@@ -1709,6 +1725,8 @@ export interface IVehicleAccess extends BaseContract {
 
     listInsurers(overrides?: CallOverrides): Promise<BigNumber>;
 
+    listTokenIdsWithAccess(overrides?: CallOverrides): Promise<BigNumber>;
+
     listUserVehicleRequestsIds(overrides?: CallOverrides): Promise<BigNumber>;
 
     listVehicleRequestsIds(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1939,6 +1957,10 @@ export interface IVehicleAccess extends BaseContract {
     listApprovalsIds(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     listInsurers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    listTokenIdsWithAccess(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     listUserVehicleRequestsIds(
       overrides?: CallOverrides
