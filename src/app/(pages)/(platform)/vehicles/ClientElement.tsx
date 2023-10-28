@@ -51,9 +51,9 @@ const ClientElement = () => {
   const isLoading = isLoadingVehiclesNFTs || isLoadingVehiclesRequests
   const hasContent = !!vehiclesNfts.length || !!vehiclesRequests.length
 
-  const handleOnCreateVehicle = () => {
-    loadVehiclesNFTs()
-    loadVehiclesRequests()
+  const handleOnCreateVehicle = async () => {
+    await loadVehiclesNFTs()
+    await loadVehiclesRequests()
   }
 
   return (
@@ -132,7 +132,7 @@ const ClientElement = () => {
         ))}
 
         {showSharedVehicles &&
-          vehiclesNfts.map((nft) => (
+          sharedVehiclesNfts.map((nft) => (
             <VehicleCard.Root tokenId={nft.tokenId} key={nft.tokenId}>
               <VehicleCard.Icon theme="shared" />
               <VehicleCard.Info.Root>
