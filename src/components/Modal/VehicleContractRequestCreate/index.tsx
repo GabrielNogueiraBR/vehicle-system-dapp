@@ -106,7 +106,7 @@ const VehicleContractRequestCreateModal = ({ tokenId, onCreate, ...rest }: Props
     <Modal size="3xl" {...rest}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Solicitar contrado de seguro</ModalHeader>
+        <ModalHeader>Solicitar contrato de seguro</ModalHeader>
         <ModalBody>
           <Flex direction="row" justifyContent="flex-start" gap="4">
             <FormControl isInvalid={!!errors.tokenId}>
