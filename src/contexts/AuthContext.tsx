@@ -1,8 +1,8 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { Role } from '@/types'
-import { useEthers } from '@usedapp/core'
+import { Mumbai, useEthers } from '@usedapp/core'
 import { redirect, usePathname } from 'next/navigation'
 import { useWeb3 } from './Web3Context'
 import UserRegistrationModal from '@/components/Modal/UserRegistration'
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userRoles, setUserRoles] = useState<Role[]>([])
   const [isLoadingRoles, setIsLoadingRoles] = useState(true)
 
-  const { account, isLoading: isLoadingAuth } = useEthers()
+  const { account, isLoading: isLoadingAuth, chainId, switchNetwork } = useEthers()
   if (!account && !isLoadingAuth) redirect(`/auth?callbackUrl=${encodeURIComponent(pathname)}`)
 
   const { listAgents, listInsurers, getDriverLicenseCode } = useWeb3()
@@ -64,6 +64,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     loadCNH()
   }, [userRoles, account])
+
+  useEffect(() => {
+    if (chainId !== Mumbai.chainId) switchNetwork(Mumbai.chainId)
+  }, [chainId, switchNetwork])
 
   return (
     <AuthContext.Provider value={{ address: account, roles: userRoles }}>
