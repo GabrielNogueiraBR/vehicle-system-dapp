@@ -1,34 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Blockchain no mercado automotivo
+No mercado de automóveis, o histórico de vida do carro é uma informação de muito valor. Tanto para os que desejam valorizar a venda de seus veículos quanto para aqueles que querem ter a certeza de que estão investindo em um bem de qualidade. Além disso, os fornecedores de serviços de seguro para automóveis podem precificar com maior precisão seus serviços sem correr tantos riscos. O grande desafio é que essas informações geralmente são difíceis de serem rastreadas e, quando são, estão centralizadas em uma única organização, sem a garantia de que não sofreram alterações ou perdas ao longo do tempo.
 
-## Getting Started
+Com a tecnologia blockchain uma solução para esse problema pode ser elaborada, permitindo o registro seguro e confiável de todas as informações relevantes do veículo, desde sua aquisição até suas manutenções, contratação de seguro e registro de sinistros. Tudo isso de uma forma descentralizada e imutável, aumentando a transparência e confiança no mercado automotivo.
 
-First, run the development server:
+Para atingir esses objetivos, torna-se essencial o estudo e utilização de contratos inteligentes, do inglês Smart Contracts, no contexto da blockchain. Esses contratos são meios descentralizados pelos quais podemos estabelecer certas regras e princípios que devem ser seguidos pelas aplicações que os utilizam.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Através do desenvolvimento de um contrato inteligente, podemos interagir com a blockchain, de tal forma a possibilitar a inclusão de novos registros de veículos, por meio de um token não fundível (NFT), bem como a adição de novas informações associadas ao veículo, como a contratação de seguro, manutenções e até mesmo sinistros.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Dessa forma, espera-se que a descentralização da informação a respeito de um veículo se torne útil para as pessoas interessadas em sua aquisição, venda ou prestação de serviço.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Descrição
+Repositório criado para armazenar os códigos desenvolvidos durante a construção do TCC em Engenharia da Computação, na instituição de ensino FACENS, pelos alunos Gabriel Augusto Nogueira e Raul Ryan Deaque Silva.
