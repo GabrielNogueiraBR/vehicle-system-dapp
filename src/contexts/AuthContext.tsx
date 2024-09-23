@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { Role } from '@/types'
-import { Mumbai, useEthers } from '@usedapp/core'
+import { Polygon, useEthers } from '@usedapp/core'
 import { redirect, usePathname } from 'next/navigation'
 import { useWeb3 } from './Web3Context'
 import UserRegistrationModal from '@/components/Modal/UserRegistration'
@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [userRoles, account])
 
   useEffect(() => {
-    if (chainId !== Mumbai.chainId) switchNetwork(Mumbai.chainId)
+    if (chainId !== Polygon.chainId) switchNetwork(Polygon.chainId)
   }, [chainId, switchNetwork])
 
   return (

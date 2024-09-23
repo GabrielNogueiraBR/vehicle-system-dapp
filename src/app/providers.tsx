@@ -4,14 +4,14 @@ import { CacheProvider } from '@chakra-ui/next-js'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import { theme } from '@/styles/theme'
-import { Config, DAppProvider, Mumbai } from '@usedapp/core'
+import { Config, DAppProvider, Polygon } from '@usedapp/core'
 import { getDefaultProvider } from 'ethers'
 import { Web3Provider } from '@/contexts/Web3Context'
 
 const dappConfig: Config = {
-  readOnlyChainId: Mumbai.chainId,
+  readOnlyChainId: Polygon.chainId,
   readOnlyUrls: {
-    [Mumbai.chainId]: getDefaultProvider('matic'),
+    [Polygon.chainId]: getDefaultProvider('matic'),
   },
 }
 

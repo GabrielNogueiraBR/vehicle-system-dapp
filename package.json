@@ -10,7 +10,7 @@
     "preview": "next build && next start"
   },
   "dependencies": {
-    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
